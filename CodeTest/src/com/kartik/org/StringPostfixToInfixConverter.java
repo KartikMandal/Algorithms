@@ -17,13 +17,13 @@ import java.util.Stack;
 public class StringPostfixToInfixConverter {
 
 	public static void main(String[] args) {
-		String exp = "ABC*+D+";
-		System.out.println(exp+" ->Post fix to infix conveter -> "+getPostToInfix(exp));
-		String original="++A*BCD";
-		System.out.println(original+" ->Prefix to infix conveter -> "+getPrefixToInfix(original));
-		String infix="((A+(B*C))+D)";
+		String postfixExp = "ABC*+D+";
+		System.out.println(postfixExp+" ->Post fix to infix conveter -> "+getPostToInfix(postfixExp));
+		String prefixExp="++A*BCD";
+		System.out.println(prefixExp+" ->Prefix to infix conveter -> "+getPrefixToInfix(prefixExp));
+		String infixExp="((A+(B*C))+D)";
 		
-		System.out.println(infix+" ->infix to postfix conveter -> "+infixToPostfix(infix));
+		System.out.println(infixExp+" ->infix to postfix conveter -> "+infixToPostfix(infixExp));
 		
 		//System.out.println(infix+" ->infix to prefix conveter -> "+infixToPrefix(infix));
 		

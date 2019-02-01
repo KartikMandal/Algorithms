@@ -119,13 +119,13 @@ public class MatrixInZigzagFormPrint {
 
 		if (level % 2 == 0 && level < row + column - 1) {
 			// traversing bottom to top
-			for (int j = bottom, k = left; j >= 0 && k < column; j--, k++) {
-				System.out.print(matrix[j][k] + " ");
+			for (int i = bottom, j = left; i >= 0 && j < column; i--, j++) {
+				System.out.print(matrix[i][j] + " ");
 			}
 		} else if (level % 2 == 1 && level < row + column - 1) {
 			// traversing top to bottom
-			for (int j = right, k = top; j < row && k >= 0; j++, k--) {
-				System.out.print(matrix[j][k] + " ");
+			for (int i = right, j = top; i < row && j >= 0; i++, j--) {
+				System.out.print(matrix[i][j] + " ");
 			}
 		}
 		// changing the index to traverse from bottom to top
@@ -135,7 +135,7 @@ public class MatrixInZigzagFormPrint {
 			bottom = row - 1;
 			left++;
 		}
-		// changing the index to traverse from bottom to top
+		// changing the index to traverse from top to bottom
 		if (top < column - 1) {
 			top++;
 		} else {
