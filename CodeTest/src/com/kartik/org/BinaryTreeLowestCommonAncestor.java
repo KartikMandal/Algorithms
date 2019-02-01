@@ -1,5 +1,27 @@
 package com.kartik.org;
 
+/**
+ * 
+ * Find if a binary tree lowest common ancestor
+ * 
+ * /** 
+     	  
+		Non Symetric Example
+
+           		  4
+               /      \
+         	 6         -2
+           /   \      /  \ 
+     	  5     7    -4   8
+     	  
+
+LCA of 5 and 7 is 6
+LCA of 5 and -4 is 4
+LCA of 7 and -2 is 4
+ * 
+ * @author kmandal
+ *
+ */
 public class BinaryTreeLowestCommonAncestor {
 
 	public static class TreeNode
@@ -18,7 +40,6 @@ public class BinaryTreeLowestCommonAncestor {
 			return null;
 		if(root.data == a.data || root.data == b.data )
 			return root;
- 
 		TreeNode left=lowestCommonAncestor(root.left,a,b);
 		TreeNode right=lowestCommonAncestor(root.right,a,b);
  
@@ -29,7 +50,6 @@ public class BinaryTreeLowestCommonAncestor {
 			return right;
 		else
 			return left;
- 
 	}
 	public static void main(String[] args)
 	{

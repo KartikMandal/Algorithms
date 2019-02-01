@@ -1,5 +1,13 @@
 package com.kartik.org;
-
+/**
+ * Given a binary tree, print all root-to-leaf paths
+For the below example tree, all root-to-leaf paths are: 
+10 –> 8 –> 3
+10 –> 8 –> 5
+10 –> 2 –> 2
+ * @author kmandal
+ *
+ */
 public class BinaryTreePrintAllPaths {
 	 
 	public static class TreeNode
@@ -13,8 +21,8 @@ public class BinaryTreePrintAllPaths {
 		}
 	}
  
-	// Prints all paths to leaf
-	public static void printAllPathsToLeaf(TreeNode node, int[] path, int len) {
+	// Prints all paths from root to leaf
+	public static void printAllPathsRootToLeaf(TreeNode node, int[] path, int len) {
 		if ( node == null )
 			return;
  
@@ -28,12 +36,12 @@ public class BinaryTreePrintAllPaths {
 			return;
 		}
  
-		printAllPathsToLeaf(node.left, path, len);
-		printAllPathsToLeaf(node.right, path, len);
+		printAllPathsRootToLeaf(node.left, path, len);
+		printAllPathsRootToLeaf(node.right, path, len);
 	}
  
 	
-	// Prints all paths to leaf
+	// Prints all paths from leaf to root
 		public static void printAllPathsLeafToRoot(TreeNode node, int[] path, int len) {
 			if ( node == null )
 				return;
@@ -44,7 +52,7 @@ public class BinaryTreePrintAllPaths {
 	 
 			if(node.left == null && node.right == null) {
 				// leaf node is reached
-				printArrayReverse(path,len);
+				printArrayReverse(path,len);//only this should be changes 
 				return;
 			}
 	 
@@ -57,7 +65,7 @@ public class BinaryTreePrintAllPaths {
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
 		System.out.println("Printing all paths from root to leaf :");
-		printAllPathsToLeaf(rootNode,new int[1000],0);
+		printAllPathsRootToLeaf(rootNode,new int[1000],0);
 		System.out.println("\n");
 		printAllPathsLeafToRoot(rootNode,new int[1000],0);
 	}
@@ -65,7 +73,7 @@ public class BinaryTreePrintAllPaths {
 	public static void  printArray(int[] path,int len)
 	{
 		for (int i = 0; i < len; i++) {
-			System.out.print(" "+path[i]);
+			System.out.print("--> "+path[i]);
 		}
 		System.out.println();
 	}
@@ -73,7 +81,7 @@ public class BinaryTreePrintAllPaths {
 	public static void  printArrayReverse(int[] path,int len)
 	{
 		for (int i = len-1; i>=0; --i) {
-			System.out.print(" "+path[i]);
+			System.out.print("-->"+path[i]);
 		}
 		System.out.println();
 	}

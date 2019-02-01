@@ -2,9 +2,10 @@ package com.kartik.org;
 
 import java.util.Map.Entry;
 import java.util.TreeMap;
-
-public class BinaryTreeVerticalPrint {
-
+ 
+public class BinaryTreeSumOfVerticalNode {
+ 
+ 
 	public static class TreeNode
 	{
 		int data;
@@ -17,7 +18,7 @@ public class BinaryTreeVerticalPrint {
 	}
  
 	// prints vertical sum of binary tree
-	public static void printVertivalSumOfBinaryTree(TreeNode startNode,TreeMap<Integer,String> treeNodeMap,int level) {
+	public static void printVertivalSumOfBinaryTree(TreeNode startNode,TreeMap<Integer,Integer> treeNodeMap,int level) {
 		if(startNode==null)
 		{
 			return;
@@ -28,14 +29,14 @@ public class BinaryTreeVerticalPrint {
  
 		if(treeNodeMap.get(level)!=null)
 		{
-			String string=treeNodeMap.get(level)+" "+startNode.data;
+			Integer sum=treeNodeMap.get(level)+startNode.data;
 			// Adding current node data to previous stored value to get the sum
-			treeNodeMap.put(level, string);
+			treeNodeMap.put(level, sum);
 		}
 		else
 		{
  
-			treeNodeMap.put(level, String.valueOf(startNode.data));
+			treeNodeMap.put(level, startNode.data);
 		}
 		// Increase level by 1 when iterating left child
 		printVertivalSumOfBinaryTree(startNode.right,treeNodeMap,level+1);
@@ -46,10 +47,10 @@ public class BinaryTreeVerticalPrint {
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
 		System.out.println("Vertical sum of binary tree will be:");
-		TreeMap<Integer,String> treeNodeMap=new TreeMap<Integer,String>();
+		TreeMap<Integer,Integer> treeNodeMap=new TreeMap<Integer,Integer>();
 		printVertivalSumOfBinaryTree(rootNode, treeNodeMap, 0);
  
-		for(Entry<Integer,String> entry:treeNodeMap.entrySet())
+		for(Entry<Integer,Integer> entry:treeNodeMap.entrySet())
 			System.out.println(entry.getValue());
 	}
  
@@ -78,5 +79,4 @@ public class BinaryTreeVerticalPrint {
 		node30.left=node5;
 		return rootNode;
 	}
-
 }

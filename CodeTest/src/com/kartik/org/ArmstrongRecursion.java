@@ -20,7 +20,7 @@ public class ArmstrongRecursion {
 	{
 		int low = 152, high = 9999999;
 		ArmstrongRecursion ar=new ArmstrongRecursion();
-        for(int number = low + 1; number < high; ++number) {
+        for(int number = low ; number < high; ++number) {
             int digits = 0;
             int result = 0;
             int originalNumber = number;

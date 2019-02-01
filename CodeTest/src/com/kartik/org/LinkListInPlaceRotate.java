@@ -1,5 +1,26 @@
 package com.kartik.org;
+/**
+ * Consider the linked list A->B->C->D->E. If we rotate the linked list by k = 2 positions, 
+ * then the linked list will become D->E->A->B->C. To perform the rotation we do the following:
 
+1. Locate the kth node from the end (let’s call this node the pivot). If k = 2, 
+we have to locate the second last node which in this case is D.
+
+2. Make the node previous to the pivot point to NULL. So in this case C will point to NULL.
+
+3. Traverse till the end of the linked list and make the last node point to the
+ head of the linked list. So the last node E will point to the head A.
+
+4. Make the pivot the head of the new linked list. So D will now become the new head.
+
+Note that if k = length of linked list, then after rotation we end up with the original linked list.
+ So we apply the formula, k = k % length to figure out the actual rotation required.
+ 
+ 
+ @link http://www.interviewdruid.com/category/linked-lists/
+ * @author kmandal
+ *
+ */
 public class LinkListInPlaceRotate {
 
 	static Node head;
@@ -33,6 +54,10 @@ public class LinkListInPlaceRotate {
 			count++;
 		}
 		return count;
+		/*if(node == null){
+			return 0;
+		}
+		return getSize(node.next)+1;*/
 
 	}
 
@@ -73,12 +98,12 @@ public class LinkListInPlaceRotate {
 		Node n = head;
 		System.out.println("Generated Linked List: ");
 		printLinkedList();
-		System.out.println("Linked list after rotation: ");
+		System.out.println("Linked list after rotation: 4");
 		rotateAnPlace(n, 4);
 		printLinkedList();
-		System.out.println("Linked list after rotation: ");
+		System.out.println("Linked list after rotation: 3");
 		n = head;
-		rotateAnPlace(n, 2);
+		rotateAnPlace(n, 3);
 		printLinkedList();
 	}
 }

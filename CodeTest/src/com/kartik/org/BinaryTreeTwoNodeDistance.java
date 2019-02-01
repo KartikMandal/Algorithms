@@ -5,16 +5,6 @@ package com.kartik.org;
 
 public class BinaryTreeTwoNodeDistance {
 	
-	
-	public static void main(String[] args)
-	{
-		// Creating a binary tree
-		TreeNode rootNode=createBinaryTree();
-		System.out.println("Dist(20, 5) = "
-                + findDistance(rootNode, 20, 70));
-		
-	}
-	
 	public static class TreeNode
 	{
 		int data;
@@ -67,6 +57,16 @@ public class BinaryTreeTwoNodeDistance {
 	 
 	        return d1 + d2;
 	    }
+	    
+	    
+	    public static void main(String[] args)
+		{
+			// Creating a binary tree
+			TreeNode rootNode=createBinaryTree();
+			System.out.println("Dist(20, 5) = "
+	                + findDistance(rootNode, 20, 70));
+			
+		}
 	
 	    public static TreeNode createBinaryTree()
 		{

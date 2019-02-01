@@ -15,7 +15,7 @@ public class BinaryTreeLevelOrder {
  
 	
 	// prints in level order
-		public static boolean levelOrderTraversalLeftToRight(TreeNode startNode,int level) {
+		/*public static boolean levelOrderTraversalLeftToRight(TreeNode startNode,int level) {
 			if(null == startNode){
 				return false;
 			}
@@ -78,19 +78,114 @@ public class BinaryTreeLevelOrder {
 				
 			}
 			
+		}*/
+		
+		public static int height(TreeNode root)
+		{
+		   int rightHeight,leftHeight;
+		   if(root==null)
+		   {
+		       return 0;
+		   }
+		   leftHeight=height(root.left);
+		   rightHeight=height(root.right);
+		   if(leftHeight>rightHeight)
+		   {
+		        return leftHeight+1;
+		   }
+		   else
+		   {
+		        return rightHeight+1;
+		   }
+		}
+		
+		public static void levelOrderTraversalLeft(TreeNode root)
+		{
+		   int h,i;
+		   h=height(root);
+		   for(i=1;i<=h;i++)
+		   {
+		        printGivenlevelOrderLeftToRight(root,i);
+		   }
 		}
 	
+		public static void printGivenlevelOrderLeftToRight(TreeNode root,int level)
+		{
+		   if(root==null)
+		   {
+		       return;
+		   }
+		   if(level==1)
+		   {
+		        System.out.printf("%d ",root.data);
+		   }
+		   else if(level>1)
+		   {
+		          printGivenlevelOrderLeftToRight(root.left,level-1);
+		          printGivenlevelOrderLeftToRight(root.right,level-1);
+		   }
+		}
+		
+		
+		public static void levelOrderTraversalRight(TreeNode root)
+		{
+		   int h,i;
+		   h=height(root);
+		   for(i=1;i<=h;i++)
+		   {
+			   printGivenlevelOrderRightToLeft(root,i);
+		   }
+		}
+	
+		public static void printGivenlevelOrderRightToLeft(TreeNode root,int level)
+		{
+		   if(root==null)
+		   {
+		       return;
+		   }
+		   if(level==1)
+		   {
+		        System.out.printf("%d ",root.data);
+		   }
+		   else if(level>1)
+		   {
+			   printGivenlevelOrderRightToLeft(root.right,level-1);
+			   printGivenlevelOrderRightToLeft(root.left,level-1);
+			  
+		   }
+		}
+		
+		public static void levelOrderTraversalZigZag(TreeNode startNode) {
+			 int h,i;
+			   h=height(startNode);
+			   for(i=1;i<=h;i++)
+			   {
+				   if(i%2==1)
+				   printGivenlevelOrderLeftToRight(startNode,i);
+				   else
+					   printGivenlevelOrderRightToLeft(startNode,i);
+			   }
+			
+		}
 	public static void main(String[] args)
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
-		System.out.println("Level Order traversal in Zig zag left to right binary tree will be -->:");
+		/*System.out.println("Level Order traversal in Zig zag left to right binary tree will be -->:");
 		levelOrderTraversalLeftToRight(rootNode);
 		System.out.println("Level Order traversal in Zig zag right to left  binary tree will be -->:");
 		levelOrderTraversalRightToLeft(rootNode);
 		System.out.println("Level Order traversal in Zig zag binary tree will be -->:");
-		levelOrderTraversalZigZagBinaryTree(rootNode);
+		levelOrderTraversalZigZagBinaryTree(rootNode);*/
 		
+		System.out.println("Level Order traversal in Zig zag left to right binary tree will be -->:");
+		levelOrderTraversalLeft(rootNode);
+		System.out.println();
+		System.out.println("Level Order traversal in Zig zag right to left  binary tree will be -->:");
+		levelOrderTraversalRight(rootNode);
+		System.out.println();
+		System.out.println("Level Order traversal in Zig zag binary tree will be -->:");
+		levelOrderTraversalZigZag(rootNode);
 	}
  
 	public static TreeNode createBinaryTree()

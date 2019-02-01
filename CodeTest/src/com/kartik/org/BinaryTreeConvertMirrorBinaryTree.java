@@ -1,8 +1,34 @@
 package com.kartik.org;
+/**
+ * 
+ * Convert a binary tree into its mirror image
+
+An example of a binary tree and its mirror image is shown below.
+
+/**
+ *      		  4
+               /      \
+         	-2         6
+           /   \      /  \ 
+     	  8     -4    7    5
+     	  
+Mirrior of binary tree
+
+           		  4
+               /      \
+         	 6         -2
+           /   \      /  \ 
+     	  5     7    -4   8
+
+So to convert the binary tree to its mirror image, the left child and the
+ right child of each node in the tree should be swapped
+ * 
+ * @author kmandal
+ *
+ */
 
 
-
-public class BinaryTreeMirror {
+public class BinaryTreeConvertMirrorBinaryTree {
 
 	public static class TreeNode
 	{
@@ -15,21 +41,21 @@ public class BinaryTreeMirror {
 		}
 	}
 	
-	static TreeNode mirror(TreeNode node)
-    {
-        if (node == null)
-            return node;
- 
-        /* do the subtrees */
-        TreeNode left = mirror(node.left);
-        TreeNode right = mirror(node.right);
- 
-        /* swap the left and right pointers */
-        node.left = right;
-        node.right = left;
- 
-        return node;
-    }
+	/*
+	curNode: current node of the tree whose mirror image should be computed
+	*/
+	public static void computeMirrorImage(TreeNode curNode) {
+	    if (curNode != null) {
+	        /*Swap the left child and right child of the current node*/
+	        TreeNode tempNode = curNode.left;
+	        curNode.left = curNode.right;
+	        curNode.right = tempNode;
+	 
+	        /*Recursively compute the mirror image */
+	        computeMirrorImage(curNode.left);
+	        computeMirrorImage(curNode.right);
+	    }
+	}
 	
 	/* Helper function to test mirror(). Given a binary
     search tree, print out its data elements in
@@ -56,7 +82,7 @@ public class BinaryTreeMirror {
 		inOrder(rootNode);
 		System.out.println("\n");
 		System.out.println("Mirror of Simple tree");
-		mirror(rootNode);
+		computeMirrorImage(rootNode);
 		inOrder(rootNode);
 		
 	}
