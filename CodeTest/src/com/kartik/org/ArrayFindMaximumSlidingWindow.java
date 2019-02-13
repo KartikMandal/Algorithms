@@ -1,5 +1,6 @@
 package com.kartik.org;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -45,7 +46,9 @@ public class ArrayFindMaximumSlidingWindow {
 		 for (int i : a) {
 			 System.out.print(i+" ");
 		}
-		 
+		 System.out.println();
+		 data = new int[]{1,3,12,-3,9,3,6,7};
+		 efficientSolution(data,windowSize);
 	}
 	
 	
@@ -119,5 +122,35 @@ public class ArrayFindMaximumSlidingWindow {
 
 		// Print the maximum element of last window
 		System.out.print(arr[Qi.peek()]);
+	}
+	
+	static void efficientSolution(int[] A, int w) {
+		Deque<Integer> DQ = new ArrayDeque<Integer>();
+	        // the first window case
+		for (int i = 0; i < w; i++) {
+			// If the element at next index is greater than the element at the index stored at the end, 
+	                // remove the element index from the end.
+			while (!DQ.isEmpty() && A[i] >= A[DQ.getLast()])
+				DQ.removeLast();
+			// add the next index at the end of the queue.
+			DQ.addLast(i);
+		}
+	        // sliding starts
+		for (int i = w; i < A.length; i++) {
+			System.out.println(A[DQ.getFirst()]);
+	 
+			// follow the same guidelines as above
+			while (!DQ.isEmpty() && A[i] >= A[DQ.getLast()])
+				DQ.removeLast();
+	 
+			// remove elements which are no longer in the range of the window
+			while (!DQ.isEmpty() && DQ.getFirst() <= i - w)
+				DQ.remove();
+	 
+			// add the new index.
+			DQ.addLast(i);
+		}
+	 
+		System.out.println(A[DQ.getFirst()]);
 	}
 }
