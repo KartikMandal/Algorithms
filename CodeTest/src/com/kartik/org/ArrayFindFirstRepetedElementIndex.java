@@ -1,4 +1,7 @@
 package com.kartik.org;
+
+import java.util.HashSet;
+
 /**
  Find the first occurrence of a number in a sorted array
 
@@ -43,9 +46,36 @@ public class ArrayFindFirstRepetedElementIndex {
 	    return -1;
 	}
 	
+	
+	// This function prints the first repeating element in arr[] 
+		static int getFirstRepeatingElementArray(int array[]) 
+		{ 
+			// Initialize index of first repeating element 
+			int minimumIndex = -1; 
+	 
+			// Creates an empty hashset 
+			HashSet<Integer> set = new HashSet<>(); 
+	 
+			// Iterate over the input array from right to left 
+			for (int i=array.length-1; i>=0; i--) 
+			{ 
+				// If set contains the element, update minimum index 
+				if (set.contains(array[i])) 
+					minimumIndex = i; 
+	 
+				else   // Else add element to hash set 
+					set.add(array[i]); 
+			} 
+			return minimumIndex;
+		} 
+	 
+	
+	
 	public static void main(String[] args) {
-		int[] a = {10, 10, 20, 20, 30, 30, 30};
-System.out.println(findFirst(a,20));
+		int[] a = {10, 11, 20, 20, 30, 30, 30};
+       System.out.println(findFirst(a,31));
+       
+       System.out.println(getFirstRepeatingElementArray(a));
 	}
 
 }
