@@ -26,6 +26,7 @@ package com.kartik.org;
  *  Let A = {4, -9, 5, 6 , 1} . max_local is initialized to 4. The remaining calculations are shown in the table below
  *  
  *  @link http://www.interviewdruid.com/category/dynamic-programming/
+ *  @link https://www.codesdope.com/blog/article/maximum-subarray-sum-using-divide-and-conquer/
  *  
  * @author kmandal
  *
