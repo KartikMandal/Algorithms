@@ -3,7 +3,7 @@ package com.kartik.org;
  * Consider the linked list A->B->C->D->E. If we rotate the linked list by k = 2 positions, 
  * then the linked list will become D->E->A->B->C. To perform the rotation we do the following:
 
-1. Locate the kth node from the end (let’s call this node the pivot). If k = 2, 
+1. Locate the kth node from the end (letâ€™s call this node the pivot). If k = 2, 
 we have to locate the second last node which in this case is D.
 
 2. Make the node previous to the pivot point to NULL. So in this case C will point to NULL.
@@ -48,16 +48,16 @@ public class LinkListInPlaceRotate {
 	}
 
 	static int getSize(Node node) {
-		int count = 0;
+		/*int count = 0;
 		while (node.next != null) {
 			node = node.next;
 			count++;
 		}
-		return count;
-		/*if(node == null){
+		return count;*/
+		if(node == null){
 			return 0;
 		}
-		return getSize(node.next)+1;*/
+		return node.next != null?getSize(node.next)+1:1;
 
 	}
 
@@ -66,7 +66,7 @@ public class LinkListInPlaceRotate {
 			return;
 		Node currentHead = getPostion(node, k); // now this is the selected head
 		Node tail = getPostion(node, k - 1);// one minus of selected postion
-		Node oldtail = getPostion(node, getSize(node) + 1); // this is old tail
+		Node oldtail = getPostion(node, getSize(node)); // this is old tail
 															// connect to
 															// previous head
 		oldtail.next = head;
@@ -91,7 +91,9 @@ public class LinkListInPlaceRotate {
 		newNode.next = head;
 		head = newNode;
 	}
-
+	
+	
+	
 	public static void main(String[] args) {
 		for (int i = 60; i >= 10; i = i - 10)
 			push(i);
