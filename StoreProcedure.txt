@@ -1,4 +1,7 @@
-﻿https://www.youtube.com/watch?v=fHJ8SSXFNRY  Adv Java || JDBC Session - 100
+
+Testing of Security Information: https://www.owasp.org/index.php/OWASP_Testing_Guide_v4_Table_of_Contents
+
+Knowledge About Stored Procedure: https://www.youtube.com/watch?v=fHJ8SSXFNRY  Adv Java || JDBC Session - 100
 
 Stored procedure: is group of statement which is execute one by one 
 
