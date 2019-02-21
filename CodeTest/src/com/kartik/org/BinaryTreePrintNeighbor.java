@@ -1,6 +1,27 @@
 package com.kartik.org;
 
+/**
+ * Given a binary tree, print all root-to-leaf paths
+ * For the below example tree, all root-to-leaf paths are: 
+ * Binary Tree Example
+ *      		  40
+               /      \
+         	 20        60
+           /   \      /  \ 
+     	  10    30  50    70
+     	 /            \
+     	5              55
+  
 
+
+40 –> null
+20 –> 60 -> null
+10 –> 30 ->50 ->70 ->null
+5 ->null -> 55 ->null
+
+ * @author kmandal
+ *
+ */
 public class BinaryTreePrintNeighbor {
 	public static class TreeNode
 	{

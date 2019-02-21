@@ -1,6 +1,27 @@
 package com.kartik.org;
 
+/**
+ * Given a binary tree, print node distance
+ * Binary Tree Example
+ *      		  40
+               /      \
+         	 20        60
+           /   \      /  \ 
+     	  10    30  50    70
+     	 /            \
+     	5              55
+  
 
+
+20 <--> 70 = 3
+
+5 <--> 60 = 4
+
+10 <--> 20 = 1
+
+ * @author kmandal
+ *
+ */
 
 
 public class BinaryTreeTwoNodeDistance {

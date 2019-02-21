@@ -1,9 +1,15 @@
 package com.kartik.org;
 
 /**
- * 4 / \ -2 6 / \ / \ 8 -4 7 5 should be same
+ * Given a binary tree, write a function that returns true if the tree satisfies below property.
+ * For every node, data value must be equal to sum of data values in left and right children.
+ * Consider data value as 0 for NULL children. Below tree is an example
  * 
- * 4 / \ -2 6 / \ / \ 8 -4 7 5
+ *       		  15
+               /      \
+         	 8         7
+           /   \      /  \ 
+     	  3     5    2    5
  * 
  * @author kmandal
  *
@@ -25,7 +31,6 @@ public class BinaryTreeChildrenSumProperty {
 	 * its children
 	 */
 	static int isSumProperty(TreeNode node) {
-
 		/*
 		 * left_data is left child data and right_data is for right child data
 		 */

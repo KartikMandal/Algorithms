@@ -4,7 +4,16 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-
+/** Binary Tree Example
+ *      		  40
+               /      \
+         	 20        60
+           /   \      /  \ 
+     	  10    30  50    70
+     	 /            \
+     	5              55
+  
+*/
 
 public class BinaryTreeFloorFindOutInBinarySearchTree {
 	public static class TreeNode

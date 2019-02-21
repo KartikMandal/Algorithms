@@ -9,7 +9,7 @@ package com.kartik.org;
  * the maximum contiguous sum starting at that element. We then repeat the process for all elements in the array 
  * to find the MCS across all elements. The time complexity of the brute force approach is O(n2).
  * 
- * However it is possible to find the MCS in O(n) time using kadaneâ€™s algorithm. This algorithm works for all cases
+ * However it is possible to find the MCS in O(n) time using kadane’s algorithm. This algorithm works for all cases
  *  (including the case where all the elements are negative). We maintain the variable max_local which will store 
  *  
  *  the sum of the neighboring elements in the current window. The algorithm is described below:
@@ -26,7 +26,6 @@ package com.kartik.org;
  *  Let A = {4, -9, 5, 6 , 1} . max_local is initialized to 4. The remaining calculations are shown in the table below
  *  
  *  @link http://www.interviewdruid.com/category/dynamic-programming/
- *  @link https://www.codesdope.com/blog/article/maximum-subarray-sum-using-divide-and-conquer/
  *  
  * @author kmandal
  *

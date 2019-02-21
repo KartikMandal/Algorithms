@@ -1,22 +1,27 @@
 package com.kartik.org;
 
 /**
- *      		  4
+ * 
+ * Given a BST and a key Node, find the total sum in BST, except those Node which are adjacent to key Node.
+ * Binary Tree Example
+ *      		  40
                /      \
-         	-2         6
+         	 20       |60|
            /   \      /  \ 
-     	  8     -4    7    5
-should be same
+     	  10    30  50    70
+     	 /            \
+     	5              55
+  
 
-                  4
-               /      \
-         	-2         6
-           /   \      /  \ 
-     	  8     -4    7    5
+
+key 60 
+addjecent Sum =40+50+70=160
+Total Sum = 40+20+60+10+30+50+70+5+55=340
+Without Adjecent Sum=340-160=180
+
  * @author kmandal
  *
  */
-//https://www.geeksforgeeks.org/total-sum-except-adjacent-of-a-given-node-in-bst/
 public class BinaryTreetotalSumExceptAdjecent {
 
 	public static class TreeNode
@@ -42,8 +47,9 @@ public class BinaryTreetotalSumExceptAdjecent {
 	// sum of all element except those which are adjecent to key TreeNode
 	static int adjSum(TreeNode root, int key)
 	{
-	 
-	    int parent = root.data;
+		int parent = 0;
+	    if(root!=null)
+	    parent = root.data;
 	 
 	    while (root != null) {
 	        if (key < root.data) {
@@ -80,7 +86,7 @@ public class BinaryTreetotalSumExceptAdjecent {
 	    return 0;
 	}
 	 
-	static int findTotalExceptKey(TreeNode root, int key)
+	static int findTotalExceptAdjecentKey(TreeNode root, int key)
 	{
 	    return sum(root) - adjSum(root, key);
 	}
@@ -91,23 +97,33 @@ public class BinaryTreetotalSumExceptAdjecent {
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
 		System.out.println("Simple tree");
-		int key = 3;
-		System.out.printf("%d ", findTotalExceptKey(rootNode, key));
+		int key = 60;
+		System.out.printf("%d ", findTotalExceptAdjecentKey(rootNode, key));
 		
 	}
  
 	public static TreeNode createBinaryTree()
 	{
  
-		TreeNode rootNode =new TreeNode(1);
-		TreeNode node2=new TreeNode(2);
-		TreeNode node3=new TreeNode(3);
-		TreeNode node4=new TreeNode(4);
+		TreeNode rootNode =new TreeNode(40);
+		TreeNode node20=new TreeNode(20);
+		TreeNode node10=new TreeNode(10);
+		TreeNode node30=new TreeNode(30);
+		TreeNode node60=new TreeNode(60);
+		TreeNode node50=new TreeNode(50);
+		TreeNode node70=new TreeNode(70);
+		TreeNode node55=new TreeNode(55);
 		TreeNode node5=new TreeNode(5);
-		rootNode.left=node3;
-		rootNode.right=node2;
-		node2.left=node5;
-		node2.right=node4;
+		rootNode.left=node20;
+		rootNode.right=node60;
+ 
+		node20.left=node10;
+		node20.right=node30;
+ 
+		node60.left=node50;
+		node60.right=node70;
+		node50.right=node55;
+		node10.left=node5;
 		return rootNode;
 	}
 

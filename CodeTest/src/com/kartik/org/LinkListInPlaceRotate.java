@@ -3,7 +3,7 @@ package com.kartik.org;
  * Consider the linked list A->B->C->D->E. If we rotate the linked list by k = 2 positions, 
  * then the linked list will become D->E->A->B->C. To perform the rotation we do the following:
 
-1. Locate the kth node from the end (letâ€™s call this node the pivot). If k = 2, 
+1. Locate the kth node from the end (let’s call this node the pivot). If k = 2, 
 we have to locate the second last node which in this case is D.
 
 2. Make the node previous to the pivot point to NULL. So in this case C will point to NULL.

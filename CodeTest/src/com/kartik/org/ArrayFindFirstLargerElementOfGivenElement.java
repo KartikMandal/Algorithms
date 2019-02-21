@@ -111,7 +111,7 @@ public class ArrayFindFirstLargerElementOfGivenElement {
 	    insert(root, 19);  
 	    insert(root, 25);  
 	  
-	    System.out.println(findMaxforN(root, N));
+	   // System.out.println(findMaxforN(root, N));
 	    
 	    System.out.println(findMaxforN(root, 19));
 	}

@@ -103,8 +103,10 @@ public class LinkedListSortSinglePass {
 	    /*Connect the tail of first linked list with head of second linked list
 	    and so on*/
 	    result = head[0];
-	    Node lastElement = tail[0];
-	    for (i = 1; i < numDistinctValues; ++i) {
+	  //this is hold first element data of zero index
+	    Node lastElement = tail[0]; 
+	 // so we start from 1
+	    for (i = 1; i < numDistinctValues; ++i) { 
 	        if (result == null)
 	            result = head[i];
 	 
@@ -135,8 +137,10 @@ public class LinkedListSortSinglePass {
 		list.addToTheLast(new Node(2));
 		list.addToTheLast(new Node(0));
 		list.addToTheLast(new Node(1));
+		list.addToTheLast(new Node(3));
+		list.addToTheLast(new Node(4));
 		list.printList(head);
-		Node d=sortList(head, 3);
+		Node d=sortList(head, 5);
 		list.printList(d);
 	}
 }

@@ -1,5 +1,26 @@
 package com.kartik.org;
+/**
+ * Given a binary tree, print all vertical sum
+ * Binary Tree Example
+ *      		  40
+               /      \
+         	 20        60
+           /   \      /  \ 
+     	  10    30  50    70
+     	 /            \
+     	5              55
+  
 
+
+5
+10
+20
+120(40+30+50)
+115(60+55)
+70
+ * @author kmandal
+ *
+ */
 import java.util.Map.Entry;
 import java.util.TreeMap;
 

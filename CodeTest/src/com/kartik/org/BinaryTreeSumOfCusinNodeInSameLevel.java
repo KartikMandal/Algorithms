@@ -120,6 +120,25 @@ public class BinaryTreeSumOfCusinNodeInSameLevel {
 	    return level;
 	}
 	
+		// Recursive Solution
+		//To get level of node in a binary tree
+		public static int getLevelOfNode(TreeNode root,int key,int level)
+		{
+			if(root==null)
+				return 0;
+			if(root.data==key)
+				return level;
+	 
+			int result=getLevelOfNode(root.left,key,level+1) ;
+			if(result!=0)
+			{ 
+				// If found in left subtree , return 
+				return result;
+			}
+			result= getLevelOfNode(root.right,key,level+1);
+	 
+			return result;
+		}
 	
 	public static void main(String[] args)
 	{
@@ -142,8 +161,9 @@ public class BinaryTreeSumOfCusinNodeInSameLevel {
 	    else {
 	 
 	        // fuction call to find the level of that node
-	        level = levelOfNode(rootNode, NodeData);
-	 
+	       // level = levelOfNode(rootNode, NodeData);
+	        level=getLevelOfNode(rootNode, NodeData, 1);
+	        System.out.println(level);
 	        // sum of cousin nodes of the given nodes
 	        sum = sumOfCousin(rootNode, p, 0, level);
 	 
