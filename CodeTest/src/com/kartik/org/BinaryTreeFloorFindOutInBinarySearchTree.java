@@ -1,8 +1,5 @@
 package com.kartik.org;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
 
 /** Binary Tree Example
  *      		  40
@@ -37,32 +34,11 @@ public class BinaryTreeFloorFindOutInBinarySearchTree {
 		
 	}
 	
-	static void extractKeys(TreeNode root,Set<Integer> set){
-		if(root == null){
-			return;
-		}
-		
-		extractKeys(root.left, set);
-		set.add(root.data);
-		extractKeys(root.right, set);
-	}
-	
-	
-	static void convertToBst(TreeNode root,Iterator<Integer> set){
-		if(root == null){
-			return;
-		}
-		
-		convertToBst(root.left, set);
-		root.data=set.next();
-		convertToBst(root.right, set);
-	}
-	
 	// A utility function to search a given key in BST
 	public static int floor(TreeNode root, int key) 
 	{ 
 	    if (root ==null) 
-	        return 100000; 
+	        return Integer.MAX_VALUE; 
 	  
 	    /* If root->data is equal to key */
 	    if (root.data == key) 
@@ -80,12 +56,8 @@ public class BinaryTreeFloorFindOutInBinarySearchTree {
 	
 	public static void main(String[] args) {
 		TreeNode t=createBinaryTree();
-		Set<Integer> set=new TreeSet<Integer>();
-		extractKeys(t, set);
-		Iterator<Integer> it=set.iterator();
-		convertToBst(t, it);
 		inorder(t);
-		int floorVal=floor(t, -1);
+		int floorVal=floor(t, 24);
 		System.out.println("Floor value "+floorVal);
 
 	}
