@@ -1,5 +1,22 @@
 package com.kartik.org;
+/**
+ q1		q2
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|___|	|__|	|__|	|__|
+ |___|	|_2_|	|__|	|__|	|__|
+ |_1_|	|_1_|	|__|	|__|	|__|
+ |	 |	|   |	|  |	|  |	|  |
 
+ 
+ */
 import java.util.LinkedList;
 import java.util.Queue;
  
@@ -13,12 +30,14 @@ public class StackUsingTwoQueues {
 		queue2=new LinkedList<Integer>();
 	}
  
+	
+	
  
 	// Remove value from the beginning of the list for demonstrating behaviour of stack
 	public void push(int i){
-		if(queue1.size()==0)
+		if(queue1.size()==0){
 			queue1.add(i);
-		else{
+		}else{
 			int sizeOfQueue1 = queue1.size();
 			// Copy elements of Queue1 to Queue2
 			for(int j=0 ; j<sizeOfQueue1 ; j++)

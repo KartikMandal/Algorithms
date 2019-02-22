@@ -5,7 +5,7 @@ import java.util.Stack;
 /**
  * <code>
  * 
- * Infix Expression	Prefix Expression	Postfix Expression<br>
+ * Infix Expression			Prefix Expression			Postfix Expression<br>
 	A+B*C+D						++A*BCD						ABC*+D+<br>
 	(A+B)*(C+D)					*+AB+CD						AB+CD+*<br>
 	A*B+C*D						+*AB*CD						AB*CD*+<br>
