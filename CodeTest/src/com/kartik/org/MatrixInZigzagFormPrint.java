@@ -7,8 +7,12 @@ package com.kartik.org;
 public class MatrixInZigzagFormPrint {
 
 	public static void main(String[] args) {
-		int[][] matrix = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, 
-				{ 13, 14, 15, 16 } };
+		int[][] matrix = { 
+				{ 1, 2, 3, 4 }, 
+				{ 5, 6, 7, 8 },
+				{ 9, 10, 11, 12 },
+				{ 13, 14, 15, 16 } 
+				};
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				System.out.print(matrix[i][j] + " ");
@@ -112,38 +116,70 @@ public class MatrixInZigzagFormPrint {
 			zigOnlyRightToLeft(matrix, bottom, top, level++);
 		}
 	}
-
+/** 
+ *              Top    
+ *              |
+        Left ___|___right
+                |
+                |
+              Bottom
+            
+	          ________
+	Left     |\		  |
+  Bottom	 |	\	  |  Right and top
+		     |	 \	  |
+		     |	  \	  |
+		     |	   \  |
+		     |		\ |
+		     ________\_
+		        
+		        
+		        
+		  Actual Matrix=
+		        { 1, 2, 3, 4 }, 
+				{ 5, 6, 7, 8 },
+				{ 9, 10, 11, 12 },
+				{ 13, 14, 15, 16 }
+		        
+		           
+		   row \column 
+		        { 0-0, 0-1, 0-2, 0-3 }, 
+				{ 1-0, 1-1, 1-2, 1-3 },
+				{ 2-0, 2-1, 2-2, 2-3 },
+				{ 3-0, 3-1, 3-2, 3-3 }
+ * 
+ */
 	static void zigzagTailRecursive(int[][] matrix, int bottom, int left, int right,
 			int top, int level) {
-		int row = matrix.length, column = matrix[0].length;
+		int matrixRowLength = matrix.length, matrixColLength = matrix[0].length;
 
-		if (level % 2 == 0 && level < row + column - 1) {
+		if (level % 2 == 0 && level < matrixRowLength + matrixColLength - 1) {
 			// traversing bottom to top
-			for (int i = bottom, j = left; i >= 0 && j < column; i--, j++) {
-				System.out.print(matrix[i][j] + " ");
+			for (int row = bottom, col = left; row >= 0 && col < matrixColLength; row--, col++) {
+				System.out.print(matrix[row][col] + " ");
 			}
-		} else if (level % 2 == 1 && level < row + column - 1) {
+		} else if (level % 2 == 1 && level < matrixRowLength + matrixColLength - 1) {
 			// traversing top to bottom
-			for (int i = right, j = top; i < row && j >= 0; i++, j--) {
-				System.out.print(matrix[i][j] + " ");
+			for (int row = right, col = top; row < matrixRowLength && col >= 0; row++, col--) {
+				System.out.print(matrix[row][col] + " ");
 			}
 		}
 		// changing the index to traverse from bottom to top
-		if (bottom < row - 1) {
+		if (bottom < matrixRowLength - 1) {
 			bottom++;
 		} else {
-			bottom = row - 1;
+			bottom = matrixRowLength - 1;
 			left++;
 		}
 		// changing the index to traverse from top to bottom
-		if (top < column - 1) {
+		if (top < matrixColLength - 1) {
 			top++;
 		} else {
-			top = column - 1;
+			top = matrixColLength - 1;
 			right++;
 			
 		}
-		if (level++ < row + column - 1) {
+		if (level++ < matrixRowLength + matrixColLength - 1) {
 			zigzagTailRecursive(matrix, bottom, left, right, top, level++);
 		}
 	}

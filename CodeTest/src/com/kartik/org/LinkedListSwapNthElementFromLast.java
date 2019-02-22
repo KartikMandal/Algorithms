@@ -2,32 +2,31 @@ package com.kartik.org;
 
 public class LinkedListSwapNthElementFromLast {
 
-	private Node head;
-	 
+	private static Node head;
+
 	private static class Node {
 		private int value;
 		private Node next;
- 
+
 		Node(int value) {
 			this.value = value;
- 
+
 		}
 	}
- 
+
 	public void addToTheLast(Node node) {
- 
+
 		if (head == null) {
 			head = node;
 		} else {
 			Node temp = head;
 			while (temp.next != null)
 				temp = temp.next;
- 
+
 			temp.next = node;
 		}
 	}
- 
- 
+
 	public void printList() {
 		Node temp = head;
 		while (temp != null) {
@@ -36,134 +35,98 @@ public class LinkedListSwapNthElementFromLast {
 		}
 		System.out.println();
 	}
- 
-	//public static int i = 0;  
-	public static Node nthFromLastNode(Node head,int n)
-	{
-		Node firstPtr=head;
-		Node secondPtr=head;
- 
-		for (int i = 0; i < n; i++) {
-			firstPtr=firstPtr.next;
- 
-		}
- 
-		while(firstPtr!=null)
-		{
-			firstPtr=firstPtr.next;
-			secondPtr=secondPtr.next;
-		}
- 
-		return secondPtr;
-		
-		/*Node result = head;
-
-	    if(head != null) {
-	        result = nthFromLastNode(head.next, n);
-
-	        if(++i == n){
-	            result = head;
-	        }
-	    }
-	    return result;*/
-	}
 
 	
-	/*Helper function which swaps two neighbors n1 and n2
-	head: first node in the linked list
-	prev: node previous to n1
-	n1: first node to be swapped
-	n2: second node to be swapped. n2 occurs immediately after n1
-	Return value: head of the result linked list after swapping neighbors
-	*/
-	public static Node swapNeighbors(Node head,  
-			Node prev, Node n1, Node n2) {
-	    /*Swap n1 and n2*/
-	    n1.next = n2.next;
-	    n2.next = n1;
-	 
-	    if (prev != null) {
-	        prev.next = n2;
-	    } else {
-	        head = n2; /*If prev doesn't exist, update head to n2*/
-	    }
-	 
-	    return head; 
-	}
-	/*Main function for swapping the kth node from beginning and end
-	head: first node in the linked list. 
-	k: which node in the linked list should be swapped
-	length: number of nodes in the linked list
-	Return value: head of the result linked list on success, null on error
-	*/
-	public static Node swapKthNode(Node head, int k, 
-	                    int length)  {
-		Node[] prevArray = new Node[1];
-	 
-	    if (head == null || k < 1 || k > length)
-	        return null;
-	 
-	    /*k1 is the kth node from begining and prev1 is previous to k1*/
-	    Node k1 = findKthNodeFromBegin(head, k, prevArray);
-	    Node prev1 = prevArray[0];
-	 
-	    /*k2 is the kth node from end and prev2 is previous to k2*/
-	    Node k2 = nthFromLastNode(head, k);
-	    Node prev2 = prevArray[0];
-	 
-	    if (k1 == null || k2 == null)
-	        return null; /*the k value is incorrect*/
-	 
-	    if (k1 == k2)
-	        return head; /*both nodes are the same. So no need to swap*/
-	 
-	    /*If k1 and k2 are neighbors, then handle this case and return*/
-	    if (k1.next == k2) 
-	        return swapNeighbors(head, prev1, k1, k2);
-	 
-	    if (k2.next == k1) 
-	        return swapNeighbors(head, prev2, k2, k1);
-	 
-	    /*k1 and k2 are not neighbors. So swap k1.next with k2.next*/
-	    Node temp = k1.next;
-	    k1.next = k2.next;
-	    k2.next = temp;
-	 
-	    if (prev1 != null) {
-	        prev1.next = k2; 
-	    } else  {
-	        head = k2; /* After swap, k2 becomes new head*/
-	    }
-	 
-	    if (prev2 != null) {
-	        prev2.next = k1; 
-	    } else  {
-	        head = k1; /* After swap, k1 becomes new head */
-	    }
-	 
-	    return head;
-	}
-	private static Node findKthNodeFromBegin(Node head2, int k, Node[] prevArray) {
-		// TODO Auto-generated method stub
-		return null;
+	static int getSize(Node node) {
+		if (node == null) {
+			return 0;
+		}
+		return getSize(node.next) + 1;
+
 	}
 
+	/*
+	 * Function for swapping kth nodes from both ends of linked list
+	 */
+	static void swapKth(int k) {
+		// Count nodes in linked list
+		int n = getSize(head);
+
+		// Check if k is valid
+		if (n < k)
+			return;
+
+		// If x (kth node from start) and y(kth node from end)
+		// are same
+		if (2 * k - 1 == n)
+			return;
+
+		// Find the kth node from beginning of linked list.
+		// We also find previous of kth node because we need
+		// to update next pointer of the previous.
+		Node x = head;
+		Node x_prev = null;
+		for (int i = 1; i < k; i++) {
+			x_prev = x;
+			x = x.next;
+		}
+
+		// Similarly, find the kth node from end and its
+		// previous. kth node from end is (n-k+1)th node
+		// from beginning
+		Node y = head;
+		Node y_prev = null;
+		for (int i = 1; i < n - k + 1; i++) {
+			y_prev = y;
+			y = y.next;
+		}
+
+		// If x_prev exists, then new next of it will be y.
+		// Consider the case when y->next is x, in this case,
+		// x_prev and y are same. So the statement
+		// "x_prev->next = y" creates a self loop. This self
+		// loop will be broken when we change y->next.
+		if (x_prev != null)
+			x_prev.next = y;
+
+		// Same thing applies to y_prev
+		if (y_prev != null)
+			y_prev.next = x;
+
+		// Swap next pointers of x and y. These statements
+		// also break self loop if x->next is y or y->next
+		// is x
+		Node temp = x.next;
+		x.next = y.next;
+		y.next = temp;
+
+		// Change head pointers when k is 1 or n
+		if (k == 1)
+			head = y;
+
+		if (k == n)
+			head = x;
+	}
 
 	public static void main(String[] args) {
 		LinkedListSwapNthElementFromLast list = new LinkedListSwapNthElementFromLast();
 		// Creating a linked list
-		Node head=new Node(5);
+		Node head = new Node(5);
 		list.addToTheLast(head);
 		list.addToTheLast(new Node(6));
 		list.addToTheLast(new Node(7));
 		list.addToTheLast(new Node(1));
 		list.addToTheLast(new Node(2));
- 
+		list.addToTheLast(new Node(8));
+
 		list.printList();
 		// Finding 3rd node from end
-		Node nthNodeFromLast= list.nthFromLastNode(head,3);
-		System.out.println("3th node from end is : "+ nthNodeFromLast.value);
- 
+		for (int i = 1; i < 4; i++) {
+			swapKth(i);
+			System.out.println("Modified List for k = " + i);
+			list.printList();
+			System.out.println("");
+		}
 	}
 
 }

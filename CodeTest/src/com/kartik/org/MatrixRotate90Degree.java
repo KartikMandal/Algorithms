@@ -1,11 +1,16 @@
 package com.kartik.org;
+/**
+ * ____
+   |___|
+ * 
+ * 
+ * @author kmandal
+ *
+ */
 public class MatrixRotate90Degree {
 
 	// Java program to rotate a matrix by 90 degrees
-	
-	  
-	
-	    // An Inplace function to rotate a N x N matrix
+		    // An Inplace function to rotate a N x N matrix
 	    // by 90 degrees in anti-clockwise direction
 	    static void rotateMatrix(int N, int mat[][])
 	    {
