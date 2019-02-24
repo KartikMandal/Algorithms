@@ -3,16 +3,6 @@ package com.kartik.org;
 
 
 public class BinaryTreeSumOfLeftSubtree {
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
 	
 	// Function to modify a Binary Tree so that every node
 	// stores sum of values in its left child including its
@@ -36,25 +26,18 @@ public class BinaryTreeSumOfLeftSubtree {
 	    return root.data + rightsum;
 	}
 	
-	// Utility function to do inorder traversal
-	public static void inorder(TreeNode node)
-	{
-	    if (node == null)
-	        return;
-	    inorder(node.left);
-	    System.out.printf("%d ", node.data);
-	    inorder(node.right);
-	}
-	
+		
 	public static void main(String[] args)
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
-		inorder(rootNode);
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println();
 		System.out.println("every node stores sum of all nodes in left subtree");
 		updatetree(rootNode);
-		inorder(rootNode);
+		btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();;
 	}
  
 	public static TreeNode createBinaryTree()

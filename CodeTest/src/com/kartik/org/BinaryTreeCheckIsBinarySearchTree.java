@@ -37,17 +37,7 @@ Binary tree is non binary search tree
 
 	public class BinaryTreeCheckIsBinarySearchTree {
 
-		public static class TreeNode
-		{
-			int data;
-			TreeNode left;
-			TreeNode right;
-			TreeNode(int data)
-			{
-				this.data=data;
-			}
-		}
-		
+				
 		/* can give min and max value according to your code or 
 	    can write a function to find min and max value of tree. */
 	  
@@ -79,26 +69,13 @@ Binary tree is non binary search tree
 		
 		
 		
-	 static void inOrder(TreeNode node)
-	 {
-	     if (node == null)
-	         return;
-
-	     	inOrder(node.left);
-			//Visit the node by Printing the node data  
-			System.out.printf("%d ",node.data);
-			inOrder(node.right);
-
-	     
-	 }
-		
-		
-		public static void main(String[] args)
+	public static void main(String[] args)
 		{
 			// Creating a binary tree
 			TreeNode rootNode=createBinaryTree();
 			System.out.println("Simple tree");
-			inOrder(rootNode);
+			BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+			btv.refresh();
 			System.out.println("\n");
 			System.out.println("Is binary tree balanced ");
 			System.out.println(isBST(rootNode));

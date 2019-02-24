@@ -26,16 +26,7 @@ should be sub tree
  *
  */
 public class BinaryTreeSubTreeOfParentTree {
-	public static class TreeNode {
-		int data;
-		TreeNode left;
-		TreeNode right;
-
-		TreeNode(int data) {
-			this.data = data;
-		}
-	}
-
+	
 	public static String inOrder(TreeNode root) {
 		if (root != null) {
 			return inOrder(root.left) + "  " + root.data + "  "
@@ -101,8 +92,11 @@ public class BinaryTreeSubTreeOfParentTree {
 
 	public static void main(String[] args) {
 		TreeNode t1 = createBinaryTree();
-
+		BinaryTreeView btv=new BinaryTreeView(t1,400,400);
+		btv.refresh();
 		TreeNode t2 = createBinarySubTree();
+		btv=new BinaryTreeView(t2,400,400);
+		btv.refresh();
 		System.out.println(checkSubtree(t1, t2));
 	}
 }

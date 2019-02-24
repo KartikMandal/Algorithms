@@ -26,16 +26,6 @@ sum=Max{{40+10+30+50+70},{20+60+5+55}}
  *
  */
 public class BinaryTreeSumAlternate {
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
 	
 	// Recursive function to find the maximum 
     // sum returned for a root node and its 
@@ -81,7 +71,8 @@ public class BinaryTreeSumAlternate {
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
-		
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println(getSum(rootNode));
 	}
  

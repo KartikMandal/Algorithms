@@ -27,24 +27,7 @@ should be sub tree
  */
 
 public class BinaryTreeSubTreeMatch {
-
-	public static void main(String[] args) {
-		TreeNode tree=createBinaryTree();
-		TreeNode subTree=createBinarySubTree();
-		System.out.println(containsTree(tree,subTree));
-	}
-
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
-	
+		
 	public static boolean containsTree(TreeNode t1,TreeNode t2){
 		if(t2 == null) 
 			return true;
@@ -66,6 +49,21 @@ public class BinaryTreeSubTreeMatch {
 		if(t1.data !=t2.data) return false;
 		return (matchTree(t1.left, t2.left) && matchTree(t1.right, t2.right));
 	}
+	
+	
+
+	public static void main(String[] args) {
+		TreeNode tree=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(tree,400,400);
+		btv.refresh();
+		TreeNode subTree=createBinarySubTree();
+		 btv=new BinaryTreeView(subTree,400,400);
+		btv.refresh();
+		System.out.println(containsTree(tree,subTree));
+	}
+
+	
+	
 	
 	public static TreeNode createBinaryTree()
 	{

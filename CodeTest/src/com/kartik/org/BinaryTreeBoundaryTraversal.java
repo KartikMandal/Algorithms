@@ -10,17 +10,7 @@ package com.kartik.org;
   
 */
 public class BinaryTreeBoundaryTraversal {
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
- 
+	 
 	public static void boundaryLevelTraversal(TreeNode root)
 	{
 		System.out.print(root.data+" ");
@@ -93,6 +83,8 @@ public class BinaryTreeBoundaryTraversal {
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println("Boundary traversal of binary tree will be:");
 		boundaryLevelTraversal(rootNode);
 	}

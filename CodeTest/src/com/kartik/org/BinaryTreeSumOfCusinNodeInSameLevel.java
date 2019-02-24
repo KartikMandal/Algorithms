@@ -2,35 +2,25 @@ package com.kartik.org;
 
 
 /**
- *      		  4
-               /      \
-         	-2         6
-           /   \      /  \ 
-     	  8     -4    7    5
+ * Construct below tree
+              1
+            /   \
+           /     \
+          2       3
+         / \     / \
+        /   \   /   \
+       4     5 6     7
 should be same
 
-                  4
-               /      \
-         	-2         6
-           /   \      /  \ 
-     	  8     -4    7    5
+           4  5 are cousine node 6  7
+           6  7 are cousine node 4  5
  * @author kmandal
  *
  */
 //https://www.geeksforgeeks.org/sum-of-cousin-nodes-of-a-given-node-in-a-bst/
 public class BinaryTreeSumOfCusinNodeInSameLevel {
 
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
-	
+		
 	static // Function which calculates the sum of the cousin Node
 	int sumOfCousin(TreeNode root, int p,
 	                int level1, int level)
@@ -140,10 +130,65 @@ public class BinaryTreeSumOfCusinNodeInSameLevel {
 			return result;
 		}
 	
+		
+		// Function to find level of given node x
+		void Level(TreeNode root, TreeNode x, int index, int level)
+		{
+			// return if tree is empty or level is already found
+			if (root == null)
+				return;
+
+			// if given node is found, update its level
+			if (root.data == x.data)
+				level = index;
+
+			// recurse for left and right subtree
+			Level(root.left, x, index + 1, level);
+			Level(root.right, x, index + 1, level);
+		}
+
+		void printLevel(TreeNode root, TreeNode node, int level)
+		{
+			// base case
+			if (root == null)
+				return;
+
+			// print cousins
+			if (level == 1)
+			{
+				System.out.println(root.data);
+				return;
+			}
+
+			// recurse for left and right subtree if root is not parent of given node
+			if (root.left !=null && root.left != node &&
+				root.right !=null && root.right != node)
+			{
+				printLevel(root.left, node, level - 1);
+				printLevel(root.right, node, level - 1);
+			}
+		}
+
+		// Function to print all cousins of given node
+		void printAllCousins(TreeNode root, TreeNode node)
+		{
+			int level = 0;
+
+			// find level of given node
+			Level(root, node, 1, level);
+
+			// print all cousins of given node using its level number
+			printLevel(root, node, level);
+		}
+		
+		
+		
 	public static void main(String[] args)
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println("Simple tree");
 		// Given Node
 	    int NodeData = 30;

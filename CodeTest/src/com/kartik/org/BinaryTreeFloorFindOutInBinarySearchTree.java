@@ -13,26 +13,6 @@ package com.kartik.org;
 */
 
 public class BinaryTreeFloorFindOutInBinarySearchTree {
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
-	
-	static void inorder(TreeNode root){
-		if(root == null){
-			return;
-		}
-		inorder(root.left);
-		System.out.println(root.data+" ");
-		inorder(root.right);
-		
-	}
 	
 	// A utility function to search a given key in BST
 	public static int floor(TreeNode root, int key) 
@@ -56,7 +36,8 @@ public class BinaryTreeFloorFindOutInBinarySearchTree {
 	
 	public static void main(String[] args) {
 		TreeNode t=createBinaryTree();
-		inorder(t);
+		BinaryTreeView btv=new BinaryTreeView(t,400,400);
+		btv.refresh();
 		int floorVal=floor(t, 24);
 		System.out.println("Floor value "+floorVal);
 

@@ -22,17 +22,7 @@ package com.kartik.org;
  */
 public class BinaryTreePrintAllPaths {
 	 
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
- 
+	
 	// Prints all paths from root to leaf
 	public static void printAllPathsRootToLeaf(TreeNode node, int[] path, int len) {
 		if ( node == null )
@@ -76,6 +66,8 @@ public class BinaryTreePrintAllPaths {
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println("Printing all paths from root to leaf :");
 		printAllPathsRootToLeaf(rootNode,new int[1000],0);
 		System.out.println("\n");

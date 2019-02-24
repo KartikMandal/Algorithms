@@ -32,17 +32,7 @@ Non Symetric Example
 
 	public class BinaryTreeCheckIsBalancedBinaryTree {
 
-		public static class TreeNode
-		{
-			int data;
-			TreeNode left;
-			TreeNode right;
-			TreeNode(int data)
-			{
-				this.data=data;
-			}
-		}
-		
+			
 		/*curNode: node of the binary tree being checked
 		height: height of the curNode is returned here
 		Return value: true if the tree is balanced, false otherwise
@@ -137,7 +127,8 @@ Non Symetric Example
 			// Creating a binary tree
 			TreeNode rootNode=createBinaryTree();
 			System.out.println("Simple tree");
-			inOrder(rootNode);
+			BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+			btv.refresh();
 			System.out.println("\n");
 			System.out.println("Is binary tree balanced ");
 			System.out.println(isBalanced(rootNode,2));

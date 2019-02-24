@@ -24,17 +24,7 @@ LCA of 7 and -2 is 4
  */
 public class BinaryTreeLowestCommonAncestor {
 
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
- 
+	 
 	public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode a, TreeNode b) {
 		if(root == null)
 			return null;

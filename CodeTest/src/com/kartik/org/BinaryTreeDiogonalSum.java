@@ -29,22 +29,21 @@ diogonal={{40+20+10+5},{60+50+30},{70+55}}
 
 Beter under stand:{@link https://www.techiedelight.com/find-diagonal-sum-given-binary-tree/} 
 
+								40
+               			/				\
+               		20   		    	 60
+            	/		\				/		\
+     	  	10			30			50			70
+     	 
+     			5              55
+
+
+
+
  * @author kmandal
  *
  */
 public class BinaryTreeDiogonalSum {
-
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
-	
 	
 	// Recursive function to do a pre-order traversal of the tree and
 	// fill the map with diagonal sum of elements
@@ -73,17 +72,18 @@ public class BinaryTreeDiogonalSum {
 	diagonalSumRightToLeft(root.right, diagonal+1, map);
 	}
 	
-	
-	
 	// Function to print the diagonal sum of given binary tree
 	static void diagonalSum(TreeNode root)
 	{
+		
+	System.out.println("Left to Right");
 	Map<Integer, Integer> map=new HashMap<Integer,Integer>();
 	diagonalSumLeftToRight(root, 0, map);
 		for (Map.Entry<Integer,Integer> entry : map.entrySet()) {
 			System.out.println(entry.getValue());
 		}
 	System.out.println();
+	System.out.println("Right to Left");
 	map=new HashMap<Integer, Integer>();
 	diagonalSumRightToLeft(root, 0, map);
 	for (Map.Entry<Integer,Integer> entry : map.entrySet()) {
@@ -91,13 +91,20 @@ public class BinaryTreeDiogonalSum {
 	}
 	}
 	
+
 	
 	
 	public static void main(String[] args)
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
+		System.out.println();
 		diagonalSum(rootNode);
+		//print2D(rootNode);
+		
+		
 	}
  
 	public static TreeNode createBinaryTree()

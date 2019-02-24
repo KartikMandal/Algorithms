@@ -13,16 +13,6 @@ package com.kartik.org;
 
 public class BinaryTreeMirror {
 
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
 	
 	static TreeNode mirror(TreeNode node)
     {
@@ -39,34 +29,20 @@ public class BinaryTreeMirror {
  
         return node;
     }
-	
-	/* Helper function to test mirror(). Given a binary
-    search tree, print out its data elements in
-    increasing sorted order.*/
- static void inOrder(TreeNode node)
- {
-     if (node == null)
-         return;
 
-     	inOrder(node.left);
-		//Visit the node by Printing the node data  
-		System.out.printf("%d ",node.data);
-		inOrder(node.right);
-
-     
- }
-	
 	
 	public static void main(String[] args)
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
 		System.out.println("Simple tree");
-		inOrder(rootNode);
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println("\n");
 		System.out.println("Mirror of Simple tree");
 		mirror(rootNode);
-		inOrder(rootNode);
+		btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		
 	}
  

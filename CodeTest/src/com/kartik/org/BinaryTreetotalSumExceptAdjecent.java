@@ -24,17 +24,6 @@ Without Adjecent Sum=340-160=180
  */
 public class BinaryTreetotalSumExceptAdjecent {
 
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
-	
 	// total sum of bst
 	static int sum(TreeNode root)
 	{
@@ -96,6 +85,8 @@ public class BinaryTreetotalSumExceptAdjecent {
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println("Simple tree");
 		int key = 60;
 		System.out.printf("%d ", findTotalExceptAdjecentKey(rootNode, key));

@@ -21,31 +21,7 @@ Output: Merged tree:
  */
 public class BinaryTreeMergeOfTwoTree {
 
-	public static class TreeNode {
-		int data;
-		TreeNode left;
-		TreeNode right;
-
-		TreeNode(int data) {
-			this.data = data;
-		}
-	}
-
-	/* Given a binary tree, print its nodes in inorder */
-	static void inorder(TreeNode node) {
-		if (node == null)
-			return;
-
-		/* first recur on left child */
-		inorder(node.left);
-
-		/* then print the data of node */
-		System.out.printf("%d ", node.data);
-
-		/* now recur on right child */
-		inorder(node.right);
-	}
-
+	
 	/* Method to merge given two binary trees */
 	static TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
 		if (t1 == null)
@@ -61,11 +37,13 @@ public class BinaryTreeMergeOfTwoTree {
 	public static void main(String[] args) {
 		// Creating a binary tree
 		TreeNode rootNode = createBinaryTree();
-		inorder(rootNode);
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println();
 		TreeNode root3 = mergeTrees(rootNode, rootNode);
 		System.out.printf("The Merged Binary Tree is:\n");
-		inorder(root3);
+		 btv=new BinaryTreeView(root3,400,400);
+		btv.refresh();
 	}
 
 	public static TreeNode createBinaryTree() {

@@ -2,18 +2,7 @@ package com.kartik.org;
 
 public class BinaryTreeLevelOrder {
  
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
- 
-	
+		
 	// prints in level order
 		/*public static boolean levelOrderTraversalLeftToRight(TreeNode startNode,int level) {
 			if(null == startNode){

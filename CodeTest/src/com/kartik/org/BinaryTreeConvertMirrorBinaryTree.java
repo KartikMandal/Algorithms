@@ -1,4 +1,7 @@
 package com.kartik.org;
+
+
+
 /**
  * 
  * Convert a binary tree into its mirror image
@@ -30,21 +33,11 @@ So to convert the binary tree to its mirror image, the left child and the
 
 public class BinaryTreeConvertMirrorBinaryTree {
 
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
 	
 	/*
 	curNode: current node of the tree whose mirror image should be computed
 	*/
-	public static void computeMirrorImage(TreeNode curNode) {
+	public static TreeNode computeMirrorImage(TreeNode curNode) {
 	    if (curNode != null) {
 	        /*Swap the left child and right child of the current node*/
 	        TreeNode tempNode = curNode.left;
@@ -55,35 +48,24 @@ public class BinaryTreeConvertMirrorBinaryTree {
 	        computeMirrorImage(curNode.left);
 	        computeMirrorImage(curNode.right);
 	    }
+	    return curNode;
 	}
 	
-	/* Helper function to test mirror(). Given a binary
-    search tree, print out its data elements in
-    increasing sorted order.*/
- static void inOrder(TreeNode node)
- {
-     if (node == null)
-         return;
-
-     	inOrder(node.left);
-		//Visit the node by Printing the node data  
-		System.out.printf("%d ",node.data);
-		inOrder(node.right);
-
-     
- }
-	
-	
+		
 	public static void main(String[] args)
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
 		System.out.println("Simple tree");
-		inOrder(rootNode);
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
+		//inOrder(rootNode);
 		System.out.println("\n");
 		System.out.println("Mirror of Simple tree");
-		computeMirrorImage(rootNode);
-		inOrder(rootNode);
+		rootNode=computeMirrorImage(rootNode);
+		//inOrder(rootNode);
+		btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		
 	}
  

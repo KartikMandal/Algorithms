@@ -26,18 +26,7 @@ package com.kartik.org;
 
 public class BinaryTreeTwoNodeDistance {
 	
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
-	
-	 public static TreeNode LCA(TreeNode root, int n1, int n2) 
+	public static TreeNode LCA(TreeNode root, int n1, int n2) 
 	    {
 	        if (root == null)
 	            return root;
@@ -84,6 +73,8 @@ public class BinaryTreeTwoNodeDistance {
 		{
 			// Creating a binary tree
 			TreeNode rootNode=createBinaryTree();
+			BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+			btv.refresh();
 			System.out.println("Dist(20, 5) = "
 	                + findDistance(rootNode, 20, 70));
 			

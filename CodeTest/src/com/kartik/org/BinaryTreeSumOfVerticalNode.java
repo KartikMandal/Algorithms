@@ -5,19 +5,7 @@ import java.util.TreeMap;
  
 public class BinaryTreeSumOfVerticalNode {
  
- 
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
- 
-	// prints vertical sum of binary tree
+ 	// prints vertical sum of binary tree
 	public static void printVertivalSumOfBinaryTree(TreeNode startNode,TreeMap<Integer,Integer> treeNodeMap,int level) {
 		if(startNode==null)
 		{
@@ -46,6 +34,8 @@ public class BinaryTreeSumOfVerticalNode {
 	{
 		// Creating a binary tree
 		TreeNode rootNode=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println("Vertical sum of binary tree will be:");
 		TreeMap<Integer,Integer> treeNodeMap=new TreeMap<Integer,Integer>();
 		printVertivalSumOfBinaryTree(rootNode, treeNodeMap, 0);

@@ -16,16 +16,6 @@ package com.kartik.org;
  */
 public class BinaryTreeChildrenSumProperty {
 
-	public static class TreeNode {
-		int data;
-		TreeNode left;
-		TreeNode right;
-
-		TreeNode(int data) {
-			this.data = data;
-		}
-	}
-
 	/*
 	 * returns 1 if children sum property holds for the given node and both of
 	 * its children
@@ -69,19 +59,12 @@ public class BinaryTreeChildrenSumProperty {
 		}
 	}
 
-	// Utility function to do inorder traversal
-	public static void inorder(TreeNode node) {
-		if (node == null)
-			return;
-		inorder(node.left);
-		System.out.printf("%d ", node.data);
-		inorder(node.right);
-	}
-
+	
 	public static void main(String[] args) {
 		// Creating a binary tree
 		TreeNode rootNode = createBinaryTree();
-		inorder(rootNode);
+		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();
 		System.out.println();
 		System.out.println("Convert a given tree to its Sum Tree");
 		System.out.println(isSumProperty(rootNode));

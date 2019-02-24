@@ -11,16 +11,6 @@ package com.kartik.org;
   
 */
 public class BinarySearchTree {
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
 	
 	// A utility function to search a given key in BST
 	public static TreeNode search(TreeNode root, int key)
@@ -39,6 +29,8 @@ public class BinarySearchTree {
 	
 	public static void main(String[] args) {
 		TreeNode t=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(t,400,400);
+		btv.refresh();
 		System.out.println(search(t, 23)!=null? "Found":"not found");
 
 	}

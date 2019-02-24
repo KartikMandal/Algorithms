@@ -29,17 +29,7 @@ Non Symetric Example
 
 	public class BinaryTreeCheckSymetricBinaryTree {
 
-		public static class TreeNode
-		{
-			int data;
-			TreeNode left;
-			TreeNode right;
-			TreeNode(int data)
-			{
-				this.data=data;
-			}
-		}
-		
+	
 		public static boolean compareNodes ( TreeNode n1, TreeNode n2) {
 		    if (n1 == null && n2 == null)  /*If both the nodes are null */
 		        return true;  /* return symmetric*/
@@ -90,7 +80,8 @@ Non Symetric Example
 			// Creating a binary tree
 			TreeNode rootNode=createBinaryTree();
 			System.out.println("Simple tree");
-			inOrder(rootNode);
+			BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+			btv.refresh();
 			System.out.println("\n");
 			System.out.println("Is binary tree symmetric");
 			System.out.println(isSymmetric(rootNode));

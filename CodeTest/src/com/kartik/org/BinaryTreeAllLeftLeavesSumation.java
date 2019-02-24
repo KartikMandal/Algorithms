@@ -19,17 +19,7 @@ package com.kartik.org;
  */
 public class BinaryTreeAllLeftLeavesSumation {
 
-	public static class TreeNode
-	{
-		int data;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int data)
-		{
-			this.data=data;
-		}
-	}
-	
+		
 	// A utility function to check if a given node is leaf or not 
     static boolean isLeaf(TreeNode node)  
     { 
@@ -68,6 +58,8 @@ public class BinaryTreeAllLeftLeavesSumation {
     
     public static void main(String[] args) {
 		TreeNode t=createBinaryTree();
+		BinaryTreeView btv=new BinaryTreeView(t,400,400);
+		btv.refresh();
 		System.out.println(leftLeavesSum(t));
 
 	}
@@ -83,6 +75,7 @@ public class BinaryTreeAllLeftLeavesSumation {
 		TreeNode node70=new TreeNode(70);
 		TreeNode node55=new TreeNode(55);
 		TreeNode node5=new TreeNode(5);
+		TreeNode node64=new TreeNode(64);
 		rootNode.left=node20;
 		rootNode.right=node60;
  
@@ -93,6 +86,7 @@ public class BinaryTreeAllLeftLeavesSumation {
 		node60.right=node70;
 		node50.right=node55;
 		node10.left=node5;
+		node70.left=node64;
 		return rootNode;
 	}
 }
