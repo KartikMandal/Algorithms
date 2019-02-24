@@ -7,9 +7,11 @@ public class Solution3 {
 	
 	public static void main(String[] args){
 		
-		   Scanner sc=new Scanner(System.in);  
+		   @SuppressWarnings("resource")
+		Scanner sc=new Scanner(System.in);  
 		   System.out.println("First line of input contains an Integer K");  
-		   int k=sc.nextInt();  
+		   @SuppressWarnings("unused")
+		int k=sc.nextInt();  
 		   System.out.println("Second line of input contains an Integer N"); 
 		   int N=sc.nextInt();
 		   int a[] = new int[N];
@@ -24,7 +26,6 @@ public class Solution3 {
 	}
 	
 	static void function(int a[], int k){
-		int b[] =a;
 		int c[] =new int[a.length];
 		for(int j=0;j<a.length;j++){
 			if(isPrime(a[j], 2)){
