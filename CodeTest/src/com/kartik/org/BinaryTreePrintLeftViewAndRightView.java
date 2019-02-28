@@ -5,8 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Given a binary tree, print all root-to-leaf paths
- * For the below example tree, all root-to-leaf paths are: 
+ * 
  * Binary Tree Example
  *      		  40
                /      \
@@ -18,7 +17,7 @@ import java.util.Map.Entry;
   
 
 output:
-40 –> 20 –> 10 -> 15
+
 
  * @author kmandal
  *

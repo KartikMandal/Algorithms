@@ -93,10 +93,9 @@ Non Symetric Example
 		 */
 	    static int maxDepth(TreeNode node)  
 	    { 
-	        if (node == null) 
+	        if (node == null){ 
 	            return 0; 
-	        else 
-	        { 
+	        }else{ 
 	            /* compute the depth of each subtree */
 	            int lDepth = maxDepth(node.left); 
 	            int rDepth = maxDepth(node.right); 
@@ -108,19 +107,6 @@ Non Symetric Example
 	                return (rDepth + 1); 
 	        } 
 	    } 
-	 static void inOrder(TreeNode node)
-	 {
-	     if (node == null)
-	         return;
-
-	     	inOrder(node.left);
-			//Visit the node by Printing the node data  
-			System.out.printf("%d ",node.data);
-			inOrder(node.right);
-
-	     
-	 }
-		
 		
 		public static void main(String[] args)
 		{

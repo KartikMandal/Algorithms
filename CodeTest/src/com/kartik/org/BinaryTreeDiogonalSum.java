@@ -53,7 +53,7 @@ public class BinaryTreeDiogonalSum {
 		return;
 	map.put(diagonal, map.get(diagonal)!=null? map.get(diagonal) + root.data:root.data);
 
-	diagonalSumLeftToRight(root.left, diagonal + 1, map);
+	diagonalSumLeftToRight(root.left, diagonal + 1, map);//this is confirm left to right
 
 	diagonalSumLeftToRight(root.right, diagonal, map);
 	}

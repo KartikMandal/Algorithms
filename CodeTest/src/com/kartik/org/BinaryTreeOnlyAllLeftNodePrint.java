@@ -8,7 +8,7 @@ public class BinaryTreeOnlyAllLeftNodePrint {
         // Base Case 
         if (node==null) return; 
         // If this is the first node of its level 
-        if(node.left!=null && node.left.data>-1){
+        if(node.left!=null && node.left.data>Integer.MIN_VALUE){
             System.out.print(" " + node.data); 
            if(node.left.left==null){
         	   System.out.print(" " + node.left.data);
@@ -25,7 +25,7 @@ public class BinaryTreeOnlyAllLeftNodePrint {
         if (node==null) return; 
         
      // If this is the first node of its level 
-        if(node.right!=null && node.right.data>-1){
+        if(node.right!=null && node.right.data>Integer.MIN_VALUE){
             System.out.print(" " + node.data); 
            if(node.right.right==null){
         	   System.out.print(" " + node.right.data);

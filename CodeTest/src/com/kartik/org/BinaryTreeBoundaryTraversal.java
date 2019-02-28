@@ -14,12 +14,35 @@ public class BinaryTreeBoundaryTraversal {
 	public static void boundaryLevelTraversal(TreeNode root)
 	{
 		System.out.print(root.data+" ");
-		printLeftEdgeNodes(root.left);
+		printLeftEdgeTopToBottomNode(root.left);
 		printLeafNodes(root);
-		printRightBottomUp(root.right);
+		printRightEdgeBottomToTopNode(root.right);
  
 	}
  
+	private static void printLeftEdgeTopToBottomNode(TreeNode root) {
+		if(root==null)
+			return;
+ 
+		// if leaf node, ignore while printing edges
+		if(root.left==null && root.right==null)
+			return;
+ 
+		System.out.print(root.data+" ");
+ 
+		// If left is null, right will be the boundary edge.
+		if(root.left!=null)
+		{
+			printLeftEdgeTopToBottomNode(root.left);
+			
+		}
+		else if(root.right !=null)
+		{
+			printLeftEdgeTopToBottomNode(root.right);
+		}
+ 
+	}
+	
 	private static void printLeafNodes(TreeNode root) {
 		if(root==null)
 			return;
@@ -33,7 +56,7 @@ public class BinaryTreeBoundaryTraversal {
 		printLeafNodes(root.right);
 	}
  
-	private static void printRightBottomUp(TreeNode root)
+	private static void printRightEdgeBottomToTopNode(TreeNode root)
 	{
 		if(root==null)
 			return;
@@ -45,39 +68,16 @@ public class BinaryTreeBoundaryTraversal {
  
 		if(root.right!=null)
 		{
-			printRightBottomUp(root.right);
+			printRightEdgeBottomToTopNode(root.right);
 		}
 		else if(root.left!=null)
 		{
-			printRightBottomUp(root.left);
+			printRightEdgeBottomToTopNode(root.left);
 		}
  
 		System.out.print(root.data+" ");
 	}
  
- 
-	private static void printLeftEdgeNodes(TreeNode root) {
-		if(root==null)
-			return;
- 
-		// if leaf node, ignore while printing edges
-		if(root.left==null && root.right==null)
-			return;
- 
-		System.out.print(root.data+" ");
- 
-		// If left is null, right will be the boundary edge.
-		if(root.left!=null)
-		{
-			printLeftEdgeNodes(root.left);
-			
-		}
-		else
-		{
-			printLeftEdgeNodes(root.right);
-		}
- 
-	}
  
 	public static void main(String[] args)
 	{

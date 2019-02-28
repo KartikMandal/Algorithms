@@ -20,6 +20,7 @@ Consider the array {10, 20, 30, 40, 50}. Suppose we rotate the array once, we ha
 
 7. Time Complexity= o(n) and space Complexity= o(n)
 
+k=3
 	________________________________________________________
 	|	i	|	j	|	d=(j+k)%n	|	j |	nums[j]=nums[d]	|
 	|_______|_______|_______________|_____|_________________|
@@ -57,8 +58,9 @@ public class ArrayInplaceRotateByJugglingAlgo {
 			temp=nums[i];
 			while(true){
 				d=(j+k)%n;
-				if(d==i)
-					break;
+				if(d==i){// this will be match each for loop one time definitely 
+					break; // so while loop break
+				}
 				nums[j]=nums[d];
 				j=d;
 			}

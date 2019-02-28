@@ -10,6 +10,17 @@ package com.kartik.org;
          	 8         7
            /   \      /  \ 
      	  3     5    2    5
+     	  
+     	  means 
+     	  
+     	   		  15(8+7)
+               /      \
+         	 8(5+3)    7(2+5)
+           /   \      /  \ 
+     	  3     5    2    5
+     	  
+     	  Then it is return 1 else return 0
+     	  
  * 
  * @author kmandal
  *
@@ -63,8 +74,8 @@ public class BinaryTreeChildrenSumProperty {
 	public static void main(String[] args) {
 		// Creating a binary tree
 		TreeNode rootNode = createBinaryTree();
-		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
-		btv.refresh();
+		/*BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
+		btv.refresh();*/
 		System.out.println();
 		System.out.println("Convert a given tree to its Sum Tree");
 		System.out.println(isSumProperty(rootNode));

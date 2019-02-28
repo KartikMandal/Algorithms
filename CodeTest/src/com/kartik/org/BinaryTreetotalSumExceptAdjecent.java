@@ -81,6 +81,38 @@ public class BinaryTreetotalSumExceptAdjecent {
 	}
 	
 	
+	
+	
+	// sum of all element except those which are adjecent to key Node 
+	static int find_sum(TreeNode root, int key,  boolean incl) 
+	{ 
+		int sum=0;
+	    if (root!=null) { 
+	        if (incl) { 
+	            sum += root.data; 
+	            /*
+	             * This  two if and else condition use for subtract the root data if 
+	             * it is matching left and right side child 
+	             * 
+	             */
+	            if (root.left!=null && root.left.data == key) { 
+	                sum -= root.data; 
+	            } 
+	            else if (root.right!=null && root.right.data == key) { 
+	                sum -= root.data; 
+	            } 
+	        } 
+	        /*
+	         * when root is match of key then we do the flip flop for adition of left and right child of the next level 
+	         */
+	        incl = root.data == key ? false : true; 
+	        sum+=find_sum(root.left, key,  incl); 
+	       sum+= find_sum(root.right, key,  incl); 
+	    }
+		return sum; 
+	} 
+	
+	
 	public static void main(String[] args)
 	{
 		// Creating a binary tree
@@ -91,6 +123,11 @@ public class BinaryTreetotalSumExceptAdjecent {
 		int key = 60;
 		System.out.printf("%d ", findTotalExceptAdjecentKey(rootNode, key));
 		
+		System.out.println();
+		int sum = 0;
+		sum=find_sum(rootNode, key,  true);
+		
+		System.out.println(sum);
 	}
  
 	public static TreeNode createBinaryTree()

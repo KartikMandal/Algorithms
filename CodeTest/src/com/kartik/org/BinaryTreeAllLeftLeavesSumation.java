@@ -45,9 +45,8 @@ public class BinaryTreeAllLeftLeavesSumation {
             if (isLeaf(node.left)){ 
                 res += node.left.data;
             }
-            else{ // Else recur for left child of root 
-                res += leftLeavesSum(node.left); 
-            }
+            
+            res += leftLeavesSum(node.left); 
             // Recur for right child of root and update res 
             res += leftLeavesSum(node.right); 
         } 

@@ -104,7 +104,7 @@ public class BinaryTreeLevelOrder {
 		   {
 		       return;
 		   }
-		   if(level==1)
+		   if(level==1)//only level 1 need to print each recursive not other
 		   {
 		        System.out.printf("%d ",root.data);
 		   }
@@ -132,7 +132,7 @@ public class BinaryTreeLevelOrder {
 		   {
 		       return;
 		   }
-		   if(level==1)
+		   if(level==1)//only level 1 need to print each recursive not other
 		   {
 		        System.out.printf("%d ",root.data);
 		   }
@@ -149,10 +149,11 @@ public class BinaryTreeLevelOrder {
 			   h=height(startNode);
 			   for(i=1;i<=h;i++)
 			   {
-				   if(i%2==1)
-				   printGivenlevelOrderLeftToRight(startNode,i);
-				   else
+				   if(i%2==1){
+					   printGivenlevelOrderLeftToRight(startNode,i);
+				   }else{
 					   printGivenlevelOrderRightToLeft(startNode,i);
+				   }
 			   }
 			
 		}

@@ -2,7 +2,8 @@ package com.kartik.org;
 /**
  
  Continuous Tree
-A tree is Continuous tree if in each root to leaf path, absolute difference between keys of two adjacent is 1. We are given a binary tree, we need to check if tree is continuous or not.
+A tree is Continuous tree if in each root to leaf path, absolute difference between keys of two adjacent is 1.
+ We are given a binary tree, we need to check if tree is continuous or not.
 
 Examples:
 
@@ -38,33 +39,33 @@ public class BinaryTreeContinousTree {
 	
 	// Function to check tree is continuous or not 
 	  
-	static boolean treeContinuous( TreeNode ptr) 
+	static boolean treeContinuous( TreeNode node) 
 	{ 
 	    // if next node is empty then return true 
-	    if (ptr == null) 
+	    if (node == null) 
 	        return true; 
 	  
 	    // if current node is leaf node then return true 
 	    // because it is end of root to leaf path 
-	    if (ptr.left == null && ptr.right == null) 
+	    if (node.left == null && node.right == null) 
 	        return true; 
 	  
 	    // If left subtree is empty, then only check right 
-	    if (ptr.left == null) 
-	    return (Math.abs(ptr.data - ptr.right.data) == 1) && 
-	            treeContinuous(ptr.right); 
+	    if (node.right!= null) 
+	    return (Math.abs(node.data - node.right.data) == 1) && 
+	            treeContinuous(node.right); 
 	  
 	    // If right subtree is empty, then only check left 
-	    if (ptr.right == null) 
-	    return (Math.abs(ptr.data - ptr.left.data) == 1) && 
-	            treeContinuous(ptr.left); 
+	    if (node.left != null) 
+	    return (Math.abs(node.data - node.left.data) == 1) && 
+	            treeContinuous(node.left); 
 	  
 	    // If both left and right subtrees are not empty, check 
 	    // everything 
-	    return Math.abs(ptr.data - ptr.left.data)==1 && 
-	            Math.abs(ptr.data - ptr.right.data)==1 && 
-	            treeContinuous(ptr.left) && 
-	            treeContinuous(ptr.right); 
+	    return Math.abs(node.data - node.left.data)==1 && 
+	            Math.abs(node.data - node.right.data)==1 && 
+	            treeContinuous(node.left) && 
+	            treeContinuous(node.right); 
 	}
 	 public static void main(String[] args) {
 			TreeNode t=createBinaryTree();
