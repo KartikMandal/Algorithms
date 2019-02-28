@@ -64,11 +64,11 @@ public class LinkedListSortSinglePass {
 	i: data value of the node
 	*/
 	public static void addNode(Node[] head, Node[] tail, 
-			Node curNode, int i) {
-	    curNode.next = head[i];
-	    head[i] = curNode;
-	    if (tail[i] == null)
-	        tail[i] = curNode;
+			Node curNode, int data) {
+	    curNode.next = head[data];
+	    head[data] = curNode;
+	    if (tail[data] == null)
+	        tail[data] = curNode;
 	 
 	}
 	 
@@ -99,7 +99,6 @@ public class LinkedListSortSinglePass {
 	        addNode(head, tail, curNode, curNode.data);
 	        curNode = nextNode;
 	    }
-	 
 	    /*Connect the tail of first linked list with head of second linked list
 	    and so on*/
 	    result = head[0];

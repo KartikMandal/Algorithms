@@ -3,7 +3,7 @@ package com.kartik.org;
 
 public class LinkedListPalindromeCheck{
 	 
-	private Node head;
+	private static Node head;
  
 	private static class Node {
 		private int value;
@@ -100,6 +100,35 @@ public class LinkedListPalindromeCheck{
 		return remaining; 
 	} 
  
+	private static Node left;
+	// Initial parameters to this function are &head and head 
+   static boolean isPalindromeUtil(Node right)  
+    { 
+        left = head; 
+        /* stop recursion when right becomes NULL */
+        if (right == null) 
+            return true; 
+        /* If sub-list is not palindrome then no need to 
+           check for current left and right, return false */
+        boolean isp = isPalindromeUtil(right.next); 
+        if (isp == false) 
+            return false; 
+  
+        /* Check values at current left and right */
+        boolean isp1 = (right.value == left.value); 
+  
+        /* Move left to next node */
+        left = left.next; 
+  
+        return isp1; 
+    } 
+  
+    // A wrapper over isPalindromeUtil() 
+    static boolean isPalindrome(Node head)  
+    { 
+        boolean result = isPalindromeUtil(head); 
+        return result; 
+    } 
  
 	public static void main(String[] args) {
 		LinkedListPalindromeCheck list = new LinkedListPalindromeCheck();
@@ -114,5 +143,8 @@ public class LinkedListPalindromeCheck{
 		list.printList();
  
 		System.out.println("Linked list palidrome: "+checkPalindrome(head));
+		
+		System.out.println();
+		System.out.println("Recursive wise palindrome check "+isPalindrome(head));
 	}
 }
