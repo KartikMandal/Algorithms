@@ -52,32 +52,32 @@ public class MatrixInSpiralFormPrint {
 	   * @param matrix
 	   * @param rowStart
 	   * @param colStart
-	   * @param colLength
-	   * @param rowLength
+	   * @param colEnd
+	   * @param rowEnd
 	   */
-	 private void printMatrixInSpiralWay(int[][] matrix, int rowStart, int colStart, int colLength,  int rowLength){
-	  for (int i = rowStart; i <= colLength; i++) { //it is printing top-left to top-right 
+	 private void printMatrixInSpiralWay(int[][] matrix, int rowStart, int colStart, int colEnd,  int rowEnd){
+	  for (int i = rowStart; i <= colEnd; i++) { //it is printing top-left to top-right 
 	   System.out.print(matrix[rowStart][i] + " ");
 	  }
-	  for (int i = rowStart+1; i <= rowLength; i++) { // it is top-right to bottom-right 
+	  for (int i = rowStart+1; i <= rowEnd; i++) { // it is top-right to bottom-right 
 		//we already printed corner element in Left to Right printing and no need to include it again.
-	   System.out.print(matrix[i][colLength] + " ");
+	   System.out.print(matrix[i][colEnd] + " ");
 	  }
 	   
-	  if(rowStart+1 <= rowLength){//we already printed corner element in Left to Right printing and no need to include it again.
-	   for (int i = colLength-1; i >= colStart; i--) { //it is bottom-right to bottom-left
-	    System.out.print(matrix[rowLength][i] + " ");
+	  if(rowStart+1 <= rowEnd){//we already printed corner element in Left to Right printing and no need to include it again.
+	   for (int i = colEnd-1; i >= colStart; i--) { //it is bottom-right to bottom-left
+	    System.out.print(matrix[rowEnd][i] + " ");
 	   } 
 	  }
 	   
-	  if(colStart+1 <= colLength){//we already printed corner element in Left to Right printing and no need to include it again.
-	   for (int i = rowLength-1; i > rowStart; i--) { // it is bottom-left to bottom-top 
+	  if(colStart+1 <= colEnd){//we already printed corner element in Left to Right printing and no need to include it again.
+	   for (int i = rowEnd-1; i > rowStart; i--) { // it is bottom-left to bottom-top 
 	    System.out.print(matrix[i][colStart] + " ");
 	   }
 	  }
 	   
-	  if(rowStart+1 <= rowLength-1 && colStart+1 <= colLength-1){
-	   printMatrixInSpiralWay(matrix, rowStart+1, colStart+1, colLength-1, rowLength-1);
+	  if(rowStart+1 <= rowEnd-1 && colStart+1 <= colEnd-1){
+	   printMatrixInSpiralWay(matrix, rowStart+1, colStart+1, colEnd-1, rowEnd-1);
 	  }
 	 }
 	 
