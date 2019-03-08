@@ -84,8 +84,12 @@ public class LinkedListSumOfTwoNumber {
 			}
 			else
 			{
+				// 1-->5 -->7
+				//tempNodeForIteration first node is =1
 				Node tempSumNode=new Node(sum);
+				//tempNodeForIteration second node is =5
 				tempNodeForIteration.next=tempSumNode;
+				//tempNodeForIteration node holding last node =5
 				tempNodeForIteration=tempNodeForIteration.next;
 			}
  

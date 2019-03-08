@@ -53,7 +53,7 @@ public class ArrayCombinationsOfBalancedParentheses {
 		int count =3;
 		char[] str=new char[count*2];
 		System.out.println("This is combination of number of single parenthesis First Approach");
-		printPar(str,count, count, 0);
+		printPar(str,0,count, count);
 		System.out.println("----------------------------------------------------");
 		System.out.println();
 		System.out.println("This is combination of number of single parenthesis Second Approach");

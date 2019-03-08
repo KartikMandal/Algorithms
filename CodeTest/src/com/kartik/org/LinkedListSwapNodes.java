@@ -101,6 +101,44 @@ public class LinkedListSwapNodes {
      currY.next = temp; 
  } 
  
+ 
+ static Node swapNodes(Node head_ref, int x, int y)  
+ {  
+     Node head=head_ref; 
+     // Nothing to do if x and y are same  
+     if (x == y)  
+         return null;  
+   
+     Node a = null, b = null;  
+   
+     // search for x and y in the linked list  
+     // and store therir pointer in a and b  
+     while (head_ref.next!=null) {  
+   
+         if ((head_ref.next).value == x) {  
+             a = head_ref;  
+         }  
+   
+         else if ((head_ref.next).value == y) {  
+             b = head_ref;  
+         }  
+   
+         head_ref = ((head_ref).next);  
+     }  
+   
+     // if we have found both a and b  
+     // in the linked list swap current  
+     // pointer and next pointer of these  
+     if (a!=null&&  b!=null) {  
+     Node temp = a.next;  
+     a.next = b.next;  
+     b.next = temp;      
+     temp = a.next.next;  
+     a.next.next = b.next.next;  
+     b.next.next = temp;  
+     }  
+     return head; 
+ }  
 	public static void main(String[] args) {
 		LinkedListSwapNodes list = new LinkedListSwapNodes();
 		// Creating a linked list
