@@ -40,12 +40,14 @@ public class StackUsingTwoQueues {
 		}else{
 			int sizeOfQueue1 = queue1.size();
 			// Copy elements of Queue1 to Queue2
-			for(int j=0 ; j<sizeOfQueue1 ; j++)
+			for(int j=0 ; j<sizeOfQueue1 ; j++){
 				queue2.add(queue1.remove());
+			}
 			queue1.add(i);
 			// Copy elements for Queue2 to Queue1
-			for(int k=0 ; k<sizeOfQueue1 ; k++)
+			for(int k=0 ; k<sizeOfQueue1 ; k++){
 				queue1.add(queue2.remove());
+			}
 		}
 	}
  

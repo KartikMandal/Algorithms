@@ -151,14 +151,14 @@ public class MatrixInZigzagFormPrint {
  */
 	static void zigzagTailRecursive(int[][] matrix, int bottom, int left, int right,
 			int top, int level) {
-		int matrixRowLength = matrix.length, matrixColLength = matrix[0].length;
+		int matrixRowLength = matrix.length, matrixRowColLength = matrix[0].length;
 
-		if (level % 2 == 0 && level < matrixRowLength + matrixColLength - 1) {
+		if (level % 2 == 0 && level < matrixRowLength + matrixRowColLength - 1) {
 			// traversing bottom to top
-			for (int row = bottom, col = left; row >= 0 && col < matrixColLength; row--, col++) {
+			for (int row = bottom, col = left; row >= 0 && col < matrixRowColLength; row--, col++) {
 				System.out.print(matrix[row][col] + " ");
 			}
-		} else if (level % 2 == 1 && level < matrixRowLength + matrixColLength - 1) {
+		} else if (level % 2 == 1 && level < matrixRowLength + matrixRowColLength - 1) {
 			// traversing top to bottom
 			for (int row = right, col = top; row < matrixRowLength && col >= 0; row++, col--) {
 				System.out.print(matrix[row][col] + " ");
@@ -172,14 +172,14 @@ public class MatrixInZigzagFormPrint {
 			left++;
 		}
 		// changing the index to traverse from top to bottom
-		if (top < matrixColLength - 1) {
+		if (top < matrixRowColLength - 1) {
 			top++;
 		} else {
-			top = matrixColLength - 1;
+			top = matrixRowColLength - 1;
 			right++;
 			
 		}
-		if (level++ < matrixRowLength + matrixColLength - 1) {
+		if (level++ < matrixRowLength + matrixRowColLength - 1) {
 			zigzagTailRecursive(matrix, bottom, left, right, top, level++);
 		}
 	}

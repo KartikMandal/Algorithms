@@ -25,16 +25,16 @@ public class MatrixRotate90Degree {
 	                int temp = mat[x][y];
 	      
 	                // move values from right to top
-	                mat[x][y] = mat[y][N-1-x];
+	                mat[x][y] = mat[y][N-x-1];
 	      
 	                // move values from bottom to right
-	                mat[y][N-1-x] = mat[N-1-x][N-1-y];
+	                mat[y][N-x-1] = mat[N-x-1][N-y-1];
 	      
 	                // move values from left to bottom
-	                mat[N-1-x][N-1-y] = mat[N-1-y][x];
+	                mat[N-x-1][N-y-1] = mat[N-y-1][x];
 	      
 	                // assign temp to left
-	                mat[N-1-y][x] = temp;
+	                mat[N-y-1][x] = temp;
 	            }
 	        }
 	    }
