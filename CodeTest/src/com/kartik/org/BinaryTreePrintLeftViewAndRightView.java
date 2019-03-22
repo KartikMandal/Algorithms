@@ -18,7 +18,16 @@ import java.util.Map.Entry;
 
 output:
 
-
+----------Left View-----------------
+40
+20
+10
+5
+----------Right View-----------------
+40
+60
+70
+55
  * @author kmandal
  *
  */

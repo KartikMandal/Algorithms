@@ -1,7 +1,32 @@
 package com.kartik.org;
 
 
-
+/**
+   
+     			  40
+               /      \
+         	 20        60
+           /   \      /  \ 
+     	  10    30  50    70
+     	       /     \
+     	      5      55
+     	
+     	
+     	output:
+     	
+     	  		  105(40+20+10+30+5)
+               /      \
+       (20+10)30        165(60+50+55)
+           /   \      /  \ 
+     	  10    35  50    70
+     	       /     \
+     	      5      55
+  
+  
+ * 
+ * @author kmandal
+ *
+ */
 public class BinaryTreeSumOfLeftSubtree {
 	
 	// Function to modify a Binary Tree so that every node

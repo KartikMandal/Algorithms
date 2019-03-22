@@ -10,7 +10,7 @@ import java.util.HashMap;
  * the form Y != (X * K) where X < Y.
  * 
  * Example 1:
- * nput: arr[] = {2, 3, 6, 5, 4, 10}, K = 2
+ * input: arr[] = {2, 3, 6, 5, 4, 10}, K = 2
  * Output: 3 {2, 3, 5} is the required sub-set
  * Example 2:
  * Input: arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, K = 2

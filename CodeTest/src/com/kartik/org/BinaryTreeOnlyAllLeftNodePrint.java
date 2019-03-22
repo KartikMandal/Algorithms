@@ -1,5 +1,26 @@
 package com.kartik.org;
-
+/**
+ * 
+ * 
+ 
+ 	  			  40
+               /      \
+         	 20        60
+           /   \      /  \ 
+     	  10    30  50    70
+     	 /            \
+     	5              55
+ 
+ 
+----------Left View-----------------
+ 40 20 10 5 60 50
+----------Right View-----------------
+ 40 60 70 50 55 20 30
+ 
+ 
+ * @author kmandal
+ *
+ */
 public class BinaryTreeOnlyAllLeftNodePrint {
 
     // recursive function to print left view 
