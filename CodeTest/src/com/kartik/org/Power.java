@@ -59,6 +59,8 @@ public class Power {
         int result = power(base, powerRaised);
 
         System.out.printf("%d^%d = %d", base, powerRaised, result);
+        System.out.println();
+        System.out.printf("%d^%d = %d",base, powerRaised,powerUsingDivideAndConquer(base, powerRaised));
     }
 
     public static int power(int base, int powerRaised) {
@@ -67,4 +69,14 @@ public class Power {
         else
             return 1;
     }
+    
+    static int powerUsingDivideAndConquer(int x, int y) 
+    { 
+        if (y == 0) 
+            return 1; 
+        else if (y % 2 == 0) 
+            return power(x, y / 2) * power(x, y / 2); 
+        else
+            return x * power(x, y / 2) * power(x, y / 2); 
+    } 
 }
