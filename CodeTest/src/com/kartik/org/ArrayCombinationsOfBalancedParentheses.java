@@ -50,7 +50,7 @@ Output:true
 public class ArrayCombinationsOfBalancedParentheses {
 
 	public static void main(String[] args) {
-		int count =3;
+		int count =2;
 		char[] str=new char[count*2];
 		System.out.println("This is combination of number of single parenthesis First Approach");
 		printPar(str,0,count, count);

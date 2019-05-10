@@ -45,7 +45,7 @@ public class ArrayNearestGreatElement {
 	{  
 	    Stack<Integer> s = new Stack<Integer>();  
 	  
-	    int arr1[] = new int[n];  
+	    int displayArray[] = new int[n];  
 	  
 	    // iterating from n-1 to 0  
 	    for (int i = n - 1; i >= 0; i--)  
@@ -60,15 +60,15 @@ public class ArrayNearestGreatElement {
 	        if not empty then the next greater  
 	        element is on top of stack*/
 	        if (s.empty())  
-	            arr1[i] = -1;          
+	            displayArray[i] = -1;          
 	        else
-	            arr1[i] = s.peek();          
+	            displayArray[i] = s.peek();          
 	  
 	        s.push(arr[i]);  
 	    }  
 	  
 	    for (int i = 0; i < n; i++)  
-	        System.out.println(arr[i] + " ---> " + arr1[i]);
+	        System.out.println(arr[i] + " ---> " + displayArray[i]);
 	    
 	}  
 	  
