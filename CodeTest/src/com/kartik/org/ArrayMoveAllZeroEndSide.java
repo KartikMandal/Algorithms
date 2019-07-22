@@ -59,7 +59,7 @@ public class ArrayMoveAllZeroEndSide {
 	    // index 'count' with the element at  
 	    // index 'i' 
 	    for (int i = 0; i < n; i++) { 
-	    if ((arr[i] != 0)) { 
+	    if (arr[i] != 0) { 
 	        temp = arr[count]; 
 	        arr[count] = arr[i]; 
 	        arr[i] = temp; 

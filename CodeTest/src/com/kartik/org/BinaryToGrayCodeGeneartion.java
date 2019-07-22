@@ -10,7 +10,9 @@ public class BinaryToGrayCodeGeneartion {
 
 	public static void main(String[] args) {
 		String x = "";
-		int n = 10;
+		int n = 10;//number
+		
+		//convert number to binary
 		while (n > 0) {
 			int a = n % 2;
 			x = a + x;

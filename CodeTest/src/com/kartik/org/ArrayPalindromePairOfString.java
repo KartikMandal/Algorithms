@@ -1,5 +1,6 @@
 package com.kartik.org;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,6 +63,30 @@ public class ArrayPalindromePairOfString {
         return false; 
     } 
        
+    
+    // Function to check if a palindrome pair exists 
+    static List<String> checkPalindromePairList(List<String> vect) 
+    { 
+    	List<String> list=new ArrayList<>();
+        // Consider each pair one by one 
+        for (int i = 0; i< vect.size()-1; i++) 
+        { 
+            for (int j = i+1; j< vect.size() ; j++) 
+            { 
+                String check_str = ""; 
+       
+                // concatenate both strings 
+                check_str = check_str + vect.get(i) + vect.get(j); 
+       
+                // check if the concatenated string is 
+                // palindrome 
+                if (isPalindrome(check_str)){ 
+                	list.add(vect.get(i)+","+vect.get(j)) ;
+                }
+            } 
+        } 
+        return list; 
+    } 
     // Driver code 
     public static void main(String args[]) 
     { 
@@ -69,10 +94,16 @@ public class ArrayPalindromePairOfString {
                                 "keeg", "abc", "bc"); 
        
        
-        if (checkPalindromePair(vect) == true) 
+       /* if (checkPalindromePair(vect) == true) 
             System.out.println("Yes"); 
         else    
-            System.out.println("No"); 
+            System.out.println("No");*/ 
+        
+        List<String> abc= checkPalindromePairList( vect);
+        for (String string : abc) {
+        	System.out.println(string);
+		}
+        
     } 
 
 }

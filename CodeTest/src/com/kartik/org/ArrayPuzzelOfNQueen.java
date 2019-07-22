@@ -6,7 +6,7 @@ import java.util.Set;
 //https://www.geeksforgeeks.org/printing-solutions-n-queen-problem/
 //https://www.geeksforgeeks.org/number-cells-queen-can-move-obstacles-chessborad/
 /**
- * Number of cells a queen can move with obstacles on the chessborad
+ * Number of cells a queen can move with obstacles on the n queen
 Consider a N X N chessboard with a Queen and K obstacles. The Queen cannot pass through obstacles. 
 Given the position (x, y) of Queen, the task is to find the number of cells the queen can move.
  * @author kmandal
@@ -48,7 +48,8 @@ public class ArrayPuzzelOfNQueen {
 							+ Arrays.toString(result));
 					System.out.println();
 					display(size);
-					System.out.println(numberofPosition(size,xAxis,yAxis,result));
+					System.out.println();
+					System.out.println("Number of obstacles point of that point("+xAxis+","+yAxis +") "+numberofPosition(size,xAxis,yAxis,result));
 				}
 				
 				placeQueens(x + 1, size,xAxis,yAxis);
@@ -143,12 +144,12 @@ public class ArrayPuzzelOfNQueen {
 	    return c;
 	 } 
 	public static void main(String[] args) {
-		int n = 8;
+		int n = 7;
 		result = new int[n];
 		ArrayPuzzelOfNQueen i = new ArrayPuzzelOfNQueen();
 		//i.placeQueens(0, n);
 		
-		i.placeQueens(0, n,0,0);
+		i.placeQueens(0, n,0,5);
 	}
 //0_2,1_5,2_7,3_0,4_3,5_6,6_4,7_1
 }
