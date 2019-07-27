@@ -7,6 +7,11 @@ package com.kartik.org;
 public class MatrixInZigzagFormPrint {
 
 	public static void main(String[] args) {
+		char[][] abc = new char[][] { 
+				{ 'X', 'X', 'O', 'X' },
+				{ 'O', 'O', 'X', 'O' }, 
+				{ 'X', 'X', 'X', 'O' } 
+				};
 		int[][] matrix = { 
 				{ 1, 2, 3, 4 }, 
 				{ 5, 6, 7, 8 },
@@ -27,15 +32,121 @@ public class MatrixInZigzagFormPrint {
 
 		System.out.println();
 		System.out.println("Left to right Zigzag convert");
-		zigOnlyLeftToRight(matrix, 0, 0, 0);
+		//zigOnlyLeftToRight(matrix, 0, 0, 0);
 		System.out.println();
 		System.out.println("Right to left Zigzag convert");
-		zigOnlyRightToLeft(matrix, 0, 0, 0);
+		//zigOnlyRightToLeft(matrix, 0, 0, 0);
 
 		System.out.println();
 		System.out.println("Zigzag using tail recursive");
-		zigzagTailRecursive(matrix, 0, 0, 0, 0, 0);
+		//zigzagTailRecursive(matrix, 0, 0, 0, 0, 0);
+		
+		//zigOnlyRightToLeftRight(matrix);
+		
+		//zigOnlyRightToLeftRight1(matrix);
+		int row = abc.length, column = abc[0].length;
+		zigOnlyRightToLeftRight1(abc, column-1);
+		zig(matrix,1);
+	}
+	
+	static void zig(int [][]matrix,int top){
+		int row = matrix.length;
+		/**
+		 * -->03
+		 * --> 02 -->13
+		 * -->01-->12 -->23
+		 * -->00-->11-->22 
+		 * -->10-->21
+		 * -->20
+		 */
+		//[0 	0		-->0 	column]
+		//[row 	0		-->row 	column]
+		int m=0;
+		int n=top;
+		for(int j=top;j<=row-1;j++){
+			System.out.print(matrix[j][m] + " ");
+			m++;
+		}
+		if(n<row-1)
+		zig(matrix, n+1);
+	}
+	
+	static void zigOnlyRightToLeftRight1(char[][] matrix, int bottom) {
+		int column = matrix[0].length;
+		/**
+		 * -->03
+		 * --> 02 -->13
+		 * -->01-->12 -->23
+		 * -->00-->11-->22 
+		 * -->10-->21
+		 * -->20
+		 */
+		//[0 	0		-->0 	column]
+		//[row 	0		-->row 	column]
+		int i=0;
+		int k=bottom;
+		for(int j=bottom;j<=column-1;j++){
+			System.out.print(matrix[i][j] + " ");
+			i++;
+		}
+		if(k>0)
+		zigOnlyRightToLeftRight1(matrix, k-1);
+		
+		// printing elements above and on
+		// printing elements below second
+		// diagonal
+		/*for (int j = n - 1; j >=0; j--) {
+			// traversing downwards starting
+			// from last column
+			int row = 0, col = j;
+			while (col < n) {
+				System.out.println(matrix[row][col] + " ");
+				row--;
+				col++;
+			}
+		}*/
 
+		// second diagonal
+		/*for (int k = n - 1; k >= 0; k--) {
+			// traversing downwards starting
+			// from first row
+			int col = 0, row = k;
+			while (col >= 0) {
+				System.out.println(matrix[row][col] + " ");
+				row++;
+				col--;
+			}
+		}*/
+	}
+	
+	
+	static void zigOnlyRightToLeftRight(int[][] matrix) {
+		int m = matrix.length, n = matrix[0].length;
+		// printing elements above and on
+		// printing elements below second
+		// diagonal
+		for (int j = m - 1; j >=0; j--) {
+			// traversing downwards starting
+			// from last column
+			int col = n - 1, row = j;
+			while (row < m) {
+				System.out.println(matrix[row][col] + " ");
+				row--;
+				col++;
+			}
+		}
+
+		// second diagonal
+		for (int k = m - 1; k >= 0; k--) {
+			// traversing downwards starting
+			// from first row
+			int row = 0, col = k;
+			while (col >= 0) {
+				System.out.println(matrix[row][col] + " ");
+				row++;
+				col--;
+			}
+		}
 	}
 
 	static void zigzagRightToLeft(int[][] matrix, int bottom, int top, int level) {
@@ -97,6 +208,9 @@ public class MatrixInZigzagFormPrint {
 			zigOnlyLeftToRight(matrix, bottom, top, level++);
 		}
 	}
+	
+	
+	
 
 	static void zigOnlyRightToLeft(int[][] matrix, int bottom, int top,
 			int level) {

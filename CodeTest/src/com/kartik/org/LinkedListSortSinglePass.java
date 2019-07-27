@@ -1,5 +1,7 @@
 package com.kartik.org;
 
+import java.util.Arrays;
+
 /**
  * 
  * Given a linked list where the nodes can have the values 0 or 1 or 2, sort it in a single pass. For instance 2->1->0->0->2->0>1 should be sorted as 0->0->0->1->1->2->2
@@ -123,6 +125,91 @@ public class LinkedListSortSinglePass {
 	
 	
 	
+	// Sort a linked list of 0s, 1s and 2s  
+    // by changing pointers. 
+    public static Node sortList(Node head) 
+    { 
+        if(head==null || head.next==null) 
+        { 
+            return head; 
+        } 
+        // Create three dummy nodes to point to  
+        // beginning of three linked lists. These  
+        // dummy nodes are created to avoid many  
+        // null checks.  
+        Node zeroDumy = new Node(0);  
+        Node oneDumy = new Node(0);  
+        Node twoDumy = new Node(0);  
+  
+        // Initialize current pointers for three  
+        // lists and whole list.  
+        Node zero = zeroDumy, one = oneDumy, two = twoDumy;  
+        // Traverse list  
+        Node curr = head;  
+        while (curr!=null)  
+        {  
+            if (curr.data == 0)  
+            {  
+                zero.next = curr;  
+                zero = zero.next;  
+                curr = curr.next;  
+            } 
+            else if (curr.data == 1)  
+            {  
+                one.next = curr;  
+                one = one.next;  
+                curr = curr.next;  
+            }  
+            else 
+            {  
+                two.next = curr;  
+                two = two.next;  
+                curr = curr.next;  
+            }  
+        } 
+        // Attach three lists  
+        zero.next = (oneDumy.next!=null) ? (oneDumy.next) : (twoDumy.next);  
+        one.next = twoDumy.next;  
+        two.next = null; 
+        // Updated head  
+        head = zeroDumy.next; 
+        return head; 
+    } 
+    
+    
+    
+ // Linear-time partition routine to sort an array containing 0, 1 and 2
+ 	// It similar to three-way Partitioning for Dutch national flag problem
+ 	public static void threeWayPartition(int[] A, int end)
+ 	{
+ 		int start = 0, mid = 0;
+ 		int pivot = 1;
+
+ 		while (mid <= end)
+ 		{
+ 			if (A[mid] < pivot)		 // current element is 0
+ 			{
+ 				swap(A, start, mid);
+ 				++start;
+ 				++mid;
+ 			}
+ 			else if (A[mid] > pivot)	// current element is 2
+ 			{
+ 				swap(A, mid, end);
+ 				--end;
+ 			}
+ 			else						// current element is 1
+ 				++mid;
+ 		}
+ 	}
+
+ 	// Utility function to swap two elements A[i] and A[j] in the array
+ 	private static void swap(int[] A, int i, int j) {
+ 		int temp = A[i];
+ 		A[i] = A[j];
+ 		A[j] = temp;
+ 	}
+	
 	public static void main(String arg[]) {
 
 		LinkedListSortSinglePass list = new LinkedListSortSinglePass();
@@ -141,5 +228,15 @@ public class LinkedListSortSinglePass {
 		list.printList(head);
 		Node d=sortList(head, 5);
 		list.printList(d);
+		
+		Node d2=sortList(head);
+		list.printList(d2);
+		
+		
+		System.out.println("It similar to three-way Partitioning for Dutch national flag problem");
+		int A[] = { 0, 1, 2, 2, 1, 0, 0, 2, 0, 1, 1, 0 };
+
+		threeWayPartition(A, A.length - 1);
+		System.out.println(Arrays.toString(A));
 	}
 }

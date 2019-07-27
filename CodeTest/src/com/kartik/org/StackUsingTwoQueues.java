@@ -43,6 +43,7 @@ public class StackUsingTwoQueues {
 			for(int j=0 ; j<sizeOfQueue1 ; j++){
 				queue2.add(queue1.remove());
 			}
+			// this is do the stack functionality 
 			queue1.add(i);
 			// Copy elements for Queue2 to Queue1
 			for(int k=0 ; k<sizeOfQueue1 ; k++){
