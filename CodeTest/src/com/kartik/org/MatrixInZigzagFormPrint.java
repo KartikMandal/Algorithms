@@ -39,14 +39,14 @@ public class MatrixInZigzagFormPrint {
 
 		System.out.println();
 		System.out.println("Zigzag using tail recursive");
-		//zigzagTailRecursive(matrix, 0, 0, 0, 0, 0);
+		zigzagTailRecursive(matrix, 0, 0, 0, 0, 0);
 		
-		//zigOnlyRightToLeftRight(matrix);
+		zigOnlyRightToLeftRight(matrix);
 		
 		//zigOnlyRightToLeftRight1(matrix);
 		int row = abc.length, column = abc[0].length;
-		zigOnlyRightToLeftRight1(abc, column-1);
-		zig(matrix,1);
+		//zigOnlyRightToLeftRight1(abc, column-1);
+		//zig(matrix,1);
 	}
 	
 	static void zig(int [][]matrix,int top){

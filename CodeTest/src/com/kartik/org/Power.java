@@ -55,7 +55,7 @@ package com.kartik.org;
 public class Power {
 
     public static void main(String[] args) {
-        int base = 3, powerRaised = 4;
+        int base = 3, powerRaised = 5;
         int result = power(base, powerRaised);
 
         System.out.printf("%d^%d = %d", base, powerRaised, result);
@@ -63,6 +63,12 @@ public class Power {
         System.out.printf("%d^%d = %d",base, powerRaised,powerUsingDivideAndConquer(base, powerRaised));
     }
 
+    /**
+     * here time complexity is O(n)
+     * @param base
+     * @param powerRaised
+     * @return
+     */
     public static int power(int base, int powerRaised) {
         if (powerRaised != 0)
             return (base * power(base, powerRaised - 1));
@@ -70,13 +76,21 @@ public class Power {
             return 1;
     }
     
+    /**
+     * Here Time complexity is O(logy)
+     * @param x
+     * @param y
+     * @return
+     */
     static int powerUsingDivideAndConquer(int x, int y) 
     { 
-        if (y == 0) 
+        int temp; 
+        if( y == 0) 
             return 1; 
-        else if (y % 2 == 0) 
-            return power(x, y / 2) * power(x, y / 2); 
+        temp = powerUsingDivideAndConquer(x, y/2); 
+        if (y%2 == 0) 
+            return temp*temp; 
         else
-            return x * power(x, y / 2) * power(x, y / 2); 
+            return x*temp*temp;
     } 
 }

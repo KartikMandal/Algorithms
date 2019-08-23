@@ -6,7 +6,7 @@ public class SegmentTreeMatrixChainMultiplication {
 	static Node tree[];
 	
 	// Matrix Ai has dimension p[i-1] x p[i] for i = 1..n 
-    static int MatrixChainOrder(int p[], int n) 
+     int MatrixChainOrder(int p[], int n) 
     { 
         /* For simplicity of the program, one extra row and one 
         extra column are allocated in m[][].  0th row and 0th 
@@ -113,7 +113,7 @@ public class SegmentTreeMatrixChainMultiplication {
 	public static void main(String[] args) {
 		 int arr[] = {40, 20, 30, 10, 30};
 	        int n = arr.length;
-	        SegmentTreeSumOfRangQuery  t = new SegmentTreeSumOfRangQuery();
+	        SegmentTreeMatrixChainMultiplication  t = new SegmentTreeMatrixChainMultiplication();
 	        tree = new Node[4*n]; // Memory allocation
 	        t.buildSegTree(arr, 0, 0, n-1);
 	        System.out.println("\n");
