@@ -46,7 +46,7 @@ public class ArrayNextPermutation {
 	public static void main(String[] args) {
 		int []nums={1,2,8,7};
 		ArrayNextPermutation aa=new ArrayNextPermutation();
-		nums=new int[]{1,2,3,4};
+	//	nums=new int[]{1,2,3,4};
 		aa.nextPermutation(nums);
 
 	}

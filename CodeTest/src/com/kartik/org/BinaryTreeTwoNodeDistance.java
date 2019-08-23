@@ -19,6 +19,17 @@ package com.kartik.org;
 
 10 <--> 20 = 1
 
+
+The distance between two nodes can be obtained in terms of lowest common ancestor. Following is the formula.
+
+Dist(n1, n2) = Dist(root, n1) + Dist(root, n2) - 2*Dist(root, lca) 
+'n1' and 'n2' are the two given keys
+'root' is root of given Binary Tree.
+'lca' is lowest common ancestor of n1 and n2
+Dist(n1, n2) is the distance between n1 and n2.
+
+
+
  * @author kmandal
  *
  */
@@ -46,16 +57,14 @@ public class BinaryTreeTwoNodeDistance {
 	 
 	    // Returns level of key k if it is present in
 	    // tree, otherwise returns -1
-	    public static int findLevel(TreeNode root, int a, int level)
+	    public static int findLevel(TreeNode root, int passData, int level)
 	    {
 	        if (root == null)
 	            return -1;
-	        if (root.data == a)
+	        if (root.data == passData)
 	            return level;
-	        int left = findLevel(root.left, a, level + 1);
-	        if (left == -1)
-	            return findLevel(root.right, a, level + 1);
-	        return left;
+	        int left = findLevel(root.left, passData, level + 1);
+	        return (left == -1)?left:findLevel(root.right, passData, level + 1);
 	    }
 	 
 	    public static int findDistance(TreeNode root, int a, int b)

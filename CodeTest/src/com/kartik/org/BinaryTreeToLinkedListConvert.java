@@ -140,10 +140,10 @@ public class BinaryTreeToLinkedListConvert {
 	}
 	 public static void main(String[] args) {
 			TreeNode t=createBinaryTree();
-			BinaryTreeView btv=new BinaryTreeView(t,200,200);
+			BinaryTreeView btv=new BinaryTreeView(t,600,600);
 			btv.refresh();
-			// t=binaryToLinkedlist(t);
-			 binaryToLinkedListUsingRecursive(t);
+			 t=binaryToLinkedlist(t);
+			// binaryToLinkedListUsingRecursive(t);
 			inorder(t);
 
 		}

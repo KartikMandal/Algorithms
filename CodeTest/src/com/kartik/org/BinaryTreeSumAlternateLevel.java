@@ -57,7 +57,7 @@ public class BinaryTreeSumAlternateLevel {
 	   }
 	   if(level==1)//only level 1 need to print each recursive not other
 	   {
-	       // System.out.printf("%d ",root.data);
+	        System.out.printf("%d ",root.data);
 	        return sum+=root.data;
 	   }
 	   else if(level>1)

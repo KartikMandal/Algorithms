@@ -56,7 +56,7 @@ public class BinaryTreeVerticalPrint {
 		TreeNode rootNode=createBinaryTree();
 		BinaryTreeView btv=new BinaryTreeView(rootNode,400,400);
 		btv.refresh();
-		System.out.println("Vertical sum of binary tree will be:");
+		System.out.println("Vertical print of binary tree will be:");
 		TreeMap<Integer,Vector<Integer>> treeNodeMap=new TreeMap<Integer,Vector<Integer>>();
 		printVertivalSumOfBinaryTree(rootNode, treeNodeMap, 0);
  

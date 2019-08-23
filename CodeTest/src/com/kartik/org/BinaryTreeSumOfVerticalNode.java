@@ -11,10 +11,7 @@ public class BinaryTreeSumOfVerticalNode {
 		{
 			return;
 		}
- 
-		// Decrease level by 1 when iterating left child
-		printVertivalSumOfBinaryTree(startNode.left,treeNodeMap,level-1);
- 
+		
 		if(treeNodeMap.get(level)!=null)
 		{
 			Integer sum=treeNodeMap.get(level)+startNode.data;
@@ -26,6 +23,9 @@ public class BinaryTreeSumOfVerticalNode {
  
 			treeNodeMap.put(level, startNode.data);
 		}
+ 
+		// Decrease level by 1 when iterating left child
+		printVertivalSumOfBinaryTree(startNode.left,treeNodeMap,level-1);
 		// Increase level by 1 when iterating left child
 		printVertivalSumOfBinaryTree(startNode.right,treeNodeMap,level+1);
  

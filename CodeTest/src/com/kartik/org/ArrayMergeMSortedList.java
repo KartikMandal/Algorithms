@@ -42,10 +42,12 @@ public class ArrayMergeMSortedList {
 	 
 	    for(Node list: lists){
 	        if(list!=null)
-	            queue.offer(list);
+	            queue.offer(list);//Inserts the specified element into this priority queue.
+
 	    }    
 	 
 	    while(!queue.isEmpty()){
+	    	//Retrieves and removes the head of this queue, or returns null if this queue is empty.
 	        Node n = queue.poll();
 	        p.next = n;
 	        p=p.next;

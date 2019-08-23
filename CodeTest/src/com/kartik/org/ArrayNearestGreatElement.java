@@ -51,6 +51,7 @@ public class ArrayNearestGreatElement {
 	    for (int i = n - 1; i >= 0; i--)  
 	    {  /*We will pop till we get the  
 	        greater element on top or stack gets empty*/
+	    	//s.peek() -->Looks at the object at the top of this stack without removing it from the stack.
 	        while (!s.isEmpty() && s.peek() < arr[i])  
 	            s.pop();  
 	  

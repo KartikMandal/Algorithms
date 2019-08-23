@@ -48,9 +48,10 @@ public class ArrayBaloonBlust {
 
 	public int maxCoins(int[] nums) {
         // Extend list with head and tail (both are 1), index starts at 1
+		//This is mandatory for 
         int array[] = new int[nums.length + 2];
-        array[0] = 1;
-        array[array.length-1] = 1;
+        array[0] = 1; // head extend 
+        array[array.length-1] = 1; //tail extend
         for (int i = 0; i < nums.length; i++) {
             array[i+1] = nums[i];
         }

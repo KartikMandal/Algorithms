@@ -48,7 +48,7 @@ public class BinaryTreeSumOfLeftSubtree {
 	    root.data += leftsum;
 	 
 	    // Return sum of values under root
-	    return root.data + rightsum;
+	    return root.data +rightsum;
 	}
 	
 		
