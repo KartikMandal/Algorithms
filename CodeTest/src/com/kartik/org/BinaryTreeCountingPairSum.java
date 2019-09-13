@@ -29,23 +29,44 @@ public class BinaryTreeCountingPairSum {
 	 * @param set
 	 * @return
 	 */
-	static boolean findpairUtil(TreeNode root, int sum, Set<Integer> set) {
+	/*static boolean findpairUtil(TreeNode root, int sum, Set<Integer> set) {
 		if (root == null)
 			return false;
 
-		if (findpairUtil(root.left, sum, set))
+		if (findpairUtil(root.left, sum, set)){
 			return true;
-
+		}
 		if (set.contains(sum - root.data)) {
 			System.out.println("Pair is found (" + (sum - root.data) + ", "
 					+ root.data + ")");
 			return true;
-		} else
+		} else{
 			set.add(root.data);
-
+		}
 		return findpairUtil(root.right, sum, set);
-	}
+	}*/
 
+	
+	/**
+	 * 
+	 * @param root
+	 * @param sum
+	 * @param set
+	 * @return
+	 */
+	static void findpairUtil(TreeNode root, int sum, Set<Integer> set) {
+		if (root == null)
+			return ;
+
+		findpairUtil(root.left, sum, set);
+		if (set.contains(sum - root.data)) {
+			System.out.println("Pair is found (" + (sum - root.data) + ", "
+					+ root.data + ")");
+		} else{
+			set.add(root.data);
+		}
+		findpairUtil(root.right, sum, set);
+	}
 	/**
 	 * 
 	 * @param root
@@ -53,8 +74,9 @@ public class BinaryTreeCountingPairSum {
 	 */
 	static void findPair(TreeNode root, int sum) {
 		Set<Integer> set = new HashSet<Integer>();
-		if (!findpairUtil(root, sum, set))
-			System.out.println("Pairs do not exit");
+		findpairUtil(root, sum, set);
+		/*if (!findpairUtil(root, sum, set))
+			System.out.println("Pairs do not exit");*/
 	}
 
 	public static void main(String[] args) {

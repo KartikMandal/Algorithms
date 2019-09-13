@@ -18,7 +18,6 @@ package com.kartik.org;
  *
  */
 public class BinaryTreeAllLeftLeavesSumation {
-
 		
 	// A utility function to check if a given node is leaf or not 
     static boolean isLeaf(TreeNode node)  

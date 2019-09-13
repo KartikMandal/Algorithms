@@ -24,11 +24,15 @@ public class BinaryTreeBoundaryTraversal {
 		if(root==null)
 			return;
  
+		
 		// if leaf node, ignore while printing edges
-		if(root.left==null && root.right==null)
+		//below three line differenciate the printLeftEdgeTopToBottomNode and printLeafNodes
+		if(root.left==null && root.right==null){
 			return;
- 
+		}
 		System.out.print(root.data+" ");
+		
+		
  
 		// If left is null, right will be the boundary edge.
 		if(root.left!=null)
@@ -47,11 +51,14 @@ public class BinaryTreeBoundaryTraversal {
 		if(root==null)
 			return;
  
+		//below three line differenciate the printLeafNodes and printLeftEdgeTopToBottomNode
 		if(root.left==null && root.right==null)
 		{
 			System.out.print(root.data+" ");
 			return;
 		}
+		
+		
 		printLeafNodes(root.left);
 		printLeafNodes(root.right);
 	}
