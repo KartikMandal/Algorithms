@@ -1,5 +1,10 @@
 package com.kartik.org;
 
+/**
+ * 
+ * @author kmandal
+ *
+ */
 
 public class LinkedListPalindromeCheck{
 	 
@@ -56,38 +61,132 @@ public class LinkedListPalindromeCheck{
 		return slowPointer; 
 	}
  
+	
+	// This function will find middle element in linkedlist
+		public static Node findMiddleNode(Node head,int size)
+		{
+			int mid=size/2;
+			// step 1
+			Node slowPointer, fastPointer; 
+			slowPointer = fastPointer = head; 
+			int length=0;
+			while(fastPointer.next != null){
+		          length++;
+		          if(length>=mid){
+		        	  slowPointer = slowPointer.next;
+		          }
+		          fastPointer = fastPointer.next;
+		      }
+			return slowPointer; 
+		}
+		
+	// This function will find middle element in linkedlist
+	public static Node uptoMiddleNode(Node head, int size) {
+		int mid = size / 2;
+		// step 1
+		Node fastPointer = null;
+		Node h = null;
+		for (int length = 0; length < mid; length++) {
+			fastPointer = new Node(head.value);
+			if (h == null) {
+				h = fastPointer;
+			} else {
+				Node temp = h;
+				while (temp.next != null){
+					temp = temp.next;
+				}
+				temp.next = fastPointer;
+			}
+			head = head.next;
+		}
+		return h;
+	}
+
+	static int getSize(Node node) {
+		if (node == null) {
+			return 0;
+		}
+		return node.next != null ? getSize(node.next) + 1 : 1;
+
+	}
 	// Function to check if linked list is palindrome or not
 	public static boolean checkPalindrome (Node head)
 	{
+		int size=getSize(head);
 		// Find middle node using slow and fast pointer
-		Node middleNode=findMiddleNode(head);
-		// we got head of second part
-		Node secondHead=middleNode.next;
-		// It is end of first part of linked list
-		//below line use for head node middle null 
-		middleNode.next=null;
+		Node uptoMiddle=uptoMiddleNode(head,size);
+		Node middleNode=findMiddleNode(head,size);
+		
 		// get reversed linked list for second part
-		Node reverseSecondHead=reverseLinkedList(secondHead);
+		Node reverseSecondHead=reverseLinkedList(middleNode);
  
-		while(head!=null && reverseSecondHead!=null)
-		{
-			if(head.value==reverseSecondHead.value)
-			{
-				head=head.next;
-				reverseSecondHead=reverseSecondHead.next;
-				continue;
-			}
-			else
-			{
-				return false;
-			}
+		return compare(uptoMiddle, reverseSecondHead);
+	}
+	
+	public static boolean compare(Node a, Node b){
+		// see if both list is empty
+		if (a == null && b == null) {
+			return true;
 		}
- 
-		return true;
- 
- 
+
+		return a != null && b != null &&
+			(a.value == b.value) &&
+			compare(a.next, b.next);
 	}
  
+	
+	
+	/*// This function will find middle element in linkedlist
+		public static Node findMiddleNode(Node head)
+		{
+			// step 1
+			Node slowPointer, fastPointer; 
+			slowPointer = fastPointer = head; 
+	 
+			while(fastPointer !=null) { 
+				fastPointer = fastPointer.next; 
+				if(fastPointer != null && fastPointer.next != null) { 
+					slowPointer = slowPointer.next; 
+					fastPointer = fastPointer.next; 
+				} 
+			} 
+	 
+			return slowPointer; 
+		}
+	 
+		// Function to check if linked list is palindrome or not
+		public static boolean checkPalindrome (Node head)
+		{
+			// Find middle node using slow and fast pointer
+			Node middleNode=findMiddleNode(head);
+			// we got head of second part
+			Node secondHead=middleNode.next;
+			// It is end of first part of linked list
+			//below line use for head node middle null 
+			middleNode.next=null;
+			// get reversed linked list for second part
+			Node reverseSecondHead=reverseLinkedList(secondHead);
+	 
+			while(head!=null && reverseSecondHead!=null)
+			{
+				if(head.value==reverseSecondHead.value)
+				{
+					head=head.next;
+					reverseSecondHead=reverseSecondHead.next;
+					continue;
+				}
+				else
+				{
+					return false;
+				}
+			}
+	 
+			return true;
+	 
+	 
+		}*/
+	
+	
 	public static Node reverseLinkedList(Node node) 
 	{ 
 		if (node == null || node.next == null) {
@@ -100,6 +199,14 @@ public class LinkedListPalindromeCheck{
 		return remaining; 
 	} 
  
+	
+	
+	
+	
+	
+	
+	
+	
 	private static Node left;
 	// Initial parameters to this function are &head and head 
    static boolean isPalindromeUtil(Node right)  
@@ -136,6 +243,7 @@ public class LinkedListPalindromeCheck{
 		Node head=new Node(1);
 		list.addToTheLast(head);
 		list.addToTheLast(new Node(2));
+		//list.addToTheLast(new Node(1));
 		list.addToTheLast(new Node(1));
 		list.addToTheLast(new Node(2));
 		list.addToTheLast(new Node(1));

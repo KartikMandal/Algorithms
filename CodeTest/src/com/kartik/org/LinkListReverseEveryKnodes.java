@@ -1,5 +1,7 @@
 package com.kartik.org;
 
+import java.util.Stack;
+
 /**
  * Reverse every k nodes in a linked list. So if the input is A->B->C->D->E->F->G->H and k is 3, 
  * then the output should be C->B->A->F->E->D->H->G
@@ -89,6 +91,55 @@ public class LinkListReverseEveryKnodes {
 		    return prevNode;
 		}
 		
+		
+		
+		/* Reverses the linked list in groups of size k  
+		and returns the pointer to the new head node. */
+		static Node Reverse(Node head, int k)  
+		{  
+		    // Create a stack of Node*  
+		    Stack<Node> mystack = new Stack<Node> ();  
+		    Node current = head;  
+		    Node prev = null;  
+		  
+		    while (current != null) 
+		    {  
+		  
+		        // Terminate the loop whichever comes first  
+		        // either current == NULL or count >= k  
+		        int count = 0;  
+		        while (current != null && count < k) 
+		        {  
+		            mystack.push(current);  
+		            current = current.next;  
+		            count++;  
+		        }  
+		  
+		        // Now pop the elements of stack one by one  
+		        while (mystack.size() > 0)  
+		        {  
+		  
+		            // If final list has not been started yet.  
+		            if (prev == null) 
+		            {  
+		                prev = mystack.peek();  
+		                head = prev;  
+		                mystack.pop();  
+		            }  
+		            else
+		            {  
+		                prev.next = mystack.peek();  
+		                prev = prev.next;  
+		                mystack.pop();  
+		            }  
+		        }  
+		    }  
+		  
+		    // Next of last element will point to NULL.  
+		    prev.next = null;  
+		  
+		    return head;  
+		}  
 		
 		
 		public static void main (String[] args) {
