@@ -226,13 +226,15 @@ public class LinkedListSortSinglePass {
 		list.addToTheLast(new Node(3));
 		list.addToTheLast(new Node(4));
 		list.printList(head);
-		Node d=sortList(head, 5);
-		list.printList(d);
+		//this is list example
+	//	Node d=sortList(head, 5);
+	//	list.printList(d);
 		
 		Node d2=sortList(head);
 		list.printList(d2);
 		
 		
+		//This is array example
 		System.out.println("It similar to three-way Partitioning for Dutch national flag problem");
 		int A[] = { 0, 1, 2, 2, 1, 0, 0, 2, 0, 1, 1, 0 };
 

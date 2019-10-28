@@ -111,7 +111,7 @@ public class LinkListReverseEveryKnodes {
 		        while (current != null && count < k) 
 		        {  
 		            mystack.push(current);  
-		            current = current.next;  
+		            current = current.next;  //already increment current 
 		            count++;  
 		        }  
 		  
@@ -123,13 +123,14 @@ public class LinkListReverseEveryKnodes {
 		            if (prev == null) 
 		            {  
 		                prev = mystack.peek();  
-		                head = prev;  
+		                head = prev;  //assign head which is starting node
 		                mystack.pop();  
 		            }  
 		            else
 		            {  
+		            	//prev -->prev.next -->prev.next.next......
 		                prev.next = mystack.peek();  
-		                prev = prev.next;  
+		                prev = prev.next;  //
 		                mystack.pop();  
 		            }  
 		        }  

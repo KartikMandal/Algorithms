@@ -70,6 +70,9 @@ public class LinkListReverseBetweenInPlace {
 		 */
 			
 		public static Node reverseList(Node head, int m, int n){
+			if (m > n)
+		        return null;
+			
 			if (m == n)
 		        return head;
 		 
