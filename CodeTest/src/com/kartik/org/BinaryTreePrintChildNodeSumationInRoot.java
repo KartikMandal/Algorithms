@@ -12,17 +12,13 @@ public class BinaryTreePrintChildNodeSumationInRoot {
 		// base case: tree is empty
 		if (root == null)
 			return 0;
-
-		// recursively convert left and right subtree first before
-		// processing the root node
-		int left = convertToSumTree(root.left);
-		int right = convertToSumTree(root.right);
-
+		if (root.left == null && root.right == null)
+			return root.data;
 		// stores current value of root node
 		int old = root.data;
 
 		// update root to sum of its left and right subtree
-		root.data = left + right;
+		root.data = convertToSumTree(root.left) + convertToSumTree(root.right);
 
 		// return the updated value plus old value. It is equal to 
 		// sum of all elements present in sub-tree rooted at root node

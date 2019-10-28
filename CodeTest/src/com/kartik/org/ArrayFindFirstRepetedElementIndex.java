@@ -73,7 +73,7 @@ public class ArrayFindFirstRepetedElementIndex {
 	
 	public static void main(String[] args) {
 		int[] a = {10, 11, 20, 20, 30, 30, 30};
-       System.out.println(findFirst(a,31));
+       System.out.println(findFirst(a,30));
        
        System.out.println(getFirstRepeatingElementArray(a));
 	}

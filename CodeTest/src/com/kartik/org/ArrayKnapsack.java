@@ -48,7 +48,7 @@ public class ArrayKnapsack {
   { 
        int price[] = new int[]{60, 100, 120}; 
        int wt[] = new int[]{10, 20, 30}; 
-   int  W = 50; 
+   int  W = 65; 
    int n = price.length; 
    System.out.println(knapSack(W, wt, price, n)); 
    } 

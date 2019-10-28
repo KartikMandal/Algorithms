@@ -20,22 +20,23 @@ public class BinaryTreeToConvertingSumTree {
 
 	// Convert a given tree to a tree where every node contains sum of
     // values of nodes in left and right subtrees in the original tree
-   static int toSumTree(TreeNode node) 
+   static int toConvertingSumTree(TreeNode root) 
     {
         // Base case
-        if (node == null)
+        if (root == null)
             return 0;
-  
+        if (root.left == null && root.right == null)
+			return root.data;
         // Store the old value
-        int old_val = node.data;
+        int old = root.data;
   
         // Recursively call for left and right subtrees and store the sum
         // as new value of this node
-        node.data = toSumTree(node.left) + toSumTree(node.right);
+        root.data = toConvertingSumTree(root.left) + toConvertingSumTree(root.right);
   
         // Return the sum of values of nodes in left and right subtrees
         // and old_value of this node
-        return node.data + old_val;
+        return root.data + old;
     }
 	
 	
@@ -46,22 +47,22 @@ public class BinaryTreeToConvertingSumTree {
 		btv.refresh();
 		System.out.println();
 		System.out.println("Convert a given tree to its Sum Tree");
-		toSumTree(rootNode);
+		toConvertingSumTree(rootNode);
 		btv = new BinaryTreeView(rootNode, 400, 400);
 		btv.refresh();
 	}
 
 	public static TreeNode createBinaryTree() {
 
-		TreeNode rootNode = new TreeNode(40);
-		TreeNode node20 = new TreeNode(20);
-		TreeNode node10 = new TreeNode(10);
-		TreeNode node30 = new TreeNode(30);
-		TreeNode node60 = new TreeNode(60);
-		TreeNode node50 = new TreeNode(50);
-		TreeNode node70 = new TreeNode(70);
-		TreeNode node55 = new TreeNode(55);
-		TreeNode node5 = new TreeNode(5);
+		TreeNode rootNode = new TreeNode(20);
+		TreeNode node20 = new TreeNode(-2);
+		TreeNode node10 = new TreeNode(8);
+		TreeNode node30 = new TreeNode(-4);
+		TreeNode node60 = new TreeNode(6);
+		TreeNode node50 = new TreeNode(5);
+		TreeNode node70 = new TreeNode(7);
+		//TreeNode node55 = new TreeNode(55);
+		//TreeNode node5 = new TreeNode(5);
 
 		rootNode.left = node20;
 		rootNode.right = node60;
@@ -71,8 +72,8 @@ public class BinaryTreeToConvertingSumTree {
 
 		node60.left = node50;
 		node60.right = node70;
-		node50.right = node55;
-		node30.left = node5;
+		//node50.right = node55;
+		//node30.left = node5;
 		return rootNode;
 	}
 }

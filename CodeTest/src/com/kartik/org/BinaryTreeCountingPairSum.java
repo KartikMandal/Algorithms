@@ -57,14 +57,14 @@ public class BinaryTreeCountingPairSum {
 	static void findpairUtil(TreeNode root, int sum, Set<Integer> set) {
 		if (root == null)
 			return ;
-
-		findpairUtil(root.left, sum, set);
 		if (set.contains(sum - root.data)) {
 			System.out.println("Pair is found (" + (sum - root.data) + ", "
 					+ root.data + ")");
 		} else{
 			set.add(root.data);
 		}
+		findpairUtil(root.left, sum, set);
+		
 		findpairUtil(root.right, sum, set);
 	}
 	/**

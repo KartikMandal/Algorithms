@@ -28,26 +28,26 @@ import java.util.Vector;
 public class BinaryTreeVerticalPrint {
 
 	// prints vertical sum of binary tree
-	public static void printVertivalSumOfBinaryTree(TreeNode startNode,
+	public static void printVertivalSumOfBinaryTree(TreeNode root,
 			TreeMap<Integer, Vector<Integer>> treeNodeMap, int level) {
-		if (startNode == null) {
+		if (root == null) {
 			return;
 		}
 		// get the vector list at 'hd'
-		Vector<Integer> get = treeNodeMap.get(level);
+		Vector<Integer> vector = treeNodeMap.get(level);
 
 		// Store current node in map 'm'
-		if (get == null) {
-			get = new Vector<>();
-			get.add(startNode.data);
+		if (vector == null) {
+			vector = new Vector<>();
+			vector.add(root.data);
 		} else {
-			get.add(startNode.data);
+			vector.add(root.data);
 		}
-		treeNodeMap.put(level, get);
+		treeNodeMap.put(level, vector);
 		// Decrease level by 1 when iterating left child
-		printVertivalSumOfBinaryTree(startNode.left, treeNodeMap, level - 1);
+		printVertivalSumOfBinaryTree(root.left, treeNodeMap, level - 1);
 		// Increase level by 1 when iterating left child
-		printVertivalSumOfBinaryTree(startNode.right, treeNodeMap, level + 1);
+		printVertivalSumOfBinaryTree(root.right, treeNodeMap, level + 1);
 
 	}
 	public static void main(String[] args)

@@ -26,7 +26,7 @@ public class BinaryToGrayCodeGeneartion {
 
 	}
 /**
- * 
+ * https://www.geeksforgeeks.org/digital-logic-code-converters-binary-gray-code/
  * @param x
  * @param i
  * @return

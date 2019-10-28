@@ -24,22 +24,22 @@ public class BinaryTreePrintAllPaths {
 	 
 	
 	// Prints all paths from root to leaf
-	public static void printAllPathsRootToLeaf(TreeNode node, int[] path, int len) {
-		if ( node == null )
+	public static void printAllPathsRootToLeaf(TreeNode root, int[] path, int len) {
+		if ( root == null )
 			return;
  
 		// storing data in array
-		path[len] = node.data;
+		path[len] = root.data;
 		len++;
  
-		if(node.left == null && node.right == null) {
+		if(root.left == null && root.right == null) {
 			// leaf node is reached
 			printArray(path,len);
 			return;
 		}
  
-		printAllPathsRootToLeaf(node.left, path, len);
-		printAllPathsRootToLeaf(node.right, path, len);
+		printAllPathsRootToLeaf(root.left, path, len);
+		printAllPathsRootToLeaf(root.right, path, len);
 	}
  
 	
