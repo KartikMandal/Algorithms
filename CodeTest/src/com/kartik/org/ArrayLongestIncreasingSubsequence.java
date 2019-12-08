@@ -94,6 +94,8 @@ public class ArrayLongestIncreasingSubsequence {
 		int len = 0;
 		for (int num : nums) {
 			int i = Arrays.binarySearch(dp, 0, len, num);
+		    //  int i = Arrays.binarySearch(nums,num);
+
 			if (i < 0) {
 				i = -(i + 1);
 			}

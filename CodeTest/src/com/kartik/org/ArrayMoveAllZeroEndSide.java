@@ -46,6 +46,28 @@ public class ArrayMoveAllZeroEndSide {
 	    return a;
 	}
 	
+	/**
+	 * With best case time complexity is O(n)
+	 * @param arr
+	 * @param n
+	 * arr[]={2,0,4,0,3,0,0,7,1,10,0,8,9}
+	 * 
+	 * count	i	conditionarr[i]!=0	temp=arr[count]	arr[count]=arr[i]	arr[i]=temp
+	 * 0	 	0	2!=0				2				arr[0]=2			arr[0]=2
+	 * 1		1	0!=0													
+	 * 1		2	4!=0				0				arr[1]=4			arr[2]=0
+	 * 2		3	0!=0
+	 * 2		4	3!=0				0				arr[2]=3			arr[3]=0
+	 * 3		5	0!=0
+	 * 3		6	0!=0
+	 * 3		7	7!=0				0				arr[3]=7			arr[7]=0
+	 * 4		8	1!=0				0				arr[4]=1			arr[8]=0
+	 * 5		9	10!=0				0				arr[5]=10			arr[9]=0
+	 * 6		10	0!=0				
+	 * 6		11	8!=0				0				arr[6]=8			arr[11]=0
+	 * 7		12	9!=0				0				arr[7]=9			arr[12]=0				
+	 * 
+	 */
 	// function to move all zeroes at 
 	// the end of array 
 	static void moveZerosToEnd(int arr[], int n) { 
@@ -60,9 +82,11 @@ public class ArrayMoveAllZeroEndSide {
 	    // index 'i' 
 	    for (int i = 0; i < n; i++) { 
 	    if (arr[i] != 0) { 
+	    	//Swap start
 	        temp = arr[count]; 
 	        arr[count] = arr[i]; 
 	        arr[i] = temp; 
+	        //swap end
 	        count = count + 1; 
 	    } 
 	    } 
@@ -79,14 +103,14 @@ public class ArrayMoveAllZeroEndSide {
 	
 	public static void main(String[] args) {
 		int num[]={2,0,4,0,3,0,0,7,1,10,0,8,9};
-		for (int i : num) {
+		/*for (int i : num) {
 			System.out.print(i+" ");
 		}
 		System.out.println();
 		int a[]=moveZeroes(num);
 		for (int i : a) {
 			System.out.print(i+" ");
-		}
+		}*/
 		
 		int num1[]={2,0,4,0,3,0,0,7,1,10,0,8,9};
 		System.out.println("Original array: "); 

@@ -1,4 +1,6 @@
 package com.kartik.org;
+
+
 /**
  * https://www.geeksforgeeks.org/maximum-profit-by-buying-and-selling-a-share-at-most-twice/
  * @author kmandal
@@ -63,7 +65,10 @@ public class ArrayMaxProfitBuyAndSell {
             // b) profit by buying at price[i] and selling at 
             //    max_price 
             profit[i] = Math.max(profit[i+1], max_price-price[i]); 
+            
         } 
+        //price=[2, 30, 15, 10, 8, 25, 80]
+      //profit=[78, 72, 72, 72, 72, 55, 0]
        
         /* Get the maximum profit with two transactions allowed 
            After this loop, profit[n-1] contains the result */
@@ -73,7 +78,7 @@ public class ArrayMaxProfitBuyAndSell {
             // min_price is minimum price in price[0..i] 
             if (price[i] < min_price) 
                 min_price = price[i]; 
-       
+       //min_price=2,
             // Maximum profit is maximum of: 
             // a) previous maximum, i.e., profit[i-1] 
             // b) (Buy, Sell) at (min_price, price[i]) and add 
@@ -81,16 +86,77 @@ public class ArrayMaxProfitBuyAndSell {
             profit[i] = Math.max(profit[i-1], profit[i] + 
                                         (price[i]-min_price) ); 
         } 
+        //profit=[78, 100, 100, 100, 100, 100, 100]
         int result = profit[n-1]; 
         return result; 
     } 
   
-  
-    public static void main(String args[]) 
-    { 
-        int price[] = {2, 30, 15, 10, 8, 25, 80}; 
-        int n = price.length; 
-        System.out.println("Maximum Profit = "+ maxProfit(price, n)); 
-    } 
+    
+    
+	static BuySellInterval[] buySellIntervalArr;
+
+	public static class BuySellInterval {
+		int buy;
+		int sell;
+	}
+
+	// Returns maximum profit with two transactions on a given
+	// list of stock prices, price[0..n-1]
+	static void bestTimeBuyAndSell(int price[], int n) {
+		int count = 0;
+		// if there are no more than 1 element ie, 1 day
+		buySellIntervalArr = new BuySellInterval[n];
+		if (n == 1) {
+			return;
+		}
+
+		int i = 0;
+		// Till the end of the array
+		while (i < n - 1) {
+
+			BuySellInterval buySellInterval = new BuySellInterval();
+			// Finding the local minima
+			while ((i < n - 1) && (price[i + 1] <= price[i])) {
+				i++;
+			}
+			if (i == n - 1) {
+				break;
+			}
+			// Storing the local minima
+			buySellInterval.buy = i++;
+
+			// Finding the local maxima
+			while ((i < n) && (price[i] >= price[i - 1])) {
+				i++;
+			}
+			// Storing the local maxima
+			buySellInterval.sell = i - 1;
+
+			// storing global array
+			buySellIntervalArr[count] = buySellInterval;
+
+			count++;
+
+		}
+
+		if (count == 0) {
+			System.out
+					.println("There is no day when buying the stock will make profit");
+		} else {
+			for (int j = 0; j < count; ++j) {
+				System.out.println("Buy on day " + buySellIntervalArr[j].buy
+						+ "  sell on day " + buySellIntervalArr[j].sell);
+			}
+		}
+
+	}
+
+	public static void main(String args[]) {
+		int price[] = { 2, 30, 15, 10, 8, 25, 80 };
+		int n = price.length;
+		System.out.println("Maximum Profit = " + maxProfit(price, n));
+		int price2[] = { 100, 180, 260, 310, 40, 535, 695 };
+		bestTimeBuyAndSell(price2, price2.length);
+	}
 
 }

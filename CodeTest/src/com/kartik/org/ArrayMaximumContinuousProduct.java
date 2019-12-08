@@ -32,7 +32,7 @@ package com.kartik.org;
  */
 public class ArrayMaximumContinuousProduct {
 
-	// Find the maximum possible sum in arr[]  
+	// Find the maximum possible product in arr[]  
     // such that arr[m] is part of it 
     static int maxCrossingProduct(int arr[], int l, 
                                 int m, int h) 
@@ -57,12 +57,12 @@ public class ArrayMaximumContinuousProduct {
             right_product = product; 
         } 
   
-        // Return sum of elements on left 
+        // Return product of elements on left 
         // and right of mid 
         return left_Product * right_product; 
     } 
   
-    // Returns sum of maxium sum subarray  
+    // Returns product of maxium product subarray  
     // in aa[l..h] 
     static int maxSubArrayProduct(int arr[], int l,  
                                       int h) 
@@ -76,9 +76,9 @@ public class ArrayMaximumContinuousProduct {
   
     /* Return maximum of following three  
     possible cases: 
-    a) Maximum subarray sum in left half 
-    b) Maximum subarray sum in right half 
-    c) Maximum subarray sum such that the  
+    a) Maximum subarray product in left half 
+    b) Maximum subarray product in right half 
+    c) Maximum subarray product such that the  
     subarray crosses the midpoint */
     return Math.max(Math.max(maxSubArrayProduct(arr, l, m), 
                     maxSubArrayProduct(arr, m+1, h)), 
