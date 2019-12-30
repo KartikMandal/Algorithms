@@ -1,0 +1,52 @@
+package com.kartik.org;
+
+public class StringReverse {
+	/**
+	 * 
+	 * @param originalStr
+	 * @return
+	 */
+	private static String reverseEveryCharacter(String originalStr){
+		String words[] = originalStr.split("\\s");
+        String reversedString = "";
+ 
+        for (int i = 0; i < words.length; i++) 
+        {
+            String word = words[i];
+            String reverseWord = "";
+            for (int j = word.length() - 1; j >= 0; j--) {
+                reverseWord = reverseWord + word.charAt(j);
+            }
+            reversedString = reversedString + reverseWord + " ";
+        }
+		return reversedString;
+	}
+	
+	/**
+	 * 
+	 * @param originalStr
+	 * @return
+	 */
+	private static String reverseEveryWord(String originalStr){
+		String words[] = originalStr.split("\\s");
+        String reversedString = "";
+ 
+        //Reverse each word's position
+        for (int i = 0; i < words.length; i++) { 
+            if (i == words.length - 1) 
+                reversedString = words[i] + reversedString; 
+            else
+                reversedString = " " + words[i] + reversedString; 
+        } 
+		return reversedString;
+	}
+	
+	public static void main(String[] args) {
+		String s="I love java programming";
+		System.out.println("<----------Reverse every character------------>>");
+		System.out.println(reverseEveryCharacter(s));
+		System.out.println("<----------Reverse every word------------>>");
+		System.out.println(reverseEveryWord(s));
+	}
+
+}
