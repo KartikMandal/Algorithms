@@ -170,3 +170,63 @@ proxy--->>
             internet.connectTo("geeksforgeeks.org"); 
             internet.connectTo("abc.com"); 
         } 
+Singleton --->>>
+      class JDBCSingleton { 
+	  private static JDBCSingleton jdbc; 
+	  private JDBCSingleton() {  } 
+	  public static JDBCSingleton getInstance() {    
+                         if (jdbc==null){  
+							synchronized(JDBCSingleton.class){  
+								if (jdbc == null){  
+									jdbc=new  JDBCSingleton();    
+								  } 
+                              }  
+                   return jdbc;  
+             }
+			 
+	private static Connection getConnection()throws ClassNotFoundException, SQLException  
+          {  
+                
+              Connection con=null;  
+              Class.forName("com.mysql.jdbc.Driver");  
+              con= DriverManager.getConnection("jdbc:mysql://localhost:3306/ashwanirajput", "root", "ashwani");  
+              return con;  
+                
+          }  
+            
+ 
+          public int insert(String name, String pass) throws SQLException  
+          {  
+              Connection c=null;  
+                
+              PreparedStatement ps=null;  
+                
+              int recordCounter=0;  
+                
+              try {  
+                    
+                      c=this.getConnection();  // this is main 
+                      ps=c.prepareStatement("insert into userdata(uname,upassword)values(?,?)");  
+                      ps.setString(1, name);  
+                      ps.setString(2, pass);  
+                      recordCounter=ps.executeUpdate();  
+                        
+              } catch (Exception e) { e.printStackTrace(); } finally{  
+                    if (ps!=null){  
+                      ps.close();  
+                  }if(c!=null){  
+                      c.close();  
+                  }   
+              }  
+             return recordCounter;  
+          }
+
+
+
+Call:
+
+JDBCSingleton jdbc= JDBCSingleton.getInstance();  
+jdbc.insert(username, password);
+
+
+  
