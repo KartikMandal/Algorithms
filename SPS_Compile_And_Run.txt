@@ -1,0 +1,630 @@
+
+web.xml ----> sps-root-context.xml ---> load the mongo configuration file ---> create the mongoTemplate ---->MongoDatabaseManagerImpl.java as adding autowire, but it use for Mongo Connection and --->MongoConnectionManagerImpl.java also same but it create for mongoTemplate connection----->
+
+Rest/Soap/ysl---Sps ---> EventEmitController ---->> select topic name --> in Kafka Queue means Kafka Topic name like (perftest-sum-info-event)--->StreamProducerImpl.java ---> Process one by one Message from Kafka Queue to Mongo Db --->>>
+
+
+Zookeeper.properties (clientPort=2181)  and server.properties(zookeeper.connect=localhost:2181) inside  and  Consumer.properties(zookeeper.connect=127.0.0.1:2181)  and producer.properties(bootstrap.servers=localhost:9092) and connect-distributed.properties(bootstrap.servers=localhost:9092)  and  connect-standalone.properties(bootstrap.servers=localhost:9092)  --->>
+
+
+
+This is linux common server:
+D:\Software\MongoDb\mongodb\bin>mongo --username "app" --password "app@Strm" --authenticationDatabase "StreamPermissionService" --host 192.168.112.169 --port 27017
+
+mongo --username "app" --password "s3cr3t" --authenticationDatabase "OAUTHCLIENT" --host blr-mongodb28.corp.yodlee.com --port 27017
+
+mongo --username "app" --password "app@config123" --authenticationDatabase "configmanagement" --host 192.168.57.235 --port 27017
+
+mongo --username "senseqa" --password "senseqa@123" --authenticationDatabase "qapes" --host 192.168.57.236 --port 27017
+mongo --username "senseqa" --password "senseqa@123" --authenticationDatabase "qapes" --host 192.168.57.236 --port 27017
+
+mongo --username "app" --password "app123" --authenticationDatabase "crdlnqa" --host 192.168.57.235 --port 61017
+
+
+mongo --username "spsadmin" --password "spsadmin" --authenticationDatabase "sps" --host 192.168.6.200 --port 27017
+https://dzone.com/articles/running-apache-kafka-on-windows-os
+
+mongo --username "l1sdocser" --password "serv4l1qa!" --authenticationDatabase "l1stable" --host 192.168.57.235 --port 27017
+
+dss1.primary>show dbs
+dss1.primary>use StreamPermissionService
+dss1.primary>show collections
+dss1.primary>db.SPS_USER_PERMISSION_DATA.find({"cobrandId" : 1533109024738 , "userId" : 1234,"sumInfoId":23 })
+
+db.SPS_USER_STATS.find({"cobrandId" : 100001 })
+-------------------------------------Stop Kafka and Zookeper--------
+ps -ef | grep kafka 
+
+kill -9 procee id 
+
+ps -ef | grep zookeper 
+
+kill -9 procee id 
+
+ps -ef | grep sps 
+
+kill -9 procee id 
+
+----------------------------Zookeper and Kafka run -----------------
+1	Kafka and Zookeeper Setup:
+
+Please follow the deployment steps related to Kafka are available at 
+https://kafka.apache.org/quickstart 
+
+A>	Zookeeper Setup:
+
+1.	Download the latest binary file for zookeeper and install/extract it in Linux/Windows OS
+2.	Go to ../zookeeper-3.4.10/conf folder and rename the file zoo_sample.config to zoo.config
+3.	Change the data directory of the path if you want.
+4.	Go to ../ zookeeper-3.4.10/bin folder and execute the shell script zkServer.sh. Once you run, zookeeper will run on default port 2181
+
+B>	Kafka Setup:
+
+1.	Download the binary file for kafka and install/extract it in Linux/Windows OS
+2.	Go to ../kafka_2.10-0.10.2.1/config and edit the server.properties file, change the log directory path if you want  
+
+For setting up multi-broker cluster, make a copy the server.properties config file depends on the number of instances you wanted to run. 
+> cp config/server.properties config/server-1.properties
+> cp config/server.properties config/server-2.properties
+
+Now edit these new files and set the following properties:
+
+config/server-1.properties:
+    broker.id=1
+    listeners=PLAINTEXT://:9093
+    log.dir=/tmp/kafka-logs-1
+
+config/server-2.properties:
+    broker.id=2
+    listeners=PLAINTEXT://:9094
+    log.dir=/tmp/kafka-logs-2
+
+3.	Go to ../ kafka_2.10-0.10.2.1/bin folder and execute the shell script like below,
+$ ./kafka-server-start.sh ../config/server.properties. 
+
+4.	Once you run, Kafka will run on default port 9092. 
+
+
+C>	Create a topic in Kafka	
+
+1.	Use the below command,
+
+$ ./kafka-topics.sh --create --zookeeper localhost: 2181 --replication-factor 1 --partitions 1 --topic test
+
+For multi-broker cluster, change the number for replication factor option depends on the number of instances you are running. 
+
+2.	You can see the topics which you created using the below command,
+
+$ ./kafka-topics.sh –list --zookeeper localhost: 2181	
+
+
+
+
+
+cd /opt/ctier/softwares/kafka_2.11-0.10.2.0/bin
+
+zookeeper run:
+
+./zookeeper-server-start.sh ../config/zookeeper.properties &
+
+kafka run:
+./kafka-server-start.sh ../config/server.properties &
+
+SPS Run: 
+nohup sh standalone.sh &
+
+do unzip any war or jar using:
+jar -xvf sps.war
+
+do remove a file:
+rm -r nohup.out
+
+where url is http://192.168.57.64:8180/sps/
+
+192.168.56.30 ctier/ctier
+
+------------------------------------------------
+
+D:\Software\MongoDb\mongodb\bin>
+
+For replica setup:
+mkdir \data\rs11 \data\rs12 \data\rs13 \data\rs21 \data\rs22 \data\rs23 \data\rs31 \data\rs32 \data\rs33 \data\cfgsvr1 \data\cfgsvr2 \data\cfgsvr3 \data\cfg1 \data\cfg2 \data\cfg3
+mongod --configsvr --logpath D:\data\cfgsvr1\1.log --dbpath D:\data\cfgsvr1 --port 27018
+mongod --replSet envest --logpath D:\data\rs11\1.log --dbpath D:\data\rs11 --port 28017 --smallfiles --oplogSize 64
+
+mongod --replSet envest --logpath D:\data\rs12\1.log --dbpath D:\data\rs12 --port 28018 --smallfiles --oplogSize 64
+
+mongod --replSet envest --logpath D:\data\rs13\1.log --dbpath D:\data\rs13 --port 28019 --smallfiles --oplogSize 64
+
+mongod --configsvr --logpath D:\data\cfgsvr1\1.log --dbpath D:\data\cfgsvr1 --bind_ip 192.168.65.251 --port 27018
+mongod --replSet envest --logpath D:\data\rs11\1.log --dbpath D:\data\rs11 --bind_ip 192.168.65.251 --port 28017 --smallfiles --oplogSize 64
+
+mongod --replSet envest --logpath D:\data\rs12\1.log --dbpath D:\data\rs12 --bind_ip 192.168.65.251 --port 28018 --smallfiles --oplogSize 64
+
+mongod --replSet envest --logpath D:\data\rs13\1.log --dbpath D:\data\rs13 --bind_ip 192.168.65.251 --port 28019 --smallfiles --oplogSize 64
+
+mongo --port 28017
+	rs.initiate()
+	//enter key button press
+	rs.add("IN-L1155:28018")
+	rs.add("IN-L1155:28019")
+	rs.config()
+	rs.status()
+>use StreamPermissionService
+>db.createUser({user:"app",pwd:"app@Strm",roles:[{role:"readWrite",db:"StreamPermissionService"}]});
+
+>db.createCollection("SPS_COBRAND_PERMISSION_DATA")
+>db.createCollection("SPS_USER_PERMISSION_DATA")
+>db.createCollection("SPS_PERMISSION_DATA_USAGE")
+>db.createCollection("SPS_PERMISSION_DATA_AUDIT")
+>db.createCollection("SPS_COBRAND_STATS")
+>db.createCollection("SPS_COBRAND_STATS_HIST")
+>db.createCollection("SPS_USER_STATS")
+>db.createCollection("SPS_USER_STATS_HIST")
+>db.createCollection("SPS_COBRAND_CONFIG")
+>db.createCollection("SPS_COBRAND_CONFIG_AUDIT")
+>db.createCollection("SPS_ADMIN_AUTH_CONFIG")
+>db.createCollection("SPS_COBRAND_LOGIN_STATS")
+>db.createCollection("SPS_COBRAND_EVENT_STATS")
+>db.createCollection("SPS_COBRAND_EVENT_PERMISSION_DATA")
+>db.createCollection("SPS_COBRAND_NOTIFICATION_CONFIG_DATA")
+
+>show collections
+
+> use admin
+switched to db admin
+> db.system.users.find()
+
+>use StreamPermissionService
+>db.SPS_COBRAND_EVENT_STATS.find()
+>db.SPS_COBRAND_EVENT_PERMISSION_DATA.find()
+
+>db.SPS_ADMIN_AUTH_CONFIG.insert(
+   { "authToken" : "d6433991ba55259dc01d021c73b482f4aa3c52c2", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+>db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "335fb6cc03b59625c9cf40d2eb839bb8942cffdf", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+>db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "92922efd0e517ff9df36aa878646b5198b5415cd", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+>db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "5848d77f325544176d1e63f98b8a7289fec84190", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+>db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "0db90fe11dbf8ce5670f4304e6f43283ed420377", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+>db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "f8eb3e492831b2aedbab8016c53a42df6e68eb35", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+>db.SPS_ADMIN_AUTH_CONFIG.remove({authToken:'82871b00-7f97-41ab-98dd-3aa710677973'})
+
+https://kafka.apache.org/quickstart   -- for kafka and zookeper start
+
+
+db.SPS_COBRAND_CONFIG.insert(
+   {"cobrandId" : NumberLong(10019752), "configKey" : "JSON_RETRY_INTERVAL", "configValue" : "1", "lastUpdated" : ISODate("2019-02-04T09:45:39.018Z") }}
+   
+db.SPS_COBRAND_CONFIG.insert({"cobrandId" : NumberLong(10019752), "configKey" : "JSON_NOTIFICATION_ENABLED", "configValue" : "0", "lastUpdated" : ISODate("2019-02-04T09:45:39.018Z") })
+	
+For shard setup:
+mkdir \data\rs11 \data\rs12 \data\rs13 \data\rs21 \data\rs22 \data\rs23 \data\rs31 \data\rs32 \data\rs33 \data\cfgsvr1 \data\cfgsvr2 \data\cfgsvr3 \data\cfg1 \data\cfg2 \data\cfg3
+
+mongod --configsvr --logpath D:\data\cfgsvr1\1.log --dbpath D:\data\cfgsvr1 --port 27018
+
+mongod --configsvr --logpath D:\data\cfgsvr2\1.log --dbpath D:\data\cfgsvr2 --port 27019
+
+mongod --configsvr --logpath D:\data\cfgsvr3\1.log --dbpath D:\data\cfgsvr3 --port 27020
+
+mongod --shardsvr --replSet envest --logpath \data\rs11\1.log --dbpath \data\rs11 --port 28017 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet envest --logpath \data\rs12\1.log --dbpath \data\rs12 --port 28018 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet envest --logpath \data\rs13\1.log --dbpath \data\rs13 --port 28019 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet net --logpath \data\rs21\1.log --dbpath \data\rs21 --port 28020 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet net --logpath \data\rs22\1.log --dbpath \data\rs22 --port 28021 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet net --logpath \data\rs23\1.log --dbpath \data\rs23 --port 28022 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet yodlee --logpath \data\rs31\1.log --dbpath \data\rs31 --port 28023 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet yodlee --logpath \data\rs32\1.log --dbpath \data\rs32 --port 28024 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet yodlee --logpath \data\rs33\1.log --dbpath \data\rs33 --port 28025 --smallfiles --oplogSize 64
+
+mongo --port 28017
+	rs.initiate()
+	//enter key button press
+	rs.add("IN-L1155:28018")
+	rs.add("IN-L1155:28019")
+	rs.config()
+	rs.status()
+
+
+mongo --port 28020
+	rs.initiate()
+	//enter key button press
+	rs.add("IN-L1155:28021")
+	rs.add("IN-L1155:28022")
+	rs.config()
+	rs.status()
+
+mongo --port 28023
+	rs.initiate()
+	//enter key button press
+	rs.add("IN-L1155:28024")
+	rs.add("IN-L1155:28025")
+	rs.config()
+	rs.status()
+
+mongos --configdb IN-L1155:27018,IN-L1155:27019,IN-L1155:27020 --chunkSize 10
+
+
+mongo
+	sh.addShard("envest/IN-L1155:28017")
+	sh.addShard("net/IN-L1155:28020")
+	sh.addShard("yodlee/IN-L1155:28023")
+	
+>sh.status()
+	
+>show dbs
+>use StreamPermissionService
+>db.createUser({user:"app",pwd:"app@Strm",roles:[{role:"readWrite",db:"StreamPermissionService"}]});
+
+>db.createUser({user:"docstorage",pwd:"app@docstorage",roles:[{role:"readWrite",db:"tl1stable"}]});
+
+>db.createCollection("SPS_PERMISSION_DATA_USAGE")
+>db.createCollection("SPS_PERMISSION_DATA_AUDIT")
+>db.createCollection("SPS_COBRAND_CONFIG")
+>db.createCollection("SPS_COBRAND_CONFIG_AUDIT")
+>db.createCollection("SPS_ADMIN_AUTH_CONFIG")
+>db.createCollection("SPS_COBRAND_NOTIFICATION_CONFIG_DATA")
+
+>db.createCollection("SPS_COBRAND_LOGIN_STATS")
+>db.createCollection("SPS_COBRAND_EVENT_STATS")
+>db.createCollection("SPS_COBRAND_EVENT_PERMISSION_DATA")
+>db.createCollection("SPS_COBRAND_STATS")
+>db.createCollection("SPS_COBRAND_STATS_HIST")
+>db.createCollection("SPS_COBRAND_PERMISSION_DATA")
+
+>db.createCollection("SPS_USER_STATS")
+>db.createCollection("SPS_USER_STATS_HIST")
+>db.createCollection("SPS_USER_PERMISSION_DATA")
+	
+>show collections
+
+> use admin
+switched to db admin
+> db.system.users.find()
+
+>use StreamPermissionService
+>db.SPS_COBRAND_EVENT_STATS.find()
+	
+	
+	
+	use docstorage
+	
+	for(i=0;i<=10;i++){db.cobrand_config.insert({_id:i,key : "com.yodlee.cobrand.ingrian_key_name_"+i, cobrandId : "300"+i,value : "account_credentials_300_v2"})}
+	
+	db.cobrand_config.find().pretty()
+	
+	
+	
+	
+	for(i=11;i<=60000;i++){db.cobrand_config.insert({_id:i,key : "com.yodlee.cobrand.ingrian_key_name_"+i, cobrandId : "300"+i,value : "account_credentials_300_v2"})}
+	
+	show collections
+	
+	sh.enableSharding("docstorage");        //this is enable sharding of total schema
+	
+	sh.shardCollection("docstorage.cobrand_config",{_id:1},true)   //this _id of mybooks table have shard key true is unique valueof shard key
+	
+	sh.status()
+	
+	db.cobrand_config.stats()
+	
+	db.cobrand_config.find({_id:10000})
+	
+	db.cobrand_config.find({_id:1})
+	
+	db.cobrand_config.find({_id:10000}).explain()        //this is search by with shard key
+	
+	db.cobrand_config.find({key:"com.yodlee.cobrand.ingrian_key_name_10000"}).explain()   //this is search by without shard key
+	
+	
+>use docstorage
+switched to db docstorage
+> db.createUser({user:"docstorage",pwd:"docstorage",roles:[{role:"readWrite",db:"docstorage"}]});
+Successfully added user: {
+        "user" : "docstorage",
+        "roles" : [
+                {
+                        "role" : "readWrite",
+                        "db" : "docstorage"
+                }
+        ]
+}
+
+> show collections;
+> show collections;
+> use admin
+switched to db admin
+> db.system.users.find();
+
+After then you can see the MongoDb Credential
+
+
+
+How to take thread dump from linux?
+
+1>Goto in linux jboss bin
+2>run your component like sps
+3>Search your program running or not using below command
+4>ps -ef | grep sps
+5>Get PID from linux after search
+6>Check the cpu utilization using below any one command
+7>vmstat 1 
+8>top -p 123456 H
+where 123456 is pid of this component
+9>Now look into the command prompt and see the "id" column in command prompt if it near to 100 then cpu ideal time is good
+10>Now take the thread dump below command
+11>goto /opt/ctier folder
+using cd
+12>using like: /opt/ctier/softwares/jdk1.8.0_05/bin/jstack -l 20563 > log.txt
+where 20563 is pid in side jdk1.8.0_05 and log.txt is the thread dump file.
+13>Copy this file from root folder from /opt/ctier/log.txt
+14>open this file and see the log
+or 
+15>open this url http://fastthread.io
+16>upload log.txt file
+17>see the result
+18>Done
+
+
+https://seopressor.com/blog/how-to-increase-domain-authority/ ---domain authority 
+https://seopressor.com/blog/how-to-increase-page-authority/ --- page authority
+
+
+....................................
+C:\Program Files\MongoDB\Server\3.2\bin>mongo.exe
+MongoDB shell version: 3.2.8
+connecting to: test
+> use admin
+switched to db admin
+>create user
+
+>db.createUser(
+  {
+    user: "kartik",
+    pwd: "kartik123",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+>db.createUser({
+  user: "docstorage",
+  pwd: "app@docstorage",
+  roles: [
+	{ role: "readWrite", db: "docstorage" },
+   "readWrite"
+  ]
+}) 
+> show dbs
+admin  0.000GB
+local  0.000GB
+> show collections
+system.users
+system.version
+> db.system.users.find()
+{ "_id" : "docstorage.docstorage", "user" : "docstorage", "db" : "docstorage", "credentials" : { "SCRAM-SHA-1" : { "iterationCount" : 10000, "salt" : "bE3t5NGHBWX8bxMyQURjSA==", "storedKey" : "XKktzGuytPXgjOS5SLs7FG91XUw=", "serverKey" : "08xMqOTz15hbPrh1yIs+NzECE0A=" } }, "roles" : [ { "role" : "readWrite", "db" : "docstorage" } ] }
+{ "_id" : "ebil.ebil", "user" : "ebil", "db" : "ebil", "credentials" : { "SCRAM-SHA-1" : { "iterationCount" : 10000, "salt" : "g2vMLfrFrzwvpkX1qSDZPg==", "storedKey" : "SnbOwO5PRaIqIOcB9rw3ukfNT4A=", "serverKey" : "hG8XwEqlnDoGZQ3nwlZC9uEjK9k=" } }, "roles" : [ { "role" : "readWrite", "db" : "ebil" } ] }
+
+
+drop user 
+>db.dropUser("docstorage");
+
+...................................................................................
+
+
+
+
+For replica setup:
+mkdir \data_kcm\rs11 \data_kcm\rs12 \data_kcm\rs13 \data_kcm\rs21 \data_kcm\rs22 \data_kcm\rs23 \data_kcm\rs31 \data_kcm\rs32 \data_kcm\rs33 \data_kcm\cfgsvr1 \data_kcm\cfgsvr2 \data_kcm\cfgsvr3 \data_kcm\cfg1 \data_kcm\cfg2 \data_kcm\cfg3
+mongod --configsvr --logpath D:\data_kcm\cfgsvr1\1.log --dbpath D:\data_kcm\cfgsvr1 --bind_ip 192.168.65.251 --port 27018
+mongod --replSet envest --logpath D:\data_kcm\rs11\1.log --dbpath D:\data_kcm\rs11 --bind_ip 192.168.65.251 --port 28017 --smallfiles --oplogSize 64
+
+mongod --replSet envest --logpath D:\data_kcm\rs12\1.log --dbpath D:\data_kcm\rs12 --bind_ip 192.168.65.251 --port 28018 --smallfiles --oplogSize 64
+
+mongod --replSet envest --logpath D:\data_kcm\rs13\1.log --dbpath D:\data_kcm\rs13 --bind_ip 192.168.65.251 --port 28019 --smallfiles --oplogSize 64
+
+mongo --host 192.168.65.251 --port 28017
+	rs.initiate()
+	//enter key button press
+	rs.add("192.168.65.251:28018")
+	rs.add("IN-L1155:28019")
+	rs.config()
+	rs.status()
+>use StreamPermissionService
+>db.createUser({user:"app",pwd:"app@Strm",roles:[{role:"readWrite",db:"StreamPermissionService"}]});
+
+
+db.runCommand({ createRole: "appRole",
+     privileges: [
+       { resource: { db: "StreamPermissionService", collection: "" }, actions: [ "find", "update", "insert", "remove" ,"createCollection", "createIndex" ,"convertToCapped"] },
+       { resource: { db: "StreamPermissionService", collection: "system.indexes" },
+                actions: [ "find" ] },
+       { resource: { db: "StreamPermissionService", collection: "system.namespaces" },
+                actions: [ "find" ]
+       }
+       ],
+     roles: []
+})
+
+
+db.runCommand({ createRole: "readRole",
+     privileges: [
+       { resource: { db: "StreamPermissionService", collection: "" }, actions: [ "find" ] },
+       { resource: { db: "StreamPermissionService", collection: "system.indexes" },
+                       actions: [ "find" ] },
+              { resource: { db: "StreamPermissionService", collection: "system.namespaces" },
+                       actions: [ "find" ]
+       }
+     ],
+     roles: []
+})
+
+
+db.createUser({ user:"app", pwd:"app@Strm", roles:["appRole"]})
+db.createUser({ user:"read", pwd:"read123", roles:["readRole"] })
+
+--For mongoDB replica cluster
+db.grantRolesToUser("app", [ { role: "executeFunctions", db: "admin" } ],{ w: 1 , wtimeout: 4000 }) 
+
+--For Single instance
+db.grantRolesToUser("app", [ { role: "executeFunctions", db: "admin" } ])
+
+
+
+db.createCollection("SPS_COBRAND_PERMISSION_DATA")
+db.createCollection("SPS_USER_PERMISSION_DATA")
+db.createCollection("SPS_PERMISSION_DATA_USAGE")
+db.createCollection("SPS_PERMISSION_DATA_AUDIT")
+db.createCollection("SPS_COBRAND_STATS")
+db.createCollection("SPS_COBRAND_STATS_HIST")
+db.createCollection("SPS_USER_STATS")
+db.createCollection("SPS_USER_STATS_HIST")
+db.createCollection("SPS_COBRAND_CONFIG")
+db.createCollection("SPS_COBRAND_CONFIG_AUDIT")
+db.createCollection("SPS_ADMIN_AUTH_CONFIG")
+db.createCollection("SPS_COBRAND_LOGIN_STATS")
+db.createCollection("SPS_COBRAND_EVENT_STATS")
+db.createCollection("SPS_COBRAND_EVENT_PERMISSION_DATA")
+db.createCollection("SPS_COBRAND_NOTIFICATION_CONFIG_DATA")
+db.createCollection("SPS_USER_EVENT_STATS")
+
+>show collections
+
+> use admin
+switched to db admin
+> db.system.users.find()
+
+>use StreamPermissionService
+>db.SPS_COBRAND_EVENT_STATS.find()
+>db.SPS_COBRAND_EVENT_PERMISSION_DATA.find()
+
+db.SPS_ADMIN_AUTH_CONFIG.insert(
+   { "authToken" : "d6433991ba55259dc01d021c73b482f4aa3c52c2", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "335fb6cc03b59625c9cf40d2eb839bb8942cffdf", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "92922efd0e517ff9df36aa878646b5198b5415cd", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "5848d77f325544176d1e63f98b8a7289fec84190", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "0db90fe11dbf8ce5670f4304e6f43283ed420377", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+db.SPS_ADMIN_AUTH_CONFIG.insert(
+   {"authToken" : "f8eb3e492831b2aedbab8016c53a42df6e68eb35", created: ISODate("2019-02-10T10:50:42.389Z"), lastUpdated: ISODate("2019-02-10T10:50:42.389Z")}
+)
+
+
+
+@echo on
+
+Setlocal EnableDelayedExpansion
+
+set LIB_PATH=..\lib
+
+echo %LIB_PATH%
+
+set CLASSES_PATH=%LIB_PATH%\*
+
+java -cp ..\..\mongodbinstaller-1.0.jar;%CLASSES_PATH% -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,address=8889,suspend=n -Dyodlee.key_store_location=D:\\ com.yodlee.mongo.installer.MongoDBInstaller -componentName mongoservice -keyStorePasswd yodlee123 -user app -pwd app@Strm -db StreamPermissionService -host 192.168.65.251 -port 28017 -auth SCRAM-SHA-1 %*
+
+
+
+
+db.runCommand({ createRole: "appRole",
+     privileges: [
+       { resource: { db: "Stream", collection: "" }, actions: [ "find", "update", "insert", "remove" ,"createCollection", "createIndex" ,"convertToCapped"] },
+       { resource: { db: "Stream", collection: "system.indexes" },
+                actions: [ "find" ] },
+       { resource: { db: "StreamP", collection: "system.namespaces" },
+                actions: [ "find" ]
+       }
+       ],
+     roles: []
+})
+
+
+db.runCommand({ createRole: "readRole",
+     privileges: [
+       { resource: { db: "Stream", collection: "" }, actions: [ "find" ] },
+       { resource: { db: "Stream", collection: "system.indexes" },
+                       actions: [ "find" ] },
+              { resource: { db: "Stream", collection: "system.namespaces" },
+                       actions: [ "find" ]
+       }
+     ],
+     roles: []
+})
+
+
+db.createUser({ user:"app", pwd:"app@Strm", roles:["readRole"] ,mechanisms="MONGO_CR"})
+
+
+> show dbs
+admin  0.000GB
+local  0.000GB
+> show collections
+system.users
+system.version
+> db.system.users.find()
+{ "_id" : "docstorage.docstorage", "user" : "docstorage", "db" : "docstorage", "credentials" : { "SCRAM-SHA-1" : { "iterationCount" : 10000, "salt" : "bE3t5NGHBWX8bxMyQURjSA==", "storedKey" : "XKktzGuytPXgjOS5SLs7FG91XUw=", "serverKey" : "08xMqOTz15hbPrh1yIs+NzECE0A=" } }, "roles" : [ { "role" : "readWrite", "db" : "docstorage" } ] }
+{ "_id" : "ebil.ebil", "user" : "ebil", "db" : "ebil", "credentials" : { "SCRAM-SHA-1" : { "iterationCount" : 10000, "salt" : "g2vMLfrFrzwvpkX1qSDZPg==", "storedKey" : "SnbOwO5PRaIqIOcB9rw3ukfNT4A=", "serverKey" : "hG8XwEqlnDoGZQ3nwlZC9uEjK9k=" } }, "roles" : [ { "role" : "readWrite", "db" : "ebil" } ] }
+
+
+drop user 
+>db.dropUser("docstorage");
+
+
+
+==============================
+mongo --username "app" --password "app@Strm" --authenticationDatabase "StreamPermissionService" --host 192.168.112.169 --port 27017 
+
+mongo --username "app" --password "app@config123" --authenticationDatabase "configmanagement" --host 192.168.57.235 --port 27017 
+
+
+mongo --username "l1stagging" --password "serv4l1qa!" --authenticationDatabase "tl1stable" --host 192.168.57.236 --port 27017
+
+
+mongo --username "app" --password "app@123" --authenticationDatabase "tl1stable" --host 192.168.114.228 --port 27017
+
+
+
+Step 1>Create A Project give the example SKV.war
+Step 2>put in some virtual machine like 192.168.57.66
+Step 3>Run this program in java application or jboss 
+Step 4>see the jboss configuration like: java -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y
+Step 5>Now goto that virtual machine using below command
+Step 6>login ssh username@ip
+Step 7>see the java version:java -version
+step 8>see the java path:which java
+step 9>goto java path and see the jdb version using: jdb -version
+step 10>jdb attach remote debug port no example:jdb attach 8787
+Step 11>Now put the debug point on your class on line number basic
+Step 12>stop at com.kartik.tutorial.Blogger:25  (command like: stop at packageName.ClassName:line number)
+Syntax
+The following command sets up a breakpoint at a particular line number:
+> stop at <class name>:<Line no>
+The following command sets up a breakpoint on a particular method or on a particular variable:
+> stop in <class name>:< Method name | Variable name>
+step 13>same activity of step 12 to do for other debug point place
+step 14>now trigger the api and see the debug it working:
+Step 15>Thanks for your time spent :)

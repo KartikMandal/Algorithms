@@ -1,0 +1,51 @@
+http://codeomitted.com/deploy-war-file-to-docker-image/ --->
+https://www.youtube.com/watch?v=6rGMvws--kk
+https://runnable.com/docker/java/dockerize-your-java-application
+https://puppet.com/docs/pipelines-for-apps/team/docker-tomcat-war.html
+https://www.jetbrains.com/help/idea/deploying-a-web-app-into-an-app-server-container.html
+
+First Create a war or jar file using spring boot
+-->run in tomcat 
+-->Add DockerFile -->
+
+
+---->For jboss and other file setting also there
+
+from centos:7
+LABEL Maintainer="Build Ops TEAM"
+RUN mkdir /opt/sdp \
+    && mkdir /opt/jboss-10.1.0 \
+    && mkdir /opt/newrelic \
+    && mkdir /opt/jdk1.8.0_152
+COPY java/ /opt/
+COPY jdk1.8.0_152/ /opt/jdk1.8.0_152/
+COPY jboss-10.1.0/ /opt/jboss-10.1.0/
+RUN ln -s /opt/jboss-10.1.0 /opt/jboss
+COPY newrelic/ /opt/newrelic/
+RUN mkdir /var/config \
+    && mkdir -p /opt/jboss/standalone/deployments/alertengine.war \
+    && mkdir -p /opt/sdp/config \
+    && mkdir -p  /opt/yodlee/security
+
+COPY ingriankeystore_k250_stage /opt/yodlee/security
+COPY ingrianpnckeystore_stage /opt/yodlee/security
+COPY yodleeKeystore /opt/yodlee/security
+COPY alertengine.war/ /opt/jboss/standalone/deployments/alertengine.war
+
+RUN chmod -R 755 /var/config \
+    && chmod -R 755 /opt \
+    && touch /opt/jboss/standalone/deployments/alertengine.war.dodeploy 
+
+ENV JBOSS_HOME /opt/jboss
+ENV JAVA_HOME /opt/jre1.8.0_152
+ENV PATH $PATH:$JAVA_HOME/bin:$JBOSS_HOME/bin
+
+EXPOSE 8080
+EXPOSE 8443
+EXPOSE 7110
+
+WORKDIR /opt/jboss/
+
+CMD ["/bin/sh" , "/opt/jboss/bin/standalone.sh"]
+
+

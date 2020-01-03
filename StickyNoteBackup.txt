@@ -1,0 +1,1096 @@
+﻿
+spring project
+
+violetuml-editor-2.1.0.jar also same things can do  for Sequence diagram
+https://sp.corp.yodlee.com/hr/hrblr/Policies%20and%20Procedures/Forms/AllItems.aspx  --- for yodlee corp
+Perforce --password is perforce
+https://www3.v1host.com/YodleeInc/Account.mvc/LogIn 
+version one -- userid kmandal and password Yodlee@123
+bugzilla userid kmandal and password is Arsenic@123
+--------------------------------proplams--------------------------------------------------------
+uerid -->kmandal
+CentryFyi Password :Monster@123
+CentryFyi Passcode :560066 + token number
+------------------------------------------------------------------------------------------------
+for y.comdb Production Sqlplus
+------------------------------------------------------------- 
+user id is read@exayod
+password is redwoods
+
+
+
+Enclosed: Repayment instruction 
+
+910235810
+
+###################################################################################
+How to import platform or npr platform project 
+
+Create a java project and inside give the path of ur download project see and done
+-----------------------------------------------------------------------------------
+
+set DIST_ORM_PATH=maindb
+set CORE_CODE_VERSION=main
+set razor_core_version=main
+set core_version=main
+export DIST_ORM_PATH=maindb
+export CORE_CODE_VERSION=main
+export razor_core_version=main
+export core_version=main
+set DIST_ORM_PATH=devdb
+set CORE_CODE_VERSION=new.product.release
+set razor_core_version=new.product.release
+set core_version=new.product.release 
+export DIST_ORM_PATH=devdb
+export CORE_CODE_VERSION=new.product.release
+export razor_core_version=new.product.release
+export core_version=new.product.release 
+------------------------------------------------------------------------------------
+
+cd
+set DIST_ORM_PATH=devdb
+ant
+ant -f package.xml
+ant -f build-rmi.xml
+new window --- > ant –f build-rmi.xml rmiregistry
+set DIST_ORM_PATH=devdb
+new window --->  ant –f build-rmi.xml run
+
+
+for Project alert Test
+set DIST_ORM_PATH=devdb
+ant -f build-alert.xml && ant -f package.xml alert_jar props_jar && ant -f package-alert.xml 
+
+or 
+
+build procedure
+-------------------
+set DIST_ORM_PATH=devdb
+>ant
+>ant -f package.xml
+>ant -f build-alert.xml
+>ant -f package-alert.xml
+
+D:\Perforce\kartik_manadal\razor\core\new.product.release\build\alert\bin
+
+JUnit Test case run
+D:\Perforce\kartik_manadal\razor\core\new.product.release\tests\UnitTest\TestNG
+set DIST_ORM_PATH=devdb
+before run change build.xml file inside TestNG
+
+line no 192
+          <xmlfileset dir="./TestCase/SDK/suite" includes="**/PIIFiling.xml"/> 
+			<!--<xmlfileset dir="./TestCase/SDK/suite" includes="**/*.xml"/>
+			<xmlfileset dir="./TestScenario/suite" includes="**/*.xml"/>
+			<xmlfileset dir="./TestCase/reportsuite" includes="**/*.xml"/>
+			<xmlfileset dir="./TestScenario/reportsuite" includes="**/*.xml"/> -->
+
+ant run-tests
+
+D:\Perforce\kartik_manadal\razor\core\new.product.release\tests\UnitTest\TestNG\build.properties  change   app_mode= RMI
+ant run-tests
+
+D:\Perforce\kartik_manadal\razor\core\new.product.release\properties\com\yodlee\ops\Config.properties  
+config.machine.id = IN-L1155 line no 19
+
+D:\Perforce\kartik_manadal\razor\core\new.product.release\src\alert\com\yodlee\alert\internal\RuleManager.java
+loadAlertRulePfilesForSegments(); comment this method line no 137
+
+ps -ef |grep java
+kill -9 $PID
+
+For start alert engine
+D:\Perforce\kartik_manadal\razor\core\new.product.release\build\alert\bin>startalertengine.bat
+
+startalertengine.bat
+
+
+memid form test case  = ***  == ============
+
+
+
+select * from mem_alert_setup where cob_alert_setup_id=12486 and mem_id =910175060;
+
+select * from mem_Alert_schedule where mem_Alert_setup_id= 11343536; 
+
+update mem_alert_schedule set next_trigger_time = '0' ,lock_ind=0 ,lock_time=0, is_active = 1, end_date = sysdate where mem_alert_setup_id= 11343536;
+
+select * from DISPATCH_REQUEST where mem_id =910175060;
+
+
+UPDATE dispatch_request
+SET dispatch_status_id = 1,
+current_retry_count = 0,
+lock_ind = 0,
+lock_time = 0,
+expiry_time = sysdate+7
+WHERE mem_id = 910175010
+and cob_alert_setup_id=11019
+.................................
+
+
+ant -f build-alert.xml
+ant -f package-alert.xml
+
+
+cd
+set DIST_ORM_PATH=devdb
+ant
+ant -f package.xml
+ant -f build-rmi.xml
+new window --- > ant –f build-rmi.xml rmiregistry
+set DIST_ORM_PATH=devdb
+new window --->  ant –f build-rmi.xml run
+For DC is 
+ant sdkhandler && ant -f package.xml package_sdkhandler
+ant -f build-dc.xml && ant -f package.xml dc_jar && ant -f package-dc.xml
+
+
+set DIST_ORM_PATH=maindb
+set CORE_CODE_VERSION=main
+set razor_core_version=main
+set core_version=main
+export DIST_ORM_PATH=maindb
+export CORE_CODE_VERSION=main
+export razor_core_version=main
+export core_version=main
+set DIST_ORM_PATH=devdb
+set CORE_CODE_VERSION=platform
+set razor_core_version=platform
+set core_version=platform
+export DIST_ORM_PATH=devdb
+export CORE_CODE_VERSION=platform
+export razor_core_version=platform
+export core_version=platform
+
+
+
+Note : remove Clean dependency from package-soap-rest-combobuild.xml
+
+ant -f build-services.xml clean create_services create_services_testNG
+ant -f package-soap-rest-combobuild.xml package
+....................^^^^^^^^^^^^^...................
+
+ p4 -u ajada sync //razor/appsplatform/new.product.release/...
+
+ p4 -u ajada sync -f //razor/core/new.product.release/...
+  
+ p4 -u ajada sync -f //razor/external/...
+   
+ p4 -u ajada sync -f //dist/devdb/...
+   
+   
+ant  -f -versbose
+
+3008676
+29
+
+#############################Yodlee Internal####################################################
+
+https://192.168.210.77:1443/project/errorlogin.php  shelved build
+after shelved build set up jar file path --> 192.168.84.168 username installer password installer
+
+192.168.211.247
+installer/installer
+/opt/build/release/newproductrelease_branch
+
+
+http://192.168.210.138:9090/jenkins/job/new.product.release_build/1207/console   jenkins build
+ 
+
+\\blr-bkpmedia\kartik
+
+
+perforce password perforce
+
+configuration tool of Yodlee project:
+http://192.168.211.155:8200/configtool/changeValue.do  
+
+---------------------------------------------------------------
+https://www.ess.adp.in/ESS4/default.aspx   --- for pf and document submit 
+yodlee
+3478
+Monster@123
+--------------------------------------------------------------
+--------------------UAN No ------------------
+100887500693
+pass:Monster@123
+
+---------------------------------------------
+
+Yodlee Bloger:
+http://engg.corp.yodlee.com/blog/
+
+Vivekanand Bayana: 
+http://in-hpelinux30v5.corp.yodlee.com:8100/wiki1/Wiki.jsp?page=FreshersZone  
+
+\\blr-fs\departmental\software
+
+
+Common Platform Enumeration  (CPE)
+
+https://www.ysofters.com/2015/12/01/owasp-dependency-check-at-ysoft/
+
+Jar File CVSS Score Test
+https://auditor.support.envestnet.cloud/assets/index.html#/reports/violations 
+user name:open_source_test_yodlee
+password:devcheck123#
+
+Now top panel -->organisation and policy --->select actions on write side -->evaluate binary -->now select your jar file -->select release ---> done
+
+
+
+cd
+D:\KM\razor\core\platform\ant
+set DIST_ORM_PATH=devdb
+ant
+ant –f package.xml
+ant –f build-rmi.xml
+new window --- > ant –f build-rmi.xml rmiregistry
+set DIST_ORM_PATH=devdb
+new window --->  ant –f build-rmi.xml run
+
+for Project alert Test
+set DIST_ORM_PATH=devdb
+ant -f build-alert.xml && ant -f package.xml alert_jar props_jar && ant -f package-alert.xml 
+
+D:\KM\razor\core\platform\build\alert\bin
+
+JUnit Test case run
+D:\Perforce\kartik_manadal\razor\core\new.product.release\tests\UnitTest\TestNG
+set DIST_ORM_PATH=devdb
+before run change build.xml file inside TestNG
+<xmlfileset dir="./TestCase/SDK/suite" includes="**/PIIFiling.xml"/> 
+			<!--<xmlfileset dir="./TestCase/SDK/suite" includes="**/*.xml"/>
+			<xmlfileset dir="./TestScenario/suite" includes="**/*.xml"/>
+			<xmlfileset dir="./TestCase/reportsuite" includes="**/*.xml"/>
+			<xmlfileset dir="./TestScenario/reportsuite" includes="**/*.xml"/>-->
+
+ant run-tests
+
+Linux PC Connect
+192.168.57.66
+ctier
+ctier
+/opt/ctier/p4f/razor/core/platform/src 
+grep -nr "Base64Variant\|WriterBasedGenerator\|JsonGetter\|Name1\|ByteArrayBuilder\|StreamBasedParserBase\|JsonGenerator\|JsonReadContext\|JsonParserBase" . > /opt/ctier/analyzejars/jarname2.txtexit
+
+Client 
+http://in-hpelinux30v5.corp.yodlee.com:8100/wiki1/Wiki.jsp?page=RMI%20Client
+
+VM of Khashim
+192.168.57.73     ctier/sbVm78#byee
+
+
+Mem_tigger
+dispatch_request
+
+
+
+
+[‎13-‎07-‎2016 13:09] Vivekanand Bayana: 
+http://in-hpelinux30v5.corp.yodlee.com:8100/wiki1/Wiki.jsp?page=FreshersZone  
+
+Common Platform Enumeration  (CPE)
+
+https://www.ysofters.com/2015/12/01/owasp-dependency-check-at-ysoft/
+
+Linux PC Connect
+192.168.57.66
+ctier
+ctier
+/opt/ctier/p4f/razor/core/platform/src 
+grep -nr "Base64Variant\|WriterBasedGenerator\|JsonGetter\|Name1\|ByteArrayBuilder\|StreamBasedParserBase\|JsonGenerator\|JsonReadContext\|JsonParserBase" . > /opt/ctier/analyzejars/jarname2.txtexit
+
+Client 
+http://in-hpelinux30v5.corp.yodlee.com:8100/wiki1/Wiki.jsp?page=RMI%20Client
+
+
+
+
+xss cross site scripting
+<% String eid=request.getParameter("eid");%>
+Employee Id: <%=eid%>
+http://url/app/perform.action?eid=kartik   this fine no issue
+
+http://url/app/perform.action?eid=kartik<script>alert(1)</script> then what happens?
+
+response is like 
+<html>
+.....
+Employee Id: kartik<script>alert(1)</script>
+...
+</html>
+
+
+XXE(Xml external entity)injections
+usge below code to attack 
+<?xml version ="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE foo [
+<!ELEMENT foo ANY>
+<!ELEMENT xxe SYSTEM "file:///etc/password">]>
+<Reset>&xxe;</Rest>
+or like 
+<?xml version ="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE foo [
+<!ELEMENT foo ANY>
+<!ELEMENT xxe SYSTEM "file:///etc/password">]>
+<login>&xxe;</login>
+
+Example:
+Using burp or fidler:
+
+copy and pest and send the request using fidler and see the response then it is call xxe attack
+
+
+
+
+
+
+
+
+
+\\blr-fs\departmental\software
+
+....
+English
+https://www.youtube.com/watch?v=fg19eSr7FRM    --->>>>Advanced Actual English Speaking 1  
+https://www.youtube.com/watch?v=tzpCifJ5hu8    --->>>Grammar of English
+http://stackoverflow.com/questions/10043878/difference-between-string-valueofint-string-operator-and-integer-tostrin
+
+I'm Kartik
+I'm Kartik but My friends call me KCM
+Please call me KCM
+My name is Kartik Chandra Mandal but I go by KCM.
+
+Where are you from?
+I'm from Paschim Medinipur
+I grew up / was raised in Saharda, Paschim Medinipur 
+I'm orginally from Bangalore but I've lived in Saharda, Paschim Medinipur since 2008/I was 24
+I was born in Saharda,Paschim Medinipur, but Bangalore feels like home to me.
+
+Can I Ask you rather bengali quetsion?
+How old are you?
+I just turned 30
+I'm turning 30 and it's fantastic! or wonderful
+I'm in my early/ mid/ late 30's
+If you don't mind, I prefer not to say.
+I'm over 30/50 but still I feel  child / young at heart
+You know, I've lost track of my age.
+
+My major was Computer Science Engineering
+Computer Science Engineering was my major
+I focused my studies/major in CSE 
+I started with Physic but finished with Computer Science Engineering
+
+Which one of those majors reflect in your career or jobs?
+I'm kind of Scientist of heart, but I do computer work.
+I work for ABC company
+I'm a Software engineer at ABC company
+I've always wanted to become an Scientist.
+I've been preparing to work in the ABC industry.
+
+Are you married?
+I'm happily married/ Single / Divorced / separated
+My daughter/ son is 1 years old / in kg school
+
+I'm single and ready to settle down
+I'm single and plan to stay single
+For now there's nobody to get married to, but I'm married to my carrier.
+
+
+PFM login Information
+.............................
+https://finapp.l1mmhtmlmc.corp.yodlee.com/authenticate/finapp/nodemm/10003643/
+testbudget55
+Yodlee@123
+10003700
+https://money.yodlee.com/finapp/10003700/?brand=10000004&id=10003700&appId=40RCE222A42161A3FF450E47CF4C1A00&channelId=-1&version=1003.16&status=published&c=csit_key:Eqv/qrpWwGa1khut0p5DgYi2Dgc=&finappCDNURL=&resturl=https%3A%2F%2Fmoney.rest.yodlee.com%2Fservices%2Fsrest%2Fpfm3&l=&userId&11818217&segmentId&10000000&capp&pfm3
+Site Account Error:
+.....................
+This two table 
+mem_site_account (Exist Data)
+cache_info (not Exist Data)
+
+
+http://192.168.211.247:9090/jenkins/job/CITPLTTestNG/
+http://intranet.corp.yodlee.com/platform/v1docs/Projects/Platform/Build&Release/BuildNotes/platform/PD_CLNotes_platform.Build.2201.html  -- for build note
+
+0776010200158
+
+7019182092 --->>
+----------------------D portal -----------------------------------------------------------------
+http://192.168.211.52:1234/Dportal/#
+
+-------------------------End -------------------------------------------------------------------
+http://contribute.geeksforgeeks.org/?p=255022&preview=true   -- this is my portal
+http://www.geeksforgeeks.org/dynamic-programming/
+http://practice.geeksforgeeks.org/company/Google/?ref=taocp   -- this is google and amazon interview code
+https://www.youtube.com/watch?v=0fKg7e37bQE   --for github
+http://www.programering.com/a/MTMyETMwATk.html   --for real ip address 
+http://www.gitspot.com/2012/02/java-code-to-get-mac-address-from.html
+https://datahq.co.uk/knowledge-centre/blog/top-10-considerations-when-choosing-a-database-management-system    -- for choosing database
+http://www.tutorialsteacher.com/angularjs/angularjs-tutorials -- angular js
+https://github.com/indy256/Full-stack-Developer-Interview-Questions-and-Answers --full stack developer
+
+https://stackoverflow.com/questions/22738023/data-structure-of-the-periodic-table-of-elements    ---vvvi
+https://github.com/Anon10W1z/PeriodicTable/blob/master/src/main/java/io/github/anon10w1z/periodictable/PeriodicTableFrame.java
+
+https://www.businessinsider.in/The-50-best-paying-big-companies-according-to-employees/No-48-ZipRecruiter/slideshow/61887016.cms   ---for list of company
+
+---------------------------------OCTA-----------------------------------------------------
+http://desktopsso/IWA/
+
+
+--------------------------------------Folk ----------------------------------------------
+https://folklore.yodlee.com/hris/login.do;jsessionid=DBB3948DF3A5AEBAD5851C5D4861C8A9
+
+------------------------------------- ADP ------------------------------------------------
+Company Code: yodlee
+user name :3478
+password:Monster@123
+https://www.ess.adp.in/ESS4/default.aspx?ReturnUrl=%2fESS4%2fAllUsers%2fDefault.aspx    --> adp portal login
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+https://dumbledore.yodlee.com    --- for dumbledore
+  -->After login 
+   -->Click Generate Reports
+     Give the data like Click Environment give Stage/Production
+	                    Click Data centre All/SC9 ....
+						Click Report Type Process report
+						And give your name
+						Search
+	After generating report
+	  Go to View generated reports-->See that your search result is here -->click on process --> goto Click "Advance Features" on right side above
+	  -->Select your component -->Like Alert -->click on Alert -->Click on "Log Summary" on Particular Co-brand Group -->Open pop up --> And give the Date as proper-->After then count the log 
+	
+
+dumbledore plus
+http://rti.corp.yodlee.com:3200/
+-->after login -->click process summary on right side -->>select cobrand group like (SC9)--> click sc9 -->select component like (Alert) as a filetr wise ---> scan this log -->> done	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+FOR OTC 
+
+https://otc.yodlee.com/
+-->After Login --->cobrand -->search cobrand name --> like equifax -->get the cobrand number -->
+
+After click in drop down list  -->SOT --> select data center --> search cobrand id -->get database name
+
+10008004   ---> Equifax  -->sdbcae05
+
+sqlplus
+-->
+So user name in sql is read@sdbcae05
+password is redwoods
+
+
+
+Db Query:
+----------------------------------------------------------------------------------------------
+set numwidth 15
+set linesize 500
+set pagesize 2000
+COLUMN  DISPATCH_HOUR format a30;
+COLUMN  cob format a30;
+select dr.cobrand_id,dr.dispatch_type_id, b.name as cob,
+to_char(new_time(epoch_to_date(DISPATCH_TIME),'GMT','PDT'),'MM-DD-YYYY HH24') as DISPATCH_HOUR,
+count(decode(dr.dispatch_status_id,1,1)) as InQueue,
+count(decode(dr.dispatch_status_id,2,1)) as InProgress,
+count(decode(dr.dispatch_status_id,3,1)) as Success,
+count(decode(dr.dispatch_status_id,4,1)) as Failure
+from dispatch_request dr, cobrand b
+where dr.DISPATCH_TIME >= to_epoch(trunc(sysdate-1))   -- every 15 minutes
+and dr.dispatch_status_id in (1,2,3,4)
+and b.cobrand_id=dr.cobrand_id
+and dr.dispatch_type_id not in (5)
+and dr.cobrand_id in (10003360)
+group by dr.cobrand_id,dr.dispatch_type_id,b.name,to_char(new_time(epoch_to_date(DISPATCH_TIME),'GMT','PDT'),'MM-DD-YYYY HH24')
+order by to_char(new_time(epoch_to_date(DISPATCH_TIME),'GMT','PDT'),'MM-DD-YYYY HH24');
+
+goto box 
+login to ip
+Example:
+ssh 172.17.80.166
+
+zgrep -c '500' logfile.ALERTS_
+
+Example:
+zgrep -c 'bad_certificate' logfile.ALERTS_14_172.17.80.166.log.2018-01-2*
+
+how to copy a .zp file to other location in same machine
+cp logfile.ALERTS_14_172.17.80.166.log.2018-01-2.log.zp /tmp
+
+How to unzip this file
+Go to the tmp location cd tmp
+gunzip logfile.ALERTS_14_172.17.80.166.log.2018-01-2.log.zp
+
+How to open this file
+
+rvi logfile.ALERTS_14_172.17.80.166.log.2018-01-2.log
+
+or 
+tail -f logfile.CORE_21_192.168.211.52.log
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Board meeting information:
+
+India      1-800-3010-6145               
+Attendee Code: 59444523 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+How to change the java path in linux
+https://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/
+
+go to etc folder after use vi ~/.bash_profile command
+[ctier@blr-enggdev-22 etc]$ vi ~/.bash_profile
+Open vi editor in linux 
+.................................................................................
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+#PATH=$PATH:$HOME/bin
+
+#export PATH
+
+# User specific environment and startup programs
+
+export PATH=${PATH}:${HOME}/bin
+export P4CONFIG=.p4config
+#export JAVA_HOME=/opt/ctier/Softwares/java-1.6.0-openjdk-1.6.0.0.x86_64
+export JAVA_HOME=/opt/ctier/Softwares/Java/jdk1.8.0_05
+#export JAVA_HOME=/opt/sdp/java/jre1.8.0_152
+PATH=$PATH:$HOME/bin:/sbin:/opt/ctier/Softwares/Ant1.9.4/bin:$JAVA_HOME/bin:
+export PATH
+export DIST_ORM_PATH=devdb
+
+export JAVA_HOME=/opt/ctier/softwares/jdk1.8.0_05
+
+....................................................................................
+
+How to save the file:
+Esc --> :wq enter
+
+------------------------------------------------------------------------------------------------------
+All project base path 
+C:\Users\kmandal\workspace  this is path for all old code execute
+
+-----------------------------------------------------------------------------------------------------
+https://javabeat.net/jpa-lazy-eager-loading/
+Shrikanta Bhowmik
+A/C: 32937423946
+SBI -->Haur
+
+--------------------------
+Punjab Bank
+A/C 2773001700063747
+Name Urna Mondal
+IFC code PUNB0277300
+
+https://dzone.com/articles/properly-getting-into-jail-counting-inmates-and-ot  --->>>for many to one mapping in hibernate
+
+
+-------------------------------------YSL Side -----------------------------------------
+swagger Information:
+http://192.168.112.159:8480/ysl/#!/accounts/deleteAccountDetail
+ymc/yodlee_10000004/yodlee123
+tert/TEST@123
+
+Site creation
+https://dag2.yodlee.com/dag/dhaction.do 
+
+User name: Kartik123.site16441.2/Kartik123.site16441.1/Kartik123.site16442.1/Kartik123.site16442.2/Kartik123.site16445.1
+Password: site16441.2/site16441.1/site16442.1/site16442.2/site16445.1/..../site18769.1/site18769.2/site16487.2/site16487.1/site16486.1/site16486.2
+
+Post Man Information
+
+
+
+Debug port and URL and credential for login
+7102
+http://192.168.112.159:8480/ysl 
+yodlee_10000004/yodlee123
+
+192.168.211.52 and port 7120
+
+ProviderAccounts --> Post-->Add account:
+
+{
+ "loginForm": {
+  "row": [{
+    "field": [{
+     "id": 65499,
+     "value": "Kartik123.site16441.2"
+    }]
+   },
+   {
+    "field": [{
+     "id": 65500,
+     "value": "site16441.2"
+    }]
+   }
+  ]
+ }
+}
+
+Provider Id is Site id like 16441/16442/16445 etc...
+
+
+After Success --> get provider Account id from response -->Example (like "id": 2257168 in json)--> copy this provider account id -->
+ 
+
+ProviderAccounts --> Get --> Get Provider Account Details ---> pass the provider account id and search -->
+
+Get the account id from  provider account id
+Accounts -->get --> Get Accounts --> pass the provider account id -->search --> like ("id": 2340690) --> copy this id -->
+
+Accounts -->get  -->  Delete Account --> pass the account id which is copy 
+
+Now add again same account and the the result is stuck
+
+------------------------------End--------------------------------------------------------
+
+https://envestnet.okta.com/app/UserHome   --->okta or jobvite
+
+--------------------End------------------------------------------------------------------
+
+https://www.tutorialspoint.com/jenkins/jenkins_setup_build_jobs.htm    --for Jenkins doc
+
+----------------------------------End-------------------------------------------------------
+
+http://intranet.corp.yodlee.com/platform/v1docs/Projects/Platform/Build&Release/BuildNotes/platform/?C=M;O=A   --- get latest build number
+
+--------------------------------SR request or Service request  process------------------------------------------------------------
+
+
+SR request :
+First Goto -->YSO tracker -->http://172.18.25.162:2080/YOC/Tracker/Deployment_Tracker/calendar/main.php
+user id: kmandal
+Password:Monster@123
+
+After login -->add hot fixed request --> give environment details -->give cobrand name or give all -->select legends as Engineer -->give reseaon of hotfixed like code -->Give LTT number as Random 4 digit like 1234 -->Bugid -->cateogory as pending -->give email number -->Save
+
+
+Go to Service now -->Submit service request -->Operation catalog -->Engineering Team -->HotFix -->Select environment -->hotfixed tracker id is LTT number  what u mention in YSO -->Submitter team as Engineer --> give the proper description like 
+
+1>Bug 992158 - Getting ORA-00936 in DC instances.
+
+ORA-00936: missing expression. Nullpointer exception handling for datapurge api .
+
+Hot-Fix Details:
+Jar name: yodcore.jar
+Component : Rest,DC,SDK
+Path: \com\yodlee\internal\persistence\accessor\tags\TagAccessorUtil.class
+
+
+For All cobrand.
+
+After attached approve mail of Tester and Attached .class file
+
+
+After then submit.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+--------------------------------For SPS-------------------------------------------------------
+
+
+D:\Software\MongoDb\mongodb\bin>mongo --username "app" --password "app@Strm" --authenticationDatabase "StreamPermissionService" --host 192.168.112.170 --port 27017
+dss1.primary>show dbs
+dss1.primary>use StreamPermissionService
+dss1.primary>show collections
+dss1.primary>db.SPS_USER_PERMISSION_DATA.find({"cobrandId" : 1533109024738 , "userId" : 1234,"sumInfoId":23 })
+
+db.SPS_USER_STATS.find({"cobrandId" : 100001 })
+
+
+cd /opt/ctier/softwares/kafka_2.11-0.10.2.0/bin
+
+zookeeper run:
+
+./zookeeper-server-start.sh ../config/zookeeper.properties &
+
+kafka run:
+./kafka-server-start.sh ../config/server.properties &
+
+SPS Run:
+
+where url is http://192.168.57.64:8180/sps/
+
+
+-----------------------------SPS More information -------------------------------------
+This is linux common server:
+D:\Software\MongoDb\mongodb\bin>mongo --username "app" --password "app@Strm" --authenticationDatabase "StreamPermissionService" --host 192.168.112.169 --port 27017
+
+
+mongo --username "wealth" --password "wealth123" --authenticationDatabase "Wealth" --host 192.168.226.200 --port 27017
+
+dss1.primary>show dbs
+dss1.primary>use StreamPermissionService
+dss1.primary>show collections
+dss1.primary>db.SPS_USER_PERMISSION_DATA.find({"cobrandId" : 1533109024738 , "userId" : 1234,"sumInfoId":23 })
+
+db.SPS_USER_STATS.find({"cobrandId" : 100001 })
+--------Stop Kafka and Zookeper---
+ps -ef | grep kafka 
+
+kill -9 procee id 
+
+ps -ef | grep zookeper 
+
+kill -9 procee id 
+
+ps -ef | grep sps 
+
+kill -9 procee id 
+
+-----Zookeper and Kafka run -------
+
+
+cd /opt/ctier/softwares/kafka_2.11-0.10.2.0/bin
+
+zookeeper run:
+
+./zookeeper-server-start.sh ../config/zookeeper.properties &
+
+kafka run:
+./kafka-server-start.sh ../config/server.properties &
+
+SPS Run:
+
+where url is http://192.168.57.64:8180/sps/
+
+--------------------------------
+
+D:\Software\MongoDb\mongodb\bin>
+
+For replica setup:
+mkdir \data\rs11 \data\rs12 \data\rs13 \data\rs21 \data\rs22 \data\rs23 \data\rs31 \data\rs32 \data\rs33 \data\cfgsvr1 \data\cfgsvr2 \data\cfgsvr3 \data\cfg1 \data\cfg2 \data\cfg3
+mongod --configsvr --logpath D:\data\cfgsvr1\1.log --dbpath D:\data\cfgsvr1 --port 27018
+mongod --replSet envest --logpath D:\data\rs11\1.log --dbpath D:\data\rs11 --port 28017 --smallfiles --oplogSize 64
+
+mongod --replSet envest --logpath D:\data\rs12\1.log --dbpath D:\data\rs12 --port 28018 --smallfiles --oplogSize 64
+
+mongod --replSet envest --logpath D:\data\rs13\1.log --dbpath D:\data\rs13 --port 28019 --smallfiles --oplogSize 64
+
+mongo --port 28017
+	rs.initiate()
+	//enter key button press
+	rs.add("IN-L1155:28018")
+	rs.add("IN-L1155:28019")
+	rs.config()
+	rs.status()
+>use StreamPermissionService
+>db.createUser({user:"app",pwd:"app@Strm",roles:[{role:"readWrite",db:"StreamPermissionService"}]});
+
+>db.createCollection("SPS_COBRAND_PERMISSION_DATA")
+>db.createCollection("SPS_USER_PERMISSION_DATA")
+>db.createCollection("SPS_PERMISSION_DATA_USAGE")
+>db.createCollection("SPS_PERMISSION_DATA_AUDIT")
+>db.createCollection("SPS_COBRAND_STATS")
+>db.createCollection("SPS_COBRAND_STATS_HIST")
+>db.createCollection("SPS_USER_STATS")
+>db.createCollection("SPS_USER_STATS_HIST")
+>db.createCollection("SPS_COBRAND_CONFIG")
+>db.createCollection("SPS_COBRAND_CONFIG_AUDIT")
+>db.createCollection("SPS_ADMIN_AUTH_CONFIG")
+>db.createCollection("SPS_COBRAND_LOGIN_STATS")
+>db.createCollection("SPS_COBRAND_EVENT_STATS")
+>db.createCollection("SPS_COBRAND_EVENT_PERMISSION_DATA")
+>db.createCollection("SPS_COBRAND_NOTIFICATION_CONFIG_DATA")
+
+>show collections
+
+> use admin
+switched to db admin
+> db.system.users.find()
+
+>use StreamPermissionService
+>db.SPS_COBRAND_EVENT_STATS.find()
+
+
+
+https://kafka.apache.org/quickstart   -- for kafka and zookeper start
+
+	
+For shard setup:
+mkdir \data\rs11 \data\rs12 \data\rs13 \data\rs21 \data\rs22 \data\rs23 \data\rs31 \data\rs32 \data\rs33 \data\cfgsvr1 \data\cfgsvr2 \data\cfgsvr3 \data\cfg1 \data\cfg2 \data\cfg3
+
+mongod --configsvr --logpath D:\data\cfgsvr1\1.log --dbpath D:\data\cfgsvr1 --port 27018
+
+mongod --configsvr --logpath D:\data\cfgsvr2\1.log --dbpath D:\data\cfgsvr2 --port 27019
+
+mongod --configsvr --logpath D:\data\cfgsvr3\1.log --dbpath D:\data\cfgsvr3 --port 27020
+
+mongod --shardsvr --replSet envest --logpath \data\rs11\1.log --dbpath \data\rs11 --port 28017 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet envest --logpath \data\rs12\1.log --dbpath \data\rs12 --port 28018 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet envest --logpath \data\rs13\1.log --dbpath \data\rs13 --port 28019 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet net --logpath \data\rs21\1.log --dbpath \data\rs21 --port 28020 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet net --logpath \data\rs22\1.log --dbpath \data\rs22 --port 28021 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet net --logpath \data\rs23\1.log --dbpath \data\rs23 --port 28022 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet yodlee --logpath \data\rs31\1.log --dbpath \data\rs31 --port 28023 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet yodlee --logpath \data\rs32\1.log --dbpath \data\rs32 --port 28024 --smallfiles --oplogSize 64
+
+mongod --shardsvr --replSet yodlee --logpath \data\rs33\1.log --dbpath \data\rs33 --port 28025 --smallfiles --oplogSize 64
+
+mongo --port 28017
+	rs.initiate()
+	//enter key button press
+	rs.add("IN-L1155:28018")
+	rs.add("IN-L1155:28019")
+	rs.config()
+	rs.status()
+
+
+mongo --port 28020
+	rs.initiate()
+	//enter key button press
+	rs.add("IN-L1155:28021")
+	rs.add("IN-L1155:28022")
+	rs.config()
+	rs.status()
+
+mongo --port 28023
+	rs.initiate()
+	//enter key button press
+	rs.add("IN-L1155:28024")
+	rs.add("IN-L1155:28025")
+	rs.config()
+	rs.status()
+
+mongos --configdb IN-L1155:27018,IN-L1155:27019,IN-L1155:27020 --chunkSize 10
+
+
+mongo
+	sh.addShard("envest/IN-L1155:28017")
+	sh.addShard("net/IN-L1155:28020")
+	sh.addShard("yodlee/IN-L1155:28023")
+	
+>sh.status()
+	
+>show dbs
+>use StreamPermissionService
+>db.createUser({user:"app",pwd:"app@Strm",roles:[{role:"readWrite",db:"StreamPermissionService"}]});
+
+>db.createCollection("SPS_COBRAND_PERMISSION_DATA")
+>db.createCollection("SPS_USER_PERMISSION_DATA")
+>db.createCollection("SPS_PERMISSION_DATA_USAGE")
+>db.createCollection("SPS_PERMISSION_DATA_AUDIT")
+>db.createCollection("SPS_COBRAND_STATS")
+>db.createCollection("SPS_COBRAND_STATS_HIST")
+>db.createCollection("SPS_USER_STATS")
+>db.createCollection("SPS_USER_STATS_HIST")
+>db.createCollection("SPS_COBRAND_CONFIG")
+>db.createCollection("SPS_COBRAND_CONFIG_AUDIT")
+>db.createCollection("SPS_ADMIN_AUTH_CONFIG")
+>db.createCollection("SPS_COBRAND_LOGIN_STATS")
+>db.createCollection("SPS_COBRAND_EVENT_STATS")
+>db.createCollection("SPS_COBRAND_EVENT_PERMISSION_DATA")
+>db.createCollection("SPS_COBRAND_NOTIFICATION_CONFIG_DATA")
+	
+	
+>show collections
+
+> use admin
+switched to db admin
+> db.system.users.find()
+
+>use StreamPermissionService
+>db.SPS_COBRAND_EVENT_STATS.find()
+
+
+------------------------------Jboss 10 configuration-----------------------------------
+ <!--<interfaces>
+        <interface name="public">
+            <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+        </interface>
+    </interfaces>-->
+<interfaces>
+        <interface name="management">
+            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+        </interface>
+        <interface name="public">
+            <inet-address value="${jboss.bind.address:192.168.57.64}"/>
+        </interface>
+        <interface name="unsecure">
+            <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
+        </interface>
+    </interfaces>
+
+
+    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:100}">
+        <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
+        <socket-binding name="http" port="${jboss.http.port:8080}"/>
+        <socket-binding name="https" port="${jboss.https.port:8443}"/>
+        <socket-binding name="txn-recovery-environment" port="4712"/>
+        <socket-binding name="txn-status-manager" port="4713"/>
+        <outbound-socket-binding name="mail-smtp">
+            <remote-destination host="localhost" port="25"/>
+        </outbound-socket-binding>
+    </socket-binding-group>
+	
+	
+----------------------------------End-----------------------------------------
+-----------------------Start For gate data base-------------------------
+http://172.18.25.162:2080/YOC/Tracker/software_inventory/proddb.php
+user name kmandal
+password Arsenic@123
+
+
+
+
+
+----------------------------How to merge one CL from platform to npr-------------------------
+First Step --> Perforce ---> See the CL number who checkin ---> Search --->go to ---> put Cl number --->get user -->kmandal
+Second Step ---> Perforce -->Submitted tab click --> User name as kmandal ---> see the submitted CL number --->click on this and merge and integrated 
+-->Change the folder name like Platform to New.product.release -->new CL--->Done
+Third Step --> Perforce -->Pending list tab --->See the Folder list --> Now one by one or multiple select do the resolved -->Create shelved -->Done
+
+
+
+
+----------------------------------------------------------------------------------------------
+index=be_core source=*alert*
+
+
+index=be_core host=0*alerts*prod* *HTTP response code: 403*  -- to verify the ssl code error
+index=fe_core host=0*alerts*prod* *Exception*   -- to verify core logs
+index=fe_core host=0*alerts*prod.us* *Exception*  --- for specific datacenter – SC9
+index=fe_server host=0*alerts*prod* *Exception*  -- to verify server logs
+index=jvm host=0*alerts*prod* *Exception* to verify jvm logs
+index=be_core host=0*alerts*prod* *Exception*
+index="fe_core" host="*alerts-wkr*" source="*CGnine*" |stats count by host
+index=be_core host=0*alerts*prod* *java.io.IOException*  
+index=be_core host="0*alerts*prod*" source="*CGSixteen*" *memory* |stats count by host 
+
+
+index=*  "Exception" | rex ".*?(?<exception>(?:\w+\.)+\w*?Exception).*" | stats count by index |sort -count
+index=*  "Exception" | rex ".*?(?<exception>(?:\w+\.)+\w*?Exception).*" | stats count by exception |sort -count
+
+index=be_core (source="*IDCCG1*" OR source="*IDCCG2*" OR source="*CG2*" OR source="*CG3*" OR source="*CG14*" OR source="*Merrillynch*" OR source="*DevXPre-Prod*" OR source="*DevXProd*" OR source="*RBC*" OR source="*CITI*" OR source="*12XCG*") | rex ".*?(?<exception>(?:\w+\.)+\w*?Exception).*" | stats count by exception |sort -count
+
+
+Sorting to exception type wise:
+--------------------------------------------
+index=be_core (source="*CGNine*" OR source="*CG5*" OR source="*NedBank12xCG*" OR source="*YodleeDemoSite*" OR source="*UKPRODCG*" OR source="*UKPRODFICG*" OR source="*UKPRODFICG3*" OR source="*UKPRODFICG4*" OR source="*UKYIPRODCG*" OR source="*UKYIPRODCG2*" OR source="*AUDCCG1*" OR source="*AUDCFICG1*" OR source="*AUDCCG2*" OR source="*AUSDCCG3*" OR source="*IDCCG1*" OR source="*IDCCG2*" OR source="*CG2*" OR source="*CG3*" OR source="*CG14*" OR source="*YodCredit*" OR source="*ML*" OR source="*DevXPre-Prod*" OR source="*DevXProd*" OR source="*RBC*") | rex ".*?(?<exception>(?:\w+\.)+\w*?Exception).*" | stats count by exception |sort -count
+
+
+
+index=be* (host="0*Alerts*prod*" OR host="0*DBFILER*prod*" OR host="0*DC*prod*" OR host="0*REST*prod*") AND (source="*AUDCCG1*" OR source="*AUDCFICG1*" OR source="*AUDCCG2*" OR source="*AUSDCCG3*" OR source="*IDCCG1*" OR source="*IDCCG2*" OR source="*NedBank12xCG*" OR source="*CGNine*" OR source="*YodleeDemoSite*" OR source="*CGFourteen*" OR source="*RBCDedicatedCG*" OR source="*CGTwentySeven*" OR source="*CG3*")  *exception* |stats count by host 
+
+
+
+index=be* (host="0*Alerts*stage*" OR host="0*DBFILER*stage*" OR host="0*DC*stage*" OR host="0*REST*stage*") *exception* |stats count by host
+
+
+index=be* (host="0*Alerts*stage*") *exception* |stats count by host
+---------------------Splunk Access----------------------------------
+epalanisamy
+July2019
+https://docs.splunk.com/Documentation/Splunk/7.2.6/SearchTutorial/Usefieldstosearch
+-------------------------------------------------------------------
+
+
+------------------------How to connect production box using ip address----------------------
+ssh 172.17.80.63
+Centrify password
+
+cd /opt/sdp/jboss-10.1.0/
+
+copy .gz file from current folder to temp folder
+cp server.logs.gz /tmp/
+now goto temp folder
+cd /tmp
+now do the unzip of gz file 
+gunzip server.logs.gz
+Open the logs file now
+vi server.logs
+
+--------------------------------------Nexus url ------------------------------------------------------
+http://192.168.210.73:8081/nexus/content/groups/public/com/yodlee/nextgen/requestgeneration-dev/2.0.13/   
+
+
+
+db.auth( {
+   user: "docstorage",
+   pwd: "app@docstorage",
+   mechanism: "SCRAM-SHA-1",
+   digestPassword: <boolean>
+} )
+
+==============================================MongoDbInstaller=========================================
+@echo off
+
+Setlocal EnableDelayedExpansion
+
+set LIB_PATH=..\lib
+
+SET CLASSES_PATH=
+
+
+set CLASSES_PATH=%LIB_PATH%\*
+echo CLASSES_PATH
+
+java -cp ..\..\mongodbinstaller-1.0.jar;%CLASSES_PATH% -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,address=8889,suspend=n -DmongodbInstaller_configpath=D:\\Kartik\\masterKeyConfiguration.properties -Dyodlee.key_store_location=D:\\ com.yodlee.mongo.installer.MongoDBInstaller -componentName configmanagement -keyStorePasswd yodlee123 -user app -pwd app@Strm -db StreamPermissionService -host 192.168.112.168 -port 27017 -auth MONGODB-CR -replicaSetName dss1 -connectTimeoutMS 30000%*
+
+
+========================================End============================================================
+
+
+
+
+
+
+https://howtodoinjava.com/java-concurrency-tutorial/
+
+How to get any url SSL lab test report:
+https://www.ssllabs.com/ssltest/
+
+and pass the https url and see the result
+
+https://www.ssllabs.com/ssltest/analyze.html?d=origin-affiliate-st2.test.tiaa-cref.org   
+
+
+mongo --username "app" --password "app123" --authenticationDatabase "crdlnqa" --host 192.168.56.235 --port 61017
+
+
+
+==================
+jdk path:
+Environment Variable:
+JAVA_HOME=D:\Software\java\jdk1.8.0_05
+path=D:\Software\java\jdk1.8.0_05\bin
+JAVA_OPTS=-Xms768m -Xmx768m
+ANT_OPTS=-XX:MetaspaceSize=3072m
+
+System Path:
+JAVA_HOME=D:\Software\java\jdk1.8.0_05
+path=D:\Software\java\jdk1.8.0_05\bin
+MAVEN_OPTS=-Xms256m -Xmx1024m -Xss1024k
+
+open jdk path:
+==================
+ENVIRONMENT Variable:
+JAVA_HOME=D:\Software\java\OpenJDK232\openjdk-8u232-b09
+path:D:\Software\java\OpenJDK232\openjdk-8u232-b09\bin
+System Path:
+JAVA_HOME=D:\Software\java\OpenJDK232\openjdk-8u232-b09
+path:D:\Software\java\OpenJDK232\openjdk-8u232-b09\bin
+MAVEN_OPTS=-Xms256m -Xmx1024m -Xss1024k   --->delete MAVEN_OPTS
