@@ -25,6 +25,7 @@ Abstract Factory:--->
 			create every interface have more implementation class
 			create abstract another one factory interface which hold of other two or more interface
 			create implementation of abstract factory which like every method have same implementation of factory
+			https://www.baeldung.com/java-abstract-factory-pattern
 				   
 Adapter -->
 		public class BankCustomer extends BankDetails implements CreditCard{
@@ -188,8 +189,8 @@ Singleton --->>>
           {  
                 
               Connection con=null;  
-              Class.forName("com.mysql.jdbc.Driver");  
-              con= DriverManager.getConnection("jdbc:mysql://localhost:3306/ashwanirajput", "root", "ashwani");  
+              Class.forName("oracle.jdbc.driver.OracleDriver");  
+              con= DriverManager.getConnection("jdbc:oracle:thin:@192.168.114.52:1521:indqa15", "kartik", "kartik");  
               return con;  
                 
           }  
