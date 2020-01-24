@@ -152,19 +152,19 @@ public class LinkedListSortSinglePass {
             {  
                 zero.next = curr;  
                 zero = zero.next;  
-                curr = curr.next;  
+                curr = curr.next;  //increment
             } 
             else if (curr.data == 1)  
             {  
                 one.next = curr;  
                 one = one.next;  
-                curr = curr.next;  
+                curr = curr.next; //increment 
             }  
             else 
             {  
                 two.next = curr;  
                 two = two.next;  
-                curr = curr.next;  
+                curr = curr.next;  //increment
             }  
         } 
         // Attach three lists  

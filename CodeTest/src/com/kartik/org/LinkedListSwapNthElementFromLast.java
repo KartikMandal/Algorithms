@@ -1,5 +1,37 @@
 package com.kartik.org;
+/**
+ * 
+ * @author kmandal
+ * 
+ *<pre>
+Original Linked List: 1 2 3 4 5 6 7 8
 
+Modified List for k = 1
+8 2 3 4 5 6 7 1
+
+Modified List for k = 2
+8 7 3 4 5 6 2 1
+
+Modified List for k = 3
+8 7 6 4 5 3 2 1
+
+Modified List for k = 4
+8 7 6 5 4 3 2 1
+
+Modified List for k = 5
+8 7 6 4 5 3 2 1
+
+Modified List for k = 6
+8 7 3 4 5 6 2 1
+
+Modified List for k = 7
+8 2 3 4 5 6 7 1
+
+Modified List for k = 8
+1 2 3 4 5 6 7 8
+</pre>
+ *
+ */
 public class LinkedListSwapNthElementFromLast {
 
 	private static Node head;

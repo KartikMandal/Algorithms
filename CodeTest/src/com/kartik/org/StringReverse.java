@@ -6,20 +6,11 @@ public class StringReverse {
 	 * @param originalStr
 	 * @return
 	 */
-	private static String reverseEveryCharacter(String originalStr){
-		String words[] = originalStr.split("\\s");
-        String reversedString = "";
- 
-        for (int i = 0; i < words.length; i++) 
-        {
-            String word = words[i];
-            String reverseWord = "";
-            for (int j = word.length() - 1; j >= 0; j--) {
-                reverseWord = reverseWord + word.charAt(j);
-            }
-            reversedString = reversedString + reverseWord + " ";
-        }
-		return reversedString;
+	private static String reverseEveryCharacter(String str){
+		if (str.isEmpty())
+            return str;
+        //Calling Function Recursively
+        return reverseEveryCharacter(str.substring(1)) + str.charAt(0);
 	}
 	
 	/**
