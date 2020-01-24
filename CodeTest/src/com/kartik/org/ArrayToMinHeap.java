@@ -1,5 +1,9 @@
 package com.kartik.org;
-
+/**
+ * This is give you one business information like do the sorting and remove the minimum element every time
+ * @author kmandal
+ *
+ */
 public class ArrayToMinHeap {
 
 	private int[] Heap; 
@@ -144,6 +148,7 @@ public class ArrayToMinHeap {
         minHeap.insert(6); 
         minHeap.insert(22); 
         minHeap.insert(9); 
+        minHeap.insert(5);
         minHeap.minHeap(); 
   
         minHeap.print(); 

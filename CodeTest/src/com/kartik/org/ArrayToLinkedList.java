@@ -22,8 +22,9 @@ public class ArrayToLinkedList {
 	    else 
 	    { 
 	        ptr = root; 
-	        while (ptr.next != null) 
+	        while (ptr.next != null) {
 	            ptr = ptr.next; 
+	        }
 	        ptr.next = temp; 
 	    } 
 	    return root; 

@@ -32,7 +32,8 @@ public class ArraySubarraySumHavingExactlySameOfPassingKvalue {
 			// increase count of subarrays.
 			if (currsum == sum){
 				res++;
-				maxSize=maxSize<prevSum.size()+1?prevSum.size()+1:maxSize;
+				//maxSize=maxSize<prevSum.size()+1?prevSum.size()+1:maxSize;
+				maxSize=Math.max(prevSum.size()+1,maxSize);
 				System.out.println(maxSize);
 			}
 			// currsum exceeds given sum by currsum
@@ -40,8 +41,9 @@ public class ArraySubarraySumHavingExactlySameOfPassingKvalue {
 			// this sum and exclude those subarrays
 			// from currsum by increasing count by
 			// same amount.
-			if (prevSum.containsKey(currsum - sum))
-				res += prevSum.get(currsum - sum);
+			int rem=currsum - sum;
+			if (prevSum.containsKey(rem))
+				res += prevSum.get(rem);
 
 			// Add currsum value to count of
 			// different values of sum.

@@ -115,7 +115,7 @@ public class ArrayMaxProfitBuyAndSell {
 		while (i < n - 1) {
 
 			BuySellInterval buySellInterval = new BuySellInterval();
-			// Finding the local minima
+			//first you need to buy next you will sell,So  Finding the local minima first
 			while ((i < n - 1) && (price[i + 1] <= price[i])) {
 				i++;
 			}
@@ -125,8 +125,8 @@ public class ArrayMaxProfitBuyAndSell {
 			// Storing the local minima
 			buySellInterval.buy = i++;
 
-			// Finding the local maxima
-			while ((i < n) && (price[i] >= price[i - 1])) {
+			// Finding the local maxima for sell 
+			while ((i < n) && (price[i - 1] <=price[i])) {
 				i++;
 			}
 			// Storing the local maxima
@@ -139,15 +139,24 @@ public class ArrayMaxProfitBuyAndSell {
 
 		}
 
+		int maxProfit=0;
 		if (count == 0) {
 			System.out
 					.println("There is no day when buying the stock will make profit");
 		} else {
 			for (int j = 0; j < count; ++j) {
-				System.out.println("Buy on day " + buySellIntervalArr[j].buy
-						+ "  sell on day " + buySellIntervalArr[j].sell);
+				System.out
+						.println("Buy on day "
+								+ buySellIntervalArr[j].buy
+								+ "  sell on day "
+								+ buySellIntervalArr[j].sell
+								+ " and maximum profit <--> "
+								+ (price[buySellIntervalArr[j].sell] - price[buySellIntervalArr[j].buy]));
+				maxProfit=maxProfit+(price[buySellIntervalArr[j].sell] - price[buySellIntervalArr[j].buy]);
 			}
 		}
+		
+		System.out.println("Maximum Profit "+maxProfit);
 
 	}
 
@@ -156,7 +165,9 @@ public class ArrayMaxProfitBuyAndSell {
 		int n = price.length;
 		System.out.println("Maximum Profit = " + maxProfit(price, n));
 		int price2[] = { 100, 180, 260, 310, 40, 535, 695 };
+		System.out.println("Maximum Profit ddd= " + maxProfit(price2, price2.length));
 		bestTimeBuyAndSell(price2, price2.length);
+		bestTimeBuyAndSell(price, price.length);
 	}
 
 }

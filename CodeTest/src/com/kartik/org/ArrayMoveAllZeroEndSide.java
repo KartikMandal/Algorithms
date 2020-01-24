@@ -91,6 +91,7 @@ public class ArrayMoveAllZeroEndSide {
 	    } 
 	    } 
 	} 
+	
 	  
 	// function to print the array elements 
 	static void printArray(int arr[]) { 
