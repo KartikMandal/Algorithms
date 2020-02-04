@@ -1,0 +1,154 @@
+ps -ef | grep kafka 
+kill -9 procee id 
+ps -ef | grep zookeper 
+kill -9 procee id 
+ps -ef | grep sps 
+kill -9 procee id 
+
+
+C>	Create a topic in Kafka	
+
+1.	Use the below command,
+
+$ ./kafka-topics.sh --create --zookeeper localhost: 2181 --replication-factor 1 --partitions 1 --topic test
+
+For multi-broker cluster, change the number for replication factor option depends on the number of instances you are running. 
+
+2.	You can see the topics which you created using the below command,
+
+$ ./kafka-topics.sh –list --zookeeper localhost: 2181	
+
+
+cd /opt/ctier/softwares/kafka_2.11-0.10.2.0/bin
+
+zookeeper run:
+
+./zookeeper-server-start.sh ../config/zookeeper.properties &
+
+How to change the java path in linux
+https://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/
+
+go to etc folder after use vi ~/.bash_profile command
+[ctier@blr-enggdev-22 etc]$ vi ~/.bash_profile
+Open vi editor in linux 
+.................................................................................
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+#PATH=$PATH:$HOME/bin
+
+#export PATH
+
+# User specific environment and startup programs
+
+export PATH=${PATH}:${HOME}/bin
+export P4CONFIG=.p4config
+#export JAVA_HOME=/opt/ctier/Softwares/java-1.6.0-openjdk-1.6.0.0.x86_64
+export JAVA_HOME=/opt/ctier/Softwares/Java/jdk1.8.0_05
+#export JAVA_HOME=/opt/sdp/java/jre1.8.0_152
+PATH=$PATH:$HOME/bin:/sbin:/opt/ctier/Softwares/Ant1.9.4/bin:$JAVA_HOME/bin:
+export PATH
+export DIST_ORM_PATH=devdb
+
+export JAVA_HOME=/opt/ctier/softwares/jdk1.8.0_05
+
+....................................................................................
+
+How to save the file:
+Esc --> :wq enter
+
+
+kafka run:
+./kafka-server-start.sh ../config/server.properties &
+
+SPS Run: 
+nohup sh standalone.sh &
+
+do unzip any war or jar using:
+jar -xvf sps.war
+
+do remove a file:
+rm -r nohup.out
+
+1>Goto in linux jboss bin
+2>run your component like sps
+3>Search your program running or not using below command
+4>ps -ef | grep sps
+5>Get PID from linux after search
+6>Check the cpu utilization using below any one command
+7>vmstat 1 
+8>top -p 123456 H
+where 123456 is pid of this component
+9>Now look into the command prompt and see the "id" column in command prompt if it near to 100 then cpu ideal time is good
+10>Now take the thread dump below command
+11>goto /opt/ctier folder
+using cd
+12>using like: /opt/ctier/softwares/jdk1.8.0_05/bin/jstack -l 20563 > log.txt
+where 20563 is pid in side jdk1.8.0_05 and log.txt is the thread dump file.
+13>Copy this file from root folder from /opt/ctier/log.txt
+14>open this file and see the log
+or 
+15>open this url http://fastthread.io
+16>upload log.txt file
+17>see the result
+18>Done
+
+------------------------------Start How to extract jar file -----------------------------------------
+Step 1> create a folder in 192.168.57.66 like  /opt/sdp/.hero/
+
+Step 2> goto jenkins box like :192.168.56.81 with user id and password and goto the shelved path
+
+[installer@blr-bld-jenkins4 platform.shelvedBuild.545]$ scp -r restserver sdp@192.168.57.66:/opt/sdp/.hero/
+
+
+Step 3> Now goto 192.168.57.66
+copy the path 
+/opt/sdp/.hero/
+ 554  mkdir .hero
+  555  cd .here
+  556  cd .hero/
+  557  ls
+  558  pwd
+  559  ls
+  560  cd restserver/
+  561  pwd
+  562  vi restserver.answer
+  and /opt/sdp/.hero/ in location  and :wq!
+  
+  563  java -cp setup.jar run restserver.answer
+  564  df
+  565  cd /
+  566  sudo du -skh * | grep G
+  567  df -h
+  568  cd opt/
+  569  ls
+  570  sudo du -skh * | grep G
+  571  cd ctier/
+  572  su ctier
+  573  pwd
+  574  cd /opt/sdp/.hero/
+  575  ls
+  576  cd restserver/
+  577  java -cp setup.jar run restserver.answer
+  578  ls
+  579  cd services/
+  580  ls
+  581  mkdir t
+  582  cp -e services.war t/
+  583  cp -r services.war t/
+  584  ls
+  585  cd t/
+  586  ls
+  587  jar -xvf services.war
+  588  ls
+  589  cd WEB-INF/classes/
+  590  ls
+
+
+
