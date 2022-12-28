@@ -1,0 +1,63 @@
+
+Convert List to Set
+Set set = new HashSet(list);
+
+Convert Set to List
+List list = new ArrayList(set);
+
+Convert List to Array
+List<Integer> list = new ArrayList<Integer>(); 
+
+Object[] objects = list.toArray(); 
+or 
+Integer[] objects = list.toArray();
+
+Convert Array to List
+String sArray[] = new String[] { "A", "B", "C" };
+List<String> list = Arrays.asList(sArray);
+
+
+Difference between Array ArrayList
+Array vs ArrayList in Java
+
+Array: Simple fixed sized arrays that we create in Java, like below
+      int arr[] = new int[10]   
+ArrayList : Dynamic sized arrays in Java that implement List interface.
+      ArrayList<Type> arrL = new ArrayList<Type>();
+      Here Type is the type of elements in ArrayList to
+      be created
+    
+Differences between Array and ArrayList
+
+An array is basic functionality provided by Java. ArrayList is part of collection framework in Java. 
+Therefore array members are accessed using [], while ArrayList has a set of methods to access elements and modify them. 
+
+
+SessionFactory sf=  new Configuration().configure().buildSessionFactory();  
+Session session = sf.openSession();
+
+-------video upload or file upload ----------------
+<br><br>
+<h3>Video Uploader</h3>
+<br>
+<a name="video"></a>
+<form action="#video" method='post' enctype="multipart/form-data">
+<input type="file" name="file"/><br><br>
+	<input type="submit" value="Upload"/>
+</form>
+</largetext>
+
+<br><br><br><br>
+-------------video display --------------
+<html>
+<body>
+<div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">
+	<iframe  width="425" height="344" src="https://www.youtube.com/embed/F9Bo89m2f6g" frameborder="0" allowfullscreen 
+			style="position:absolute; top:0; left:0; width:30%; height:30%;">
+	</iframe>
+</div>
+</body>
+</html>
+
+
+https://docs.jboss.org/hibernate/orm/3.6/reference/en-US/html_single/   --- for bloger content template

@@ -1,0 +1,725 @@
+
+Testing of Security Information: https://www.owasp.org/index.php/OWASP_Testing_Guide_v4_Table_of_Contents
+
+Knowledge About Stored Procedure: https://www.youtube.com/watch?v=fHJ8SSXFNRY  Adv Java || JDBC Session - 100
+
+Stored procedure: is group of statement which is execute one by one 
+
+Simple 1>
+sql>create or replace procedure procedureName(x in number, y in number, z out number) as
+begin
+ z :=  x+y;
+end;
+/
+sql>commit;
+sql>variable sum number;
+sql>execute procedureName(2,3,:sum);
+sql>print sum;
+
+
+Simple 2>
+
+sql>create or replace procedure procedureName(eno1 in number, sal1 out number) as
+begin
+ select eSal into sal1 from employee where eNo = eno1;
+end;
+/
+
+sql>commit;
+sql>variable salary number;
+sql>execute procedureName(3478,:salary);
+sql>print salary;
+
+JDBC Mapping:
+java Type to data base type using jdbc Bridge type:
+Java              		|        JDBC bridge          			|     Data base Type  	|
+----------------------------------------------------------------------------------------------------------
+int 				|	Types.INTEGER 				|  number 		|
+----------------------------------------------------------------------------------------------------------
+float				|   Types.FLOAT					|  number 		|
+----------------------------------------------------------------------------------------------------------
+String 				|  	Types.VARCHAR				|   VARCHAR,VARCHAR2	|
+---------------------------------------------------------------------------------------------------------
+java.sql.Date			|  	Types.DATE				|   date		|
+---------------------------------------------------------------------------------------------------------
+				| 	OracleTypes.CURSOR			|			|
+---------------------------------------------------------------------------------------------------------
+
+
+What is purpose of CallableStatement?
+From java program if you want to call stored procedure, then we should go for what callable statement. 
+
+CallableStatement is the child interface of preparedStatement or statement?
+Yes.
+Statement <-- PreparedStatement  <-- CallableStatement
+
+How to create callable statement:
+
+1. Statement st=con.createStatement();
+2. PreparedStatement pst=con.preparedStatement(sql);
+3. CallableStatement cst=con.prepareCall(String procedurecall);
+
+  Example of callable
+  CallableStatement cst=con.prepareCall("{call procedureName(with procedure parameter)}");
+  Example
+  CallableStatement cst=con.prepareCall("{call procedureName(?,?,?)}");
+  cst.setInt(1,100);
+  cst.setInt(2,200);
+  cst.registerOutParameter(3,Types.INTEGER); //this is output type jdbc object
+  cst.execute();
+  int result =cst.getInt(3);
+
+  
+Sample 3:
+
+  
+  sql>create or replace procedure procedureName(id in number, name OUT varchar2, sal out number) as
+begin
+ select eName,eSal into name,sal from employee where eNo = id;
+end;
+/
+
+
+
+CallableStatement cst=con.prepareCall("{call procedureName(?,?,?)}");
+  cst.setInt(1,100);
+  cst.registerOutParameter(2,Types.VARCHAR); //this is output type jdbc object
+  cst.registerOutParameter(3,Types.FLOAT);
+  cst.execute();
+  String name =cst.getString(2);
+  String sal =cst.getFloat(3);
+  con.closed();
+  
+Cursors:
+What is cursors?
+To get the think one by one like pointer in Java .
+To access of result of sql query which are store in site of context area then we go to cursors. in data base
+
+
+Type of cursors  in java?
+ 1. Enumeration 
+ 2. Iterator
+ 3. ListIterator
+ 
+Type of cursors  in data?
+ 1.implicit cursors. name of implicit cursors (SYS_REFCURSOR(it is hold select query data) , %ROWCOUNT (it is hold no select query data like insert,delete,update query),%FOUND () )
+ 2.Explicit cursors.
+ 
+ Explicit Cursors
+
+An explicit cursor is defined in the declaration section of the PL/SQL Block. It is created on a SELECT Statement which returns more than one row. We can provide a suitable name for the cursor.
+
+General Syntax for creating a cursor is as given below:
+CURSOR cursor_name IS select_statement;
+
+cursor_name – A suitable name for the cursor.
+select_statement – A select query which returns multiple rows.
+
+How to use Explicit Cursor?
+There are four steps in using an Explicit Cursor.
+DECLARE the cursor in the declaration section.
+OPEN the cursor in the Execution Section.
+FETCH the data from cursor into PL/SQL variables or records in the Execution Section.
+CLOSE the cursor in the Execution Section before you end the PL/SQL Block.
+1) Declaring a Cursor in the Declaration Section:
+   DECLARE
+   CURSOR emp_cur IS 
+   SELECT * 
+   FROM emp_tbl
+   WHERE salary > 5000; 
+      In the above example we are creating a cursor ‘emp_cur’ on a query which returns the records of all the 
+      employees with salary greater than 5000. Here ‘emp_tbl’ in the table which contains records of all the 
+      employees.
+
+2) Accessing the records in the cursor:
+      Once the cursor is created in the declaration section we can access the cursor in the execution 
+      section of the PL/SQL program.
+
+How to access an Explicit Cursor?
+These are the three steps in accessing the cursor.
+1) Open the cursor.
+2) Fetch the records in the cursor one at a time.
+3) Close the cursor.
+General Syntax to open a cursor is:
+
+OPEN cursor_name;
+General Syntax to fetch records from a cursor is:
+
+FETCH cursor_name INTO record_name;
+OR 
+FETCH cursor_name INTO variable_list;
+General Syntax to close a cursor is:
+
+CLOSE cursor_name;
+When a cursor is opened, the first row becomes the current row. When the data is fetched it is copied to the record or variables and the logical pointer moves to the next row and it becomes the current row. On every fetch statement, the pointer moves to the next row. If you want to fetch after the last row, the program will throw an error. When there is more than one row in a cursor we can use loops along with explicit cursor attributes to fetch all the records.
+
+Points to remember while fetching a row:
+
+·	We can fetch the rows in a cursor to a PL/SQL Record or a list of variables created in the PL/SQL Block. 
+·	If you are fetching a cursor to a PL/SQL Record, the record should have the same structure as the cursor.
+·	If you are fetching a cursor to a list of variables, the variables should be listed in the same order in the fetch statement as the columns are present in the cursor.
+
+General Form of using an explicit cursor is:
+ DECLARE
+    variables;
+    records;
+    create a cursor;
+ BEGIN 
+   OPEN cursor;
+   FETCH cursor;
+     process the records;
+   CLOSE cursor;
+ END;
+
+Explicit Cursor, Lets Look at the example below
+
+Example 1:
+1> DECLARE 
+2>    emp_rec emp_tbl%rowtype;
+3>    CURSOR emp_cur IS 
+4>    SELECT *
+5>    FROM 
+6>    WHERE salary > 10; 
+7> BEGIN 
+8>    OPEN emp_cur; 
+9>    FETCH emp_cur INTO emp_rec; 
+10>      dbms_output.put_line (emp_rec.first_name || '  ' || emp_rec.last_name); 
+11>   CLOSE emp_cur; 
+12> END; 
+In the above example, first we are creating a record ‘emp_rec’ of the same structure as of table ‘emp_tbl’ in line no 2. We can also create a record with a cursor by replacing the table name with the cursor name. Second, we are declaring a cursor ‘emp_cur’ from a select query in line no 3 - 6. Third, we are opening the cursor in the execution section in line no 8. Fourth, we are fetching the cursor to the record in line no 9. Fifth, we are displaying the first_name and last_name of the employee in the record emp_rec in line no 10. Sixth, we are closing the cursor in line no 11.
+
+What are Explicit Cursor Attributes?
+Oracle provides some attributes known as Explicit Cursor Attributes to control the data processing while using cursors. We use these attributes to avoid errors while accessing cursors through OPEN, FETCH and CLOSE Statements.
+
+When does an error occur while accessing an explicit cursor?
+a) When we try to open a cursor which is not closed in the previous operation.
+b) When we try to fetch a cursor after the last operation.
+
+These are the attributes available to check the status of an explicit cursor.
+
+Attributes
+
+Return values
+
+Example
+
+%FOUND
+
+TRUE, if fetch statement returns at least one row.	
+Cursor_name%FOUND
+
+FALSE, if fetch statement doesn’t return a row.
+%NOTFOUND
+
+TRUE, , if fetch statement doesn’t return a row.	Cursor_name%NOTFOUND
+FALSE, if fetch statement returns at least one row.
+%ROWCOUNT
+
+The number of rows fetched by the fetch statement	
+Cursor_name%ROWCOUNT
+
+If no row is returned, the PL/SQL statement returns an error.
+%ISOPEN
+
+TRUE, if the cursor is already open in the program	
+Cursor_name%ISNAME
+
+FALSE, if the cursor is not opened in the program.
+
+Using Loops with Explicit Cursors:
+Oracle provides three types of cursors namely SIMPLE LOOP, WHILE LOOP and FOR LOOP. These loops can be used to process multiple rows in the cursor. Here I will modify the same example for each loops to explain how to use loops with cursors.
+
+Cursor with a Simple Loop:
+1> DECLARE 
+2>   CURSOR emp_cur IS 
+3>   SELECT first_name, last_name, salary FROM emp_tbl; 
+4>   emp_rec emp_cur%rowtype; 
+5> BEGIN 
+6>   IF NOT sales_cur%ISOPEN THEN 
+7>      OPEN sales_cur; 
+8>   END IF; 
+9>   LOOP 
+10>     FETCH emp_cur INTO emp_rec; 
+11>     EXIT WHEN emp_cur%NOTFOUND; 
+12>     dbms_output.put_line(emp_cur.first_name || ' ' ||emp_cur.last_name 
+13>     || ' ' ||emp_cur.salary); 
+14>  END LOOP; 
+15>  END; 
+16>  / 
+In the above example we are using two cursor attributes %ISOPEN and %NOTFOUND. 
+In line no 6, we are using the cursor attribute %ISOPEN to check if the cursor is open, if the condition is true the program does not open the cursor again, it directly moves to line no 9. 
+In line no 11, we are using the cursor attribute %NOTFOUND to check whether the fetch returned any row. If there is no rows found the program would exit, a condition which exists when you fetch the cursor after the last row, if there is a row found the program continues.
+
+We can use %FOUND in place of %NOTFOUND and vice versa. If we do so, we need to reverse the logic of the program. So use these attributes in appropriate instances.
+
+Cursor with a While Loop:
+Lets modify the above program to use while loop.
+
+1> DECLARE 
+2>  CURSOR emp_cur IS 
+3>  SELECT first_name, last_name, salary FROM emp_tbl; 
+4>  emp_rec emp_cur%rowtype; 
+5> BEGIN 
+6>   IF NOT sales_cur%ISOPEN THEN 
+7>      OPEN sales_cur; 
+8>   END IF; 
+9>   FETCH sales_cur INTO sales_rec;  
+10>  WHILE sales_cur%FOUND THEN  
+11>  LOOP 
+12>    dbms_output.put_line(emp_cur.first_name || ' ' ||emp_cur.last_name 
+13>    || ' ' ||emp_cur.salary); 
+15>    FETCH sales_cur INTO sales_rec; 
+16>  END LOOP; 
+17> END; 
+18> / 
+In the above example, in line no 10 we are using %FOUND to evaluate if the first fetch statement in line no 9 returned a row, if true the program moves into the while loop. In the loop we use fetch statement again (line no 15) to process the next row. If the fetch statement is not executed once before the while loop the while condition will return false in the first instance and the while loop is skipped. In the loop, before fetching the record again, always process the record retrieved by the first fetch statement, else you will skip the first row.
+
+Cursor with a FOR Loop:
+When using FOR LOOP you need not declare a record or variables to store the cursor values, need not open, fetch and close the cursor. These functions are accomplished by the FOR LOOP automatically.
+
+General Syntax for using FOR LOOP:
+
+FOR record_name IN cusror_name 
+LOOP 
+    process the row...
+END LOOP; 
+Let’s use the above example to learn how to use for loops in cursors.
+
+ DECLARE 
+  CURSOR emp_cur IS 
+  SELECT first_name, last_name, salary FROM emp_tbl; 
+  emp_rec emp_cur%rowtype; 
+ BEGIN 
+  FOR emp_rec in sales_cur 
+  LOOP  
+  dbms_output.put_line(emp_cur.first_name || ' ' ||emp_cur.last_name 
+    || ' ' ||emp_cur.salary);  
+ END LOOP; 
+END;
+ /
+ 
+ 
+
+Example of Cursors:
+
+Sample 1> 
+sql>create or replace procedure procedureName(emps OUT SYS_REFCURSOR) as
+begin
+open emps for 
+ select * from employee;
+end;
+/
+
+import java.sql.*;
+import oracle.jdbc.*;
+class demo{
+public static void main(String args[]){
+Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","scott","triger");
+CallableStatement cst=con.prepareCall("{call procedureName(?)}");
+  cst.registerOutParameter(1,OracleTypes.CURSOR); //this is output type jdbc object
+  cst.execute();
+  ResultSet rs=(ResultSet)cst.getObject(1);
+  while(rs.next()){
+  Syso(rs.getInt(1)+""+rs.getString(2));
+  }
+  con.closed();
+}
+}
+
+Functions
+---------------
+Function Vs Procedure
+Function must return some value but procedure may or may not return any value
+
+
+Example 1>
+create or replace function functionName(std1 in  number,std2 in number) return number as
+begin
+sal1 number;
+sal2 number;
+ select esal into sal1 from employee where eNo=std1;
+ select esal into sal2 from employee where eNo=std2;
+ return (sal1+sal2)/2;
+end;
+/
+
+
+import java.sql.*;
+import oracle.jdbc.*;
+class demo{
+public static void main(String args[]){
+Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","scott","triger");
+CallableStatement cst=con.prepareCall("{? = call functionName(?,?)}");
+  cst.setInt(2,200); //this is output type jdbc object
+  cst.setInt(3,200); //this is output type jdbc object
+  cst.registerOutParameter(1,Types.FLOAT);
+  cst.execute();
+  String name =cst.getFloat(1);
+  con.closed();
+}
+}
+
+
+Batch Update:
+A group of sql 
+1>Batch update not applicable select query. it is only used for update, delete and insert query execution.
+2>If used in select query then you will get BatchUpdateException 
+3>If execute by batch update in middle if any query failed then rest of the query won't be execute 
+
+
+The need for Callable
+
+There are two ways of creating threads – one by extending the Thread class and other by creating a thread with a Runnable. However, one feature lacking in  Runnable is that we cannot make a thread return result when it terminates, i.e. when run() completes. For supporting this feature, the Callable interface is present in Java.
+
+Callable vs Runnable
+
+For implementing Runnable, the run() method needs to be implemented which does not return anything, while for a Callable, the call() method needs to be implemented which returns a result on completion. Note that a thread can’t be created with a Callable, it can only be created with a Runnable.
+Another difference is that the call() method can throw an exception whereas run() cannot.
+Method signature that has to overridden for implementing Callable.
+
+
+
+public Object call() throws Exception;
+Here is the code for an example Callable, which will return a random number after a delay of around 0 – 4 seconds.
+
+// Java program to illustrate Callable
+// to return a random number
+import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+ 
+class CallableExample implements Callable
+{
+ 
+    public Object call() throws Exception
+    {
+        // Create random number generator
+        Random generator = new Random();
+ 
+        Integer randomNumber = generator.nextInt(5);
+ 
+        // To simulate a heavy computation,
+        // we delay the thread for some random time
+        Thread.sleep(randomNumber * 1000);
+ 
+        return randomNumber;
+    }
+}
+Run on IDE
+Future
+
+When the call() method completes, answer must be stored in an object known to the main thread, so that the main thread can know about the result that the thread returned. How will the program store and obtain this result later? For this, a Future object can be used. Think of a Future as an object that holds the result – it may not hold it right now, but it will do so in the future (once the Callable returns). Thus, a Future is basically one way the main thread can keep track of the progress and result from other threads. To implement this interface, 5 methods have to be overridden, but as the example below uses a concrete implementation from the library, only the important methods are listed here.
+
+Observe that Callable and Future do two different things – Callable is similar to Runnable, in that it encapsulates a task that is meant to run on another thread, whereas a Future is used to store a result obtained from a different thread. In fact, the Future can be made to work with Runnable as well, which is something that will become clear when Executors come into the picture.
+
+public boolean cancel(boolean mayInterrupt): Used to stop the task. It stops the task if it has not started. If it has started, it interrupts the task only if mayInterrupt is true.
+public Object get() throws InterruptedException, ExecutionException: Used to get the result of the task. If the task is complete, it returns the result immediately, otherwise it waits till the task is complete and then returns the result.
+public boolean isDone(): Returns true if the task is complete and false otherwise
+To create the thread, a Runnable is required. To obtain the result, a Future is required.
+
+The Java library has the concrete type FutureTask, which implements Runnable and Future, combining both functionality conveniently.
+A FutureTask can be created by providing its constructor with a Callable. Then the FutureTask object is provided to the constructor of Thread to create the Thread object. Thus, indirectly, the thread is created with a Callable. For further emphasis, note that there is no way to create the thread directly with a Callable.
+
+Here is the code for the full example using Callable and FutureTask.
+
+// Java program to illustrate Callable and FutureTask
+// for random number generation
+import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+ 
+class CallableExample implements Callable
+{
+ 
+  public Object call() throws Exception
+  {
+    Random generator = new Random();
+    Integer randomNumber = generator.nextInt(5);
+ 
+    Thread.sleep(randomNumber * 1000);
+ 
+    return randomNumber;
+  }
+ 
+}
+ 
+public class CallableFutureTest
+{
+  public static void main(String[] args) throws Exception
+  {
+ 
+    // FutureTask is a concrete class that
+    // implements both Runnable and Future
+    FutureTask[] randomNumberTasks = new FutureTask[5];
+ 
+    for (int i = 0; i < 5; i++)
+    {
+      Callable callable = new CallableExample();
+ 
+      // Create the FutureTask with Callable
+      randomNumberTasks[i] = new FutureTask(callable);
+ 
+      // As it implements Runnable, create Thread
+      // with FutureTask
+      Thread t = new Thread(randomNumberTasks[i]);
+      t.start();
+    }
+ 
+    for (int i = 0; i < 5; i++)
+    {
+      // As it implements Future, we can call get()
+      System.out.println(randomNumberTasks[i].get());
+ 
+      // This method blocks till the result is obtained
+      // The get method can throw checked exceptions
+      // like when it is interrupted. This is the reason
+      // for adding the throws clause to main
+    }
+  }
+}
+Run on IDE
+Output:
+
+4
+2
+3
+3
+0
+All interaction with the thread after it starts is using the FutureTask object as it implements the Future interface. Hence, there is no need to store the Thread objects. Using the FutureTask object, one can cancel the task, check if it is complete or try to get the result.
+
+Here is the code using only Runnable.
+
+// Java program to illustrate Runnable
+// for random number generation
+import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+ 
+class RunnableExample implements Runnable
+{
+    // Shared object to store result
+    private Object result = null;
+ 
+    public void run()
+    {
+        Random generator = new Random();
+        Integer randomNumber = generator.nextInt(5);
+ 
+        // As run cannot throw any Exception
+        try
+        {
+            Thread.sleep(randomNumber * 1000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+ 
+        // Store the return value in result when done
+        result = randomNumber;
+ 
+        // Wake up threads blocked on the get() method
+        synchronized(this)
+        {
+            notifyAll();
+        }
+    }
+ 
+    public synchronized Object get()
+          throws InterruptedException
+    {
+        while (result == null)
+            wait();
+ 
+        return result;
+    }
+}
+ 
+// Code is almost same as the previous example with a
+// few changes made to use Runnable instead of Callable
+public class RunnableTest
+{
+    public static void main(String[] args) throws Exception
+    {
+        RunnableExample[] randomNumberTasks = new RunnableExample[5];
+ 
+        for (int i = 0; i < 5; i++)
+        {
+            randomNumberTasks[i] = new RunnableExample();
+            Thread t = new Thread(randomNumberTasks[i]);
+            t.start();
+        }
+ 
+        for (int i = 0; i < 5; i++)
+            System.out.println(randomNumberTasks[i].get());
+    }
+}
+Run on IDE
+Sample Output
+
+0
+4
+3
+1
+4
+2
+
+
+Generating random numbers in Java
+Java provides three ways to generate random numbers using some built-in methods and classes as listed below:
+
+java.util.Random class
+Math.random method : Can Generate Random Numbers of double type.
+ThreadLocalRandom class
+1) java.util.Random
+For using this class to generate random numbers, we have to first create an instance of this class and then invoke methods such as nextInt(), nextDouble(), nextLong() etc using that instance.
+We can generate random numbers of types integers, float, double, long, booleans using this class.
+We can pass arguments to the methods for placing an upper bound on the range of the numbers to be generated. For example, nextInt(6) will generate numbers in the range 0 to 5 both inclusive.
+// A Java program to demonstrate random number generation
+// using java.util.Random;
+import java.util.Random;
+ 
+public class generateRandom{
+ 
+    public static void main(String args[])
+    {
+        // create instance of Random class
+        Random rand = new Random();
+ 
+        // Generate random integers in range 0 to 999
+        int rand_int1 = rand.nextInt(1000);
+        int rand_int2 = rand.nextInt(1000);
+ 
+        // Print random integers
+        System.out.println("Random Integers: "+rand_int1);
+        System.out.println("Random Integers: "+rand_int2);
+ 
+        // Generate Random doubles
+        double rand_dub1 = rand.nextDouble();
+        double rand_dub2 = rand.nextDouble();
+ 
+        // Print random doubles
+        System.out.println("Random Doubles: "+rand_dub1);
+        System.out.println("Random Doubles: "+rand_dub2);
+    }
+}
+Run on IDE
+Output:
+
+Random Integers: 547
+Random Integers: 126
+Random Doubles: 0.8369779739988428
+Random Doubles: 0.5497554388209912
+ 
+2) Math.random()
+
+The class Math contains various methods for performing various numeric operations such as, calculating exponentiation, logarithms etc. One of these methods is random(), this method returns a double value with a positive sign, greater than or equal to 0.0 and less than 1.0. The returned values are chosen pseudorandomly. This method can only generate random numbers of type Doubles. Below program explains how to use this method:
+// Java program to demonstrate working of 
+// Math.random() to generate random numbers
+import java.util.*;
+ 
+public class generateRandom
+{
+    public static void main(String args[])
+    {
+        // Generating random doubles
+        System.out.println("Random doubles: " + Math.random());
+        System.out.println("Random doubles: " + Math.random());
+    }
+}
+Run on IDE
+Output:
+
+
+
+Random doubles: 0.13077348615666562
+Random doubles: 0.09247016928442775
+ 
+
+3) java.util.concurrent.ThreadLocalRandom class
+
+This class is introduced in java 1.7 to generate random numbers of type integers, doubles, booleans etc. Below program explains how to use this class to generate random numbers:
+// Java program to demonstrate working of ThreadLocalRandom
+// to generate random numbers.
+import java.util.concurrent.ThreadLocalRandom;
+ 
+public class generateRandom
+{
+    public static void main(String args[])
+    {
+        // Generate random integers in range 0 to 999
+        int rand_int1 = ThreadLocalRandom.current().nextInt();
+        int rand_int2 = ThreadLocalRandom.current().nextInt();
+ 
+        // Print random integers
+        System.out.println("Random Integers: " + rand_int1);
+        System.out.println("Random Integers: " + rand_int2);
+ 
+        // Generate Random doubles
+        double rand_dub1 = ThreadLocalRandom.current().nextDouble();
+        double rand_dub2 = ThreadLocalRandom.current().nextDouble();
+ 
+        // Print random doubles
+        System.out.println("Random Doubles: " + rand_dub1);
+        System.out.println("Random Doubles: " + rand_dub2);
+ 
+        // Generate random booleans
+        boolean rand_bool1 = ThreadLocalRandom.current().nextBoolean();
+        boolean rand_bool2 = ThreadLocalRandom.current().nextBoolean();
+ 
+        // Print random Booleans
+        System.out.println("Random Booleans: " + rand_bool1);
+        System.out.println("Random Booleans: " + rand_bool2);
+    }
+}
+Run on IDE
+Output:
+
+Random Integers: 536953314
+Random Integers: 25905330
+Random Doubles: 0.7504989954390163
+Random Doubles: 0.7658597196204409
+Random Booleans: false
+Random Booleans: true
+
+
+
+What is Web Security?
+Common Security Threats
+Cross Site Scripting (XSS)
+What is XSS?
+Types of vulnerabilities
+Prevention
+SQL Injection
+What is SQL Injection?
+Prevention
+Cross Site Request Forgery (CSRF)
+What is CSRF?
+Prevention
+Other Threats
+Clickjacking
+DoS
+Directory Traversal
+File Inclusion
+Command Injection
+Ensuring Security
+Encrypt Data
+Client Side as well as Server Side Validation
+Sanitize Input Data
+Secure Connections
+Assessment Exercise
+
+
+
+http://localhost:9000/     ---for sonar quebe 
+admin/admin
+http://www.techcrashcourse.com/2015/03/c-program-to-print-matrix-diagonally.html
+https://www.programcreek.com/2013/01/leetcode-spiral-matrix-java/
+https://www.geeksforgeeks.org/zigzag-or-diagonal-traversal-of-matrix/
+https://quickgrid.wordpress.com/tag/zig-zag-2d-array-traversal/
+https://www.geeksforgeeks.org/print-matrix-diagonal-pattern/
+https://www.geeksforgeeks.org/print-given-matrix-zigzag-form/
+https://www.geeksforgeeks.org/print-matrix-antispiral-form/
+https://algorithmstuff.wordpress.com/2013/10/13/print-a-matrix-in-spiral-order/
+http://javabypatel.blogspot.com/2016/11/print-matrix-in-spiral-order-recursion.html
+

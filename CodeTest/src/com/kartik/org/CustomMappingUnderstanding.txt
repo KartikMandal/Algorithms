@@ -1,0 +1,892 @@
+============================================================================================================================
+=====================================First Approach========================================================================
+============================================================================================================================
+
+==========================================MapperFactory.java===========================================
+package com.kamical.ssw2010.interfaces.api.mappings;
+
+import com.kamical.ssse.common.mapping.Mapper;
+import com.kamical.ssw2010.interfaces.api.mappings.exception.MapperNotFoundException;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class MapperFactory
+{
+    private static final Logger log = LoggerFactory.getLogger(MapperFactory.class);
+    private final Map<String, Map<String, Mapper< ? , ? >>> mappers;
+
+    public MapperFactory(final Set<Mapper< ? , ? >> mapperSet)
+    {
+        this.mappers = new HashMap<String, Map<String, Mapper< ? , ? >>>();
+
+        if (log.isDebugEnabled())
+        {
+            log.debug("Initializing MapperFactory with mappers: " + getMappersInfo(mapperSet));
+        }
+
+        for (Mapper< ? , ? > mapper : mapperSet)
+        {
+            MapperInfo mapperInfo = getMapperInfo(mapper);
+            Map<String, Mapper< ? , ? >> innerMap = mappers.get(mapperInfo.getInClassName());
+            if (innerMap == null)
+            {
+                innerMap = new HashMap<String, Mapper< ? , ? >>();
+                mappers.put(mapperInfo.getInClassName(), innerMap);
+            }
+            innerMap.put(mapperInfo.getOutClassName(), mapper);
+        }
+    }
+
+    /**
+     * Returns mapper for input parameters.
+     * 
+     * @param sourceClass
+     *            source parameter class
+     * @param outputClass
+     *            output parameter class
+     * @param <IN>
+     *            source type
+     * @param <OUT>
+     *            output type
+     * @return mapper for input parameters.
+     */
+    @SuppressWarnings({ "unchecked" })
+    public <IN, OUT> Mapper<IN, OUT> getMapper(Class<IN> sourceClass, Class<OUT> outputClass)
+    {
+        Map<String, Mapper< ? , ? >> outputMappers = mappers.get(sourceClass.getName());
+        if (outputMappers == null)
+        {
+            outputMappers = mappers.get(sourceClass.getSuperclass().getName());
+        }
+        if (outputMappers == null)
+        {
+            throw new MapperNotFoundException("There is no mapper associated with class: " + sourceClass.getName());
+        }
+
+        final Mapper< ? , ? > mapper = outputMappers.get(outputClass.getName());
+        if (mapper == null)
+        {
+            throw new MapperNotFoundException("There is no mapper associated with class: " +
+                    sourceClass.getName() + " for output class " + outputClass.getName());
+        }
+
+        return (Mapper<IN, OUT>) mapper;
+    }
+
+    private MapperInfo getMapperInfo(Mapper< ? , ? > mapper)
+    {
+        return new MapperInfo(mapper);
+    }
+
+    private String getMappersInfo(final Set<Mapper< ? , ? >> mapperSet)
+    {
+        final String lineSeparator = System.getProperty("line.separator");
+        StringBuilder sb = new StringBuilder(512);
+
+        for (Mapper< ? , ? > mapper : mapperSet)
+        {
+            MapperInfo mi = getMapperInfo(mapper);
+            sb.append(lineSeparator).append(mi.getMapperInfo());
+        }
+
+        return sb.toString();
+    }
+}
+
+class MapperInfo
+{
+    private final Class< ? extends Mapper> mapperClass;
+    private final Class< ? > inClass;
+    private final Class< ? > outClass;
+
+    MapperInfo(final Mapper< ? , ? > mapper)
+    {
+        this.mapperClass = mapper.getClass();
+        Type[] types = mapper.getClass().getGenericInterfaces();
+        if (types.length == 0)
+        {
+            // classes extending NullPassingMapper
+            types = new Type[] { mapper.getClass().getGenericSuperclass() };
+        }
+        ParameterizedType type = (ParameterizedType) types[0];
+        Type[] actualTypes = type.getActualTypeArguments();
+        this.inClass = getClass(actualTypes[0]);
+        this.outClass = getClass(actualTypes[1]);
+    }
+
+    private Class< ? > getClass(Type type)
+    {
+        Class< ? > clazz = null;
+
+        if (type instanceof Class)
+        {
+            clazz = (Class< ? >) type;
+        }
+        else if (ParameterizedType.class.isAssignableFrom(type.getClass()))
+        {
+            ParameterizedType pt = (ParameterizedType) type;
+            clazz = (Class< ? >) pt.getRawType();
+        }
+        return clazz;
+    }
+
+    public String getInClassName()
+    {
+        return inClass.getName();
+    }
+
+    public String getOutClassName()
+    {
+        return outClass.getName();
+    }
+
+    public String getInClassSimpleName()
+    {
+        return inClass.getSimpleName();
+    }
+
+    public String getOutClassSimpleName()
+    {
+        return outClass.getSimpleName();
+    }
+
+    public String getMapperInfo()
+    {
+        return mapperClass.getSimpleName() + "<" + getOutClassSimpleName() + ", " + getInClassSimpleName() + ">";
+    }
+}
+
+
+===================================================AbstractApiImpl.java============================================
+/* Copyright 2012 kamical Holdings */
+package com.kamical.ssw2010.interfaces.api.impl;
+
+import com.google.common.base.Stopwatch;
+import com.kamical.ssse.common.mapping.Mapper;
+import com.kamical.ssw2010.interfaces.api.impl.AsynchronousRequestExecutor.TransactionFuture;
+import com.kamical.ssw2010.interfaces.api.mappings.MapperFactory;
+import com.kamical.ssw2010.interfaces.api.mappings.exception.MapperNotFoundException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import org.hibernate.proxy.HibernateProxyHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public abstract class AbstractApiImpl
+{
+    private static final Logger log = LoggerFactory.getLogger(AbstractApiImpl.class);
+    private MapperFactory mapperFactory;
+  
+
+    @SuppressWarnings("unchecked")
+    protected <IN, OUT> OUT map(final IN source, final Class<OUT> outputClass)
+    {
+        Stopwatch stopWatch = Stopwatch.createStarted();
+        final Mapper<IN, OUT> mapper = getMapper(HibernateProxyHelper.getClassWithoutInitializingProxy(source), outputClass);
+        OUT mapped = mapper.map(source);
+        if (log.isTraceEnabled())
+        {
+            log.trace("Mapped {} to {} in {}", source.getClass().getSimpleName(), outputClass.getSimpleName(), stopWatch);
+        }
+        return mapped;
+    }
+
+    protected <IN, OUT> OUT map(final IN source, final Class<IN> inputClass, final Class<OUT> outputClass)
+    {
+        Stopwatch stopWatch = Stopwatch.createStarted();
+        final Mapper<IN, OUT> mapper = getMapper(inputClass, outputClass);
+        OUT mapped = mapper.map(source);
+        if (log.isTraceEnabled())
+        {
+            log.trace("Mapped {} to {} in {}", inputClass.getSimpleName(), outputClass.getSimpleName(), stopWatch);
+        }
+        return mapped;
+
+    }
+
+    protected <IN, OUT> Mapper<IN, OUT> getMapper(final Class<IN> sourceClass, final Class<OUT> outputClass)
+    {
+        Mapper<IN, OUT> mapper = mapperFactory.getMapper(sourceClass, outputClass);
+        if (mapper == null)
+        {
+            throw new MapperNotFoundException("For " + sourceClass.getName() + " to " + outputClass.getName());
+        }
+        return mapper;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <IN, OUT> List<OUT> mapToList(Collection<IN> collection, Class<OUT> outputClass)
+    {
+        Stopwatch stopWatch = Stopwatch.createStarted();
+        if (collection == null || collection.isEmpty())
+        {
+            return Collections.emptyList();
+        }
+
+        Class< ? > inputClass = HibernateProxyHelper.getClassWithoutInitializingProxy(collection.iterator().next());
+        Mapper<IN, OUT> mapper = (Mapper<IN, OUT>) getMapper(inputClass, outputClass);
+        List<OUT> results = new ArrayList<OUT>();
+        for (IN in : collection)
+        {
+            OUT out = mapper.map(in);
+            results.add(out);
+        }
+        if (log.isTraceEnabled())
+        {
+            log.trace("Mapped {} to {} in {}", inputClass.getSimpleName(), outputClass.getSimpleName(), stopWatch);
+        }
+        return results;
+    }
+
+    protected <IN, OUT> List<OUT> mapToList(Collection<IN> collection, Class<IN> inputClass, Class<OUT> outputClass)
+    {
+        Stopwatch stopWatch = Stopwatch.createStarted();
+        if (collection == null || collection.isEmpty())
+        {
+            return Collections.emptyList();
+        }
+
+        Mapper<IN, OUT> mapper = getMapper(inputClass, outputClass);
+        List<OUT> results = new ArrayList<OUT>();
+        for (IN in : collection)
+        {
+            OUT out = mapper.map(in);
+            results.add(out);
+        }
+        if (log.isTraceEnabled())
+        {
+            log.trace("Mapped {} to {} in {}", inputClass.getSimpleName(), outputClass.getSimpleName(), stopWatch);
+        }
+        return results;
+    }
+
+    protected <IN, OUT> Set<OUT> mapToSet(Collection<IN> collection, Class<OUT> outputClass)
+    {
+        List<OUT> list = mapToList(collection, outputClass);
+        return new HashSet<OUT>(list);
+    }
+
+    protected <IN, OUT> Set<OUT> mapToSet(Collection<IN> collection, Class<IN> inputClass, Class<OUT> outputClass)
+    {
+        List<OUT> list = mapToList(collection, inputClass, outputClass);
+        return new HashSet<OUT>(list);
+    }
+
+    public void setMapperFactory(final MapperFactory mapperFactory)
+    {
+        this.mapperFactory = mapperFactory;
+    }
+
+}
+
+===============================================================Mapper.java==========================================
+package com.kamical.ssse.common.mapping;
+
+public interface Mapper<IN, OUT> {
+    OUT map(IN var1);
+}
+
+====================================================AbstractReissueApiImpl.java====================================
+return map(shoppingBasket, CancelRefundResultTO.class); line of code
+
+
+package com.kamical.ssw2010.interfaces.api.impl.reissue;
+
+import com.kamical.adapter.gds.reservation.service.vcr.FormOfPaymentHelper;
+import com.kamical.adapter.gds.travelbank.commands.TravelBankUtil;
+import com.kamical.adapter.gds.travelbank.workflow.TravelBankException;
+import com.kamical.common.config.documented.PseudoCityConfiguration;
+import com.kamical.common.config.documented.SatConfiguration;
+import com.kamical.dc.config.documented.TechnicalSwitchesStatus;
+import com.kamical.ssw.data.resource.domain.aer.AERBreakdown;
+import com.kamical.ssw.data.resource.domain.booking.exception.CancellationUsedFlownPNRException;
+import com.kamical.ssw.data.resource.domain.general.exception.ApiRuntimeException;
+import com.kamical.ssw.data.resource.domain.general.exception.IntegrationApiException;
+import com.kamical.ssw.data.resource.domain.path.qtrip.exception.QTripApiSupport;
+import com.kamical.ssw.data.resource.domain.pricing.exception.AerWebserviceException;
+import com.kamical.ssw.data.resource.domain.pricing.exception.PaymentServiceProviderException;
+import com.kamical.ssw.data.resource.domain.pricing.exception.RefundNotAllowed;
+import com.kamical.ssw.data.resource.domain.profile.tb.CreditLimitException;
+import com.kamical.ssw.data.resource.domain.shopping.ShoppingBasketApiResult;
+import com.kamical.ssw.model.booking.ShoppingBasket;
+import com.kamical.ssw.model.document.CouponStatus;
+import com.kamical.ssw.model.document.ElectronicMiscDocument;
+import com.kamical.ssw.model.document.EmdCoupon;
+import com.kamical.ssw.model.payment.form.Payment;
+import com.kamical.ssw.model.payment.money.MonetaryAmount;
+import com.kamical.ssw.model.payment.refund.AerType;
+import com.kamical.ssw.model.profile.User;
+import com.kamical.ssw2010.api.airsearch.result.IropsTO;
+import com.kamical.ssw2010.api.booking.exception.BookingNotFoundException;
+import com.kamical.ssw2010.api.cancel.CancelRefundResultTO;
+import com.kamical.ssw2010.api.exceptions.PricingApiException;
+import com.kamical.ssw2010.api.exceptions.ProfileException;
+import com.kamical.ssw2010.api.exceptions.ProfileSystemException;
+import com.kamical.ssw2010.api.exchange.RepriceContextTO;
+import com.kamical.ssw2010.api.pricing.BookingRetrievalException;
+import com.kamical.ssw2010.api.pricing.CancellationPricingException;
+import com.kamical.ssw2010.api.pricing.MultiFOPNoBTRefundValidForVouchersOnlyException;
+import com.kamical.ssw2010.api.pricing.UnableToRefundException;
+import com.kamical.ssw2010.api.pricing.VoluntaryChangeRulesException;
+import com.kamical.ssw2010.api.reissue.EndTransactionOnHostFailedException;
+import com.kamical.ssw2010.api.reissue.RefundEMDProcessingException;
+import com.kamical.ssw2010.api.reissue.RefundProcessingException;
+import com.kamical.ssw2010.api.reissue.RefundSystemDownException;
+import com.kamical.ssw2010.api.reissue.ReissueBaseApi;
+import com.kamical.ssw2010.api.reissue.RetainAndRefundTO;
+import com.kamical.ssw2010.api.reservation.ReservationTO;
+import com.kamical.ssw2010.domain.reissue.CancellationService;
+import com.kamical.ssw2010.interfaces.api.impl.AbstractApiImpl;
+import com.kamical.ssw2010.interfaces.api.mappings.booking.IropsTOIropsMapper;
+import com.kamical.ssw2010.server.service.reissue.QueuePnrService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Required;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+public abstract class AbstractReissueApiImpl extends AbstractApiImpl implements ReissueBaseApi
+{
+    private static final Pattern AER_REFUND_VALID_FOR_VOUCHERS_ONLY = Pattern.compile(".*?REFUND AMOUNT VALID FOR VOUCHER ONLY.*");
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    protected SatConfiguration satConfiguration;
+    protected CancellationService cancellationService;
+    protected RefundPricer refundPricer;
+    protected ReissueShoppingBasketUtils reissueShoppingBasketUtils;
+    protected TechnicalSwitchesStatus technicalSwitchesService;
+    QueuePnrService queueDccPnrService;
+    QueuePnrService queuePnrService;
+    QueuePnrService queueIropPnrService;
+    QueuePnrService queuePnrMiscService;
+    private TravelBankUtil travelBankUtil;
+    private IropsTOIropsMapper iropsMapper;
+    private FormOfPaymentHelper formOfPaymentHelper;
+
+    @Override
+    public CancelRefundResultTO priceRefundForCancelFlow(final RepriceContextTO repriceContextTO) throws BookingRetrievalException, BookingNotFoundException, CancellationPricingException,
+            RefundProcessingException, CancellationUsedFlownPNRException
+    {
+        log.info("Running price refund");
+        final ShoppingBasket shoppingBasket = reissueShoppingBasketUtils.retrieveShoppingBasket(repriceContextTO.getReloc());
+        shoppingBasket.setCancelFlow(true);
+        shoppingBasket.setIrops(iropsMapper.map(repriceContextTO.getIropsTO()));
+        shoppingBasket.setWaiverCode(repriceContextTO.getWaiverCode());
+        shoppingBasket.setPreferredCancelRefundTarget(repriceContextTO.getPreferredRefundTarget());
+        shoppingBasket.setShouldRefundEmd(repriceContextTO.isShouldRefundEmd());
+        return priceRefundForBasketForCancel(shoppingBasket);
+    }
+
+    @Override
+    public ReservationTO ticketRetainedCancelAndRefund(final RetainAndRefundTO retainAndRefund)
+    {
+        final ShoppingBasket shoppingBasket = confirmCancel(retainAndRefund);
+        return map(new ShoppingBasketApiResult(shoppingBasket), ReservationTO.class);
+    }
+
+    @Override
+    public ShoppingBasket confirmCancel(RetainAndRefundTO retainAndRefund)
+    {
+        final ShoppingBasket shoppingBasket = prepareShoppingBasketForExchange(retainAndRefund);
+        confirmCancel(shoppingBasket);
+        return shoppingBasket;
+    }
+
+    @Override
+    public void confirmCancel(ShoppingBasket shoppingBasket)
+    {
+        final User userProfile = shoppingBasket.getBooking().getUserProfile();
+        final String reloc = shoppingBasket.getBooking().getReloc();
+        try
+        {
+            cancellationService.ticketRetainedAndRefund(shoppingBasket);
+        } catch (final EndTransactionOnHostFailedException e)
+        {
+            log.error("End transaction failed!");
+            queuePnrAndAddRemark(queuePnrService, queueDccPnrService, shoppingBasket, "CI - ER FAILED AFTR FOP AUTH - " + e.getMessage());
+            throw e;
+        } catch (final RefundEMDProcessingException e)
+        {
+            queuePnrAndAddRemark(queuePnrMiscService, queueDccPnrService, shoppingBasket, "5H-FAILED MISC RFND - " + e.getMessage());
+            throw e;
+        } catch (final RefundProcessingException e)
+        {
+            queuePnrAndAddRemark(queuePnrService, queueDccPnrService, shoppingBasket, "CR - REFUNDRETAIN - " + e.getMessage());
+            throw e;
+        } catch (final RefundSystemDownException e)
+        {
+            queuePnrAndAddRemark(queuePnrService, queueDccPnrService, shoppingBasket, "CR - REFUNDRETAIN - AER DOWN " + e.getMessage());
+            throw e;
+        } catch (final ProfileException e)
+        {
+            queuePnrAndAddRemark(queuePnrService, queueDccPnrService, reissueShoppingBasketUtils.retrieveShoppingBasket(reloc), "BT CREATED " + getBTCard(userProfile) + " - UPDATE PPP ERR - " + e.getMessage());
+            throw e;
+        } catch (final ProfileSystemException e)
+        {
+            queuePnrAndAddRemark(queuePnrService, queueDccPnrService, reissueShoppingBasketUtils.retrieveShoppingBasket(reloc),
+                    "BT CREATED " + getBTCard(userProfile) + " - UPDATE PPP ERR - PPP DOWN - " + e.getMessage());
+            throw e;
+        } catch (final TravelBankException e)
+        {
+            queuePnrAndAddRemark(queuePnrService, queueDccPnrService, reissueShoppingBasketUtils.retrieveShoppingBasket(reloc), "CREATE BT ERR - " + e.getMessage());
+            throw e;
+        } catch (final PaymentServiceProviderException e)
+        {
+            throw mapApiException(e);
+        } catch (RuntimeException e)
+        {
+            handleOtherExceptions(shoppingBasket, e);
+        }
+    }
+
+    @Override
+    public ShoppingBasket prepareShoppingBasketForExchange(RetainAndRefundTO retainAndRefund)
+    {
+        return prepareShoppingBasket(retainAndRefund, AerType.CANCEL, retainAndRefund.getIrops());
+    }
+
+    @Resource
+    public void setTechnicalSwitchesService(final TechnicalSwitchesStatus technicalSwitchesService)
+    {
+        this.technicalSwitchesService = technicalSwitchesService;
+    }
+
+    @Resource
+    public void setSatConfiguration(SatConfiguration satConfiguration)
+    {
+        this.satConfiguration = satConfiguration;
+    }
+
+    protected abstract void priceRefund(ShoppingBasket shoppingBasket);
+
+    protected ShoppingBasket prepareShoppingBasket(final RetainAndRefundTO retainAndRefund, final AerType aerType, IropsTO iropsTO)
+    {
+        ShoppingBasket shoppingBasket = reissueShoppingBasketUtils.prepareShoppingBasket(retainAndRefund, aerType);
+        Optional.ofNullable(iropsTO).ifPresent(irops -> shoppingBasket.setIrops(iropsMapper.map(irops)));
+        return shoppingBasket;
+    }
+
+    protected CancelRefundResultTO handleRefundNotAllowedException(ShoppingBasket newBasket, RefundNotAllowed rnae)
+    {
+        if (formOfPaymentHelper.hasMultipleFormsOfPaymentWithNoBT(newBasket.getBooking().getPassengers()))
+        {
+            if (AER_REFUND_VALID_FOR_VOUCHERS_ONLY.matcher(rnae.getMessage()).matches())
+            {
+                throw new MultiFOPNoBTRefundValidForVouchersOnlyException(rnae.getMessage());
+            }
+        }
+        throw new UnableToRefundException(rnae.getMessage());
+    }
+
+    protected CancelRefundResultTO handleAerWebserviceException(AerWebserviceException awe)
+    {
+        if (awe.isExchangeNotAllowed())
+        {
+            throw new VoluntaryChangeRulesException(awe.getMessage());
+        }
+
+        if (awe.isRefundNotAllowed())
+        {
+            throw new UnableToRefundException(awe.getMessage());
+        }
+        throw new PricingApiException(awe.getMessage());
+    }
+
+    protected CancelRefundResultTO priceRefundForBasket(ShoppingBasket shoppingBasket)
+    {
+        commonPriceRefundBasket(shoppingBasket);
+        return map(shoppingBasket, CancelRefundResultTO.class);
+    }
+
+    protected CancelRefundResultTO priceRefundForBasketForCancel(ShoppingBasket shoppingBasket)
+    {
+        commonPriceRefundBasket(shoppingBasket);
+        priceNonRefundForBasket(shoppingBasket);
+        return map(shoppingBasket, CancelRefundResultTO.class);
+    }
+
+    private void commonPriceRefundBasket(ShoppingBasket shoppingBasket)
+    {
+        reissueShoppingBasketUtils.updateShoppingBasketAncillaries(shoppingBasket, technicalSwitchesService.isAncillariesCancelSystemAvailable());
+        reissueShoppingBasketUtils.updateBookingPseudoCity(shoppingBasket, PseudoCityConfiguration.FlowType.CANCEL);
+        reissueShoppingBasketUtils.disallowCancelForAncillariesPaidWithDcc(shoppingBasket, satConfiguration);
+        priceRefund(shoppingBasket);
+    }
+
+    private void priceNonRefundForBasket(ShoppingBasket shoppingBasket)
+    {
+        Currency currency = null;
+        List<MonetaryAmount> monetaryAmountList = null;
+        if (isNonRefundableItemsEnabled() && shoppingBasket.getBooking() != null && shoppingBasket.getBooking().getPassengers() != null)
+        {
+            Set<ElectronicMiscDocument> emdTickets = shoppingBasket.getBooking()
+                    .getPassengers()
+                    .stream()
+                    .map(passenger -> passenger.getEmdTickets())
+                    .flatMap(x -> x.stream())
+                    .collect(Collectors.toSet());
+            if (!emdTickets.isEmpty())
+            {
+                currency = getCurrenccy(emdTickets);
+                monetaryAmountList = shoppingBasket.getBooking()
+                        .getPassengers()
+                        .stream()
+                        .map(passenger -> passenger.getEmdTickets())
+                        .flatMap(x -> x.stream())
+                        .map(electronicMiscDocument -> fetchPayments(electronicMiscDocument))
+                        .flatMap(payments -> payments.stream())
+                        .map(feePayment -> feePayment.getMonetaryAmount())
+                        .collect(Collectors.toList());
+            }
+        }
+        BigDecimal sum = Optional.ofNullable(monetaryAmountList).map(monetaryAmounts -> {
+            return monetaryAmounts.stream().map(nonRefundablePriceComponent -> nonRefundablePriceComponent.getAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        }).orElse(BigDecimal.ZERO);
+        if (!(sum.equals(BigDecimal.ZERO) && currency == null) && null != shoppingBasket.getMybBreakdown() )
+        {
+            ((AERBreakdown) shoppingBasket.getMybBreakdown()).setNonRefundableFare(shoppingBasket.getBooking().getPrimaryPassenger(), new MonetaryAmount(currency, sum));
+        }
+    }
+
+    private boolean isNonRefundableItemsEnabled()
+    {
+        return satConfiguration.getCancelRefund().isNonRefundableItemsEnabled();
+    }
+
+    private Currency getCurrenccy(Set<ElectronicMiscDocument> miscDocuments)
+    {
+        if (miscDocuments != null && miscDocuments.size() > 0)
+        {
+            ElectronicMiscDocument miscDocument = miscDocuments.stream().findFirst().get();
+            if (miscDocument.getPayments() != null && miscDocument.getPayments().size() > 0)
+            {
+                return miscDocument.getPayments().stream().findFirst().get().getCurrency();
+            }
+        }
+        return null;
+    }
+
+    private List<Payment> fetchPayments(ElectronicMiscDocument electronicMiscDocument)
+    {
+        List<Payment> resultPayments = new ArrayList<>();
+        if (!electronicMiscDocument.isRefundable())
+        {
+            if (isValidEmdCoupons(electronicMiscDocument.getEmdCoupons()))
+            {
+                resultPayments.addAll(electronicMiscDocument.getPayments());
+            }
+        }
+        return resultPayments;
+    }
+
+    public boolean isValidEmdCoupons(List<EmdCoupon> emdCoupons)
+    {
+        return emdCoupons.stream().filter(emdCoupon -> (emdCoupon.getStatus().equals(CouponStatus.OK) || emdCoupon.getStatus().equals(CouponStatus.USED))).count() > 0;
+    }
+
+    String getBTCard(final User user)
+    {
+        if (user != null)
+        {
+            try
+            {
+                String accountNumber = travelBankUtil.getAccountNumber(user);
+                return accountNumber != null ? accountNumber : "";
+            } catch (final IntegrationApiException | CreditLimitException e)
+            {
+                log.error("Couldn't get BT card", e);
+            }
+        }
+        return "";
+    }
+
+    void queuePnrAndAddRemark(final QueuePnrService queuePnrService, final QueuePnrService queuePnrServiceWithDcc, final ShoppingBasket shoppingBasket, final String message)
+    {
+        getQueue(queuePnrService, shoppingBasket.getOldShoppingBasket()).queuePnrAndAddRemark(shoppingBasket, message);
+        ShoppingBasket oldBasket = shoppingBasket.getOldShoppingBasket();
+
+        if (queuePnrServiceWithDcc != null)
+        {
+            if (shoppingBasket.isDccPayment() || oldBasket != null && oldBasket.isDccPayment())
+            {
+                queuePnrServiceWithDcc.queuePnrAndAddRemark(shoppingBasket, null);
+            }
+        }
+    }
+
+    QueuePnrService getQueue(final QueuePnrService queue, final ShoppingBasket oldShoppingBasket)
+    {
+        if (isIropAffected(oldShoppingBasket) && getQueueForIrops() != null)
+            return getQueueForIrops();
+
+        return queue;
+    }
+
+    QueuePnrService getQueueForIrops()
+    {
+        return queueIropPnrService;
+    }
+
+    boolean isIropAffected(final ShoppingBasket oldShoppingBasket)
+    {
+        return oldShoppingBasket != null && oldShoppingBasket.isIropAffected();
+    }
+
+    protected ApiRuntimeException mapApiException(RuntimeException e)
+    {
+        throw QTripApiSupport.createApiException(e);
+    }
+
+    @Required
+    public void setFormOfPaymentHelper(FormOfPaymentHelper formOfPaymentHelper)
+    {
+        this.formOfPaymentHelper = formOfPaymentHelper;
+    }
+
+    @Required
+    public void setTravelBankUtil(TravelBankUtil travelBankUtil)
+    {
+        this.travelBankUtil = travelBankUtil;
+    }
+
+    @Required
+    public void setQueueDccPnrService(QueuePnrService queueDccPnrService)
+    {
+        this.queueDccPnrService = queueDccPnrService;
+    }
+
+    @Required
+    public void setQueuePnrService(final QueuePnrService queuePnrService)
+    {
+        this.queuePnrService = queuePnrService;
+    }
+
+    @Required
+    public void setQueuePnrMiscService(final QueuePnrService queuePnrService)
+    {
+        queuePnrMiscService = queuePnrService;
+    }
+
+    @Required
+    public void setQueuePnrIropService(final QueuePnrService queuePnrService)
+    {
+        queueIropPnrService = queuePnrService;
+    }
+
+    @Required
+    public void setReissueShoppingBasketUtils(ReissueShoppingBasketUtils reissueShoppingBasketUtils)
+    {
+        this.reissueShoppingBasketUtils = reissueShoppingBasketUtils;
+    }
+
+    @Required
+    public void setIropsMapper(IropsTOIropsMapper iropsMapper)
+    {
+        this.iropsMapper = iropsMapper;
+    }
+
+    @Required
+    public void setRefundPricer(RefundPricer refundPricer)
+    {
+        this.refundPricer = refundPricer;
+    }
+
+    @Required
+    public void setCancellationService(final CancellationService cancellationService)
+    {
+        this.cancellationService = cancellationService;
+    }
+}
+
+
+
+============================================================================================================================
+=====================================Second Approach========================================================================
+============================================================================================================================
+
+========================================NullPassingMapper.java==============================================================
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.kamical.ssse.common.mapping;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import java.util.Iterator;
+import java.util.List;
+
+public abstract class NullPassingMapper<IN, OUT> implements Mapper<IN, OUT> {
+    public NullPassingMapper() {
+    }
+
+    public final OUT map(IN source) {
+        return source == null ? null : this.mapInternal(source);
+    }
+
+    public final List<OUT> mapList(List<IN> sourceList) {
+        Builder<OUT> builder = ImmutableList.builder();
+        Iterator var3 = sourceList.iterator();
+
+        while(var3.hasNext()) {
+            IN in = var3.next();
+            OUT out = this.map(in);
+            if (out != null) {
+                builder.add(out);
+            }
+        }
+
+        return builder.build();
+    }
+
+    protected abstract OUT mapInternal(IN var1);
+}
+
+==========================================================Mapper.java==============================================
+package com.kamical.ssse.common.mapping;
+
+public interface Mapper<IN, OUT> {
+    OUT map(IN var1);
+}
+==================================================IropsTOIropsMapper.java=========================================
+package com.kamical.ssw2010.interfaces.api.mappings.booking;
+
+import com.kamical.ssse.common.mapping.NullPassingMapper;
+import com.kamical.ssw.model.document.Irops;
+import com.kamical.ssw2010.api.airsearch.result.IropsTO;
+import org.springframework.beans.factory.annotation.Required;
+
+public class IropsTOIropsMapper extends NullPassingMapper<IropsTO, Irops>
+{
+    private RuleIdTORuleIdMapper ruleIdTORuleIdMapper;
+
+    @Override
+    public Irops mapInternal(final IropsTO input)
+    {
+        Irops result = new Irops(input.isChangeFeeWaived(), ruleIdTORuleIdMapper.mapList(input.getChangeFeeRuleId()), input.isPriceDifferenceWaived(), ruleIdTORuleIdMapper.mapList(input.getPriceDifferenceRuleId()), input.isCancelFeeWaived(), ruleIdTORuleIdMapper.mapList(input.getCancelFeeRuleIds()));
+        return result;
+    }
+
+    @Required
+    public void setRuleIdTORuleIdMapper(RuleIdTORuleIdMapper ruleIdTORuleIdMapper)
+    {
+        this.ruleIdTORuleIdMapper = ruleIdTORuleIdMapper;
+    }
+}
+=====================================================AbstractReissueApiImpl.java===================================================
+Example: shoppingBasket.setIrops(iropsMapper.map(repriceContextTO.getIropsTO()));
+
+package com.kamical.ssw2010.interfaces.api.impl.reissue;
+
+import com.kamical.adapter.gds.reservation.service.vcr.FormOfPaymentHelper;
+import com.kamical.adapter.gds.travelbank.commands.TravelBankUtil;
+import com.kamical.adapter.gds.travelbank.workflow.TravelBankException;
+import com.kamical.common.config.documented.PseudoCityConfiguration;
+import com.kamical.common.config.documented.SatConfiguration;
+import com.kamical.dc.config.documented.TechnicalSwitchesStatus;
+import com.kamical.ssw.data.resource.domain.aer.AERBreakdown;
+import com.kamical.ssw.data.resource.domain.booking.exception.CancellationUsedFlownPNRException;
+import com.kamical.ssw.data.resource.domain.general.exception.ApiRuntimeException;
+import com.kamical.ssw.data.resource.domain.general.exception.IntegrationApiException;
+import com.kamical.ssw.data.resource.domain.path.qtrip.exception.QTripApiSupport;
+import com.kamical.ssw.data.resource.domain.pricing.exception.AerWebserviceException;
+import com.kamical.ssw.data.resource.domain.pricing.exception.PaymentServiceProviderException;
+import com.kamical.ssw.data.resource.domain.pricing.exception.RefundNotAllowed;
+import com.kamical.ssw.data.resource.domain.profile.tb.CreditLimitException;
+import com.kamical.ssw.data.resource.domain.shopping.ShoppingBasketApiResult;
+import com.kamical.ssw.model.booking.ShoppingBasket;
+import com.kamical.ssw.model.document.CouponStatus;
+import com.kamical.ssw.model.document.ElectronicMiscDocument;
+import com.kamical.ssw.model.document.EmdCoupon;
+import com.kamical.ssw.model.payment.form.Payment;
+import com.kamical.ssw.model.payment.money.MonetaryAmount;
+import com.kamical.ssw.model.payment.refund.AerType;
+import com.kamical.ssw.model.profile.User;
+import com.kamical.ssw2010.api.airsearch.result.IropsTO;
+import com.kamical.ssw2010.api.booking.exception.BookingNotFoundException;
+import com.kamical.ssw2010.api.cancel.CancelRefundResultTO;
+import com.kamical.ssw2010.api.exceptions.PricingApiException;
+import com.kamical.ssw2010.api.exceptions.ProfileException;
+import com.kamical.ssw2010.api.exceptions.ProfileSystemException;
+import com.kamical.ssw2010.api.exchange.RepriceContextTO;
+import com.kamical.ssw2010.api.pricing.BookingRetrievalException;
+import com.kamical.ssw2010.api.pricing.CancellationPricingException;
+import com.kamical.ssw2010.api.pricing.MultiFOPNoBTRefundValidForVouchersOnlyException;
+import com.kamical.ssw2010.api.pricing.UnableToRefundException;
+import com.kamical.ssw2010.api.pricing.VoluntaryChangeRulesException;
+import com.kamical.ssw2010.api.reissue.EndTransactionOnHostFailedException;
+import com.kamical.ssw2010.api.reissue.RefundEMDProcessingException;
+import com.kamical.ssw2010.api.reissue.RefundProcessingException;
+import com.kamical.ssw2010.api.reissue.RefundSystemDownException;
+import com.kamical.ssw2010.api.reissue.ReissueBaseApi;
+import com.kamical.ssw2010.api.reissue.RetainAndRefundTO;
+import com.kamical.ssw2010.api.reservation.ReservationTO;
+import com.kamical.ssw2010.domain.reissue.CancellationService;
+import com.kamical.ssw2010.interfaces.api.impl.AbstractApiImpl;
+import com.kamical.ssw2010.interfaces.api.mappings.booking.IropsTOIropsMapper;
+import com.kamical.ssw2010.server.service.reissue.QueuePnrService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Required;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+public abstract class AbstractReissueApiImpl extends AbstractApiImpl implements ReissueBaseApi
+{
+    private static final Pattern AER_REFUND_VALID_FOR_VOUCHERS_ONLY = Pattern.compile(".*?REFUND AMOUNT VALID FOR VOUCHER ONLY.*");
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    protected SatConfiguration satConfiguration;
+    protected CancellationService cancellationService;
+    protected RefundPricer refundPricer;
+    protected ReissueShoppingBasketUtils reissueShoppingBasketUtils;
+    protected TechnicalSwitchesStatus technicalSwitchesService;
+    QueuePnrService queueDccPnrService;
+    QueuePnrService queuePnrService;
+    QueuePnrService queueIropPnrService;
+    QueuePnrService queuePnrMiscService;
+    private TravelBankUtil travelBankUtil;
+    private IropsTOIropsMapper iropsMapper;
+    private FormOfPaymentHelper formOfPaymentHelper;
+
+    @Override
+    public CancelRefundResultTO priceRefundForCancelFlow(final RepriceContextTO repriceContextTO) throws BookingRetrievalException, BookingNotFoundException, CancellationPricingException,
+            RefundProcessingException, CancellationUsedFlownPNRException
+    {
+        log.info("Running price refund");
+        final ShoppingBasket shoppingBasket = reissueShoppingBasketUtils.retrieveShoppingBasket(repriceContextTO.getReloc());
+        shoppingBasket.setCancelFlow(true);
+        shoppingBasket.setIrops(iropsMapper.map(repriceContextTO.getIropsTO()));
+        shoppingBasket.setWaiverCode(repriceContextTO.getWaiverCode());
+        shoppingBasket.setPreferredCancelRefundTarget(repriceContextTO.getPreferredRefundTarget());
+        shoppingBasket.setShouldRefundEmd(repriceContextTO.isShouldRefundEmd());
+        return priceRefundForBasketForCancel(shoppingBasket);
+    }

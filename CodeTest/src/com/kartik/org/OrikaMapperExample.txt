@@ -1,0 +1,99 @@
+=======================================================================================================================================
+======How to convert addapter design pattern from 4.2 verion to 4.3 version and result will wii display as 4.2 version=================
+=======================================================================================================================================
+import com.kamical.ssw2010.front.web.json.api.v4_2.purchase.model.request.PaymentData;
+import com.kamical.ssw2010.front.web.json.api.v4_2.purchase.model.response.BookingResult;
+
+public interface PurchaseService {
+    BookingResult purchaseBooking(PaymentData var1);
+
+    void setupPaymentData(PaymentData var1);
+}
+
+
+=============================================Adapter class=============================================================================
+package com.kamical.ssw2010.front.web.json.api.purchase.adapter;
+
+import com.kamical.ssw2010.front.web.json.api.common.resources.OrikaClassMapper;
+import com.kamical.ssw2010.front.web.json.api.v4_2.purchase.model.request.PaymentData;
+import com.kamical.ssw2010.front.web.json.api.v4_2.purchase.model.response.BookingResult;
+import com.kamical.ssw2010.front.web.json.api.v4_2.purchase.service.PurchaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component("v4.2.to.v4_3.purchaseService.adapter")
+public class V4_2V4_3PurchaseServiceAdapter implements PurchaseService
+{
+    @Autowired
+    private com.kamical.ssw2010.front.web.json.api.v4_3.purchase.service.PurchaseService targetService;
+
+    @Autowired
+    private OrikaClassMapper orikaClassMapper;
+
+
+    @Override public BookingResult purchaseBooking(PaymentData paymentData)
+    {
+        com.kamical.ssw2010.front.web.json.api.v4_3.purchase.model.request.PaymentData request = orikaClassMapper.map(paymentData, com.kamical.ssw2010.front.web.json.api.v4_3.purchase.model.request.PaymentData.class);
+        com.kamical.ssw2010.front.web.json.api.v4_3.purchase.model.response.BookingResult bookingResult = targetService.purchaseBooking(request);
+        return orikaClassMapper.map(bookingResult, BookingResult.class); 
+		// the map will directly call to Orika Core jar file latest version you need to add dependency in your local
+    }
+
+    @Override public void setupPaymentData(PaymentData paymentData)
+    {
+        com.kamical.ssw2010.front.web.json.api.v4_3.purchase.model.request.PaymentData map = orikaClassMapper.map(paymentData, com.kamical.ssw2010.front.web.json.api.v4_3.purchase.model.request.PaymentData.class);
+        targetService.setupPaymentData(map);
+    }
+}
+
+=============================================OrikaClassMapper class=============================================================================
+package com.kamical.ssw2010.front.web.json.api.common.resources;
+
+import java.util.function.Consumer;
+
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.converter.builtin.PassThroughConverter;
+import ma.glasnost.orika.impl.ConfigurableMapper;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
+import org.joda.time.YearMonth;
+
+public class OrikaClassMapper extends ConfigurableMapper
+{
+    private static final PassThroughConverter PASS_THROUGH_CLASSES = new PassThroughConverter(
+            LocalTime.class,
+            LocalDate.class,
+            LocalDateTime.class,
+            Period.class,
+            DateTimeZone.class,
+            DateTime.class,
+            YearMonth.class);
+
+    private final Consumer<MapperFactory> mapperFactorySetup;
+
+    public OrikaClassMapper()
+    {
+        this(mapperFactory -> {
+        });
+    }
+
+    public OrikaClassMapper(Consumer<MapperFactory> mapperFactorySetup)
+    {
+        super(false);
+        this.mapperFactorySetup = mapperFactorySetup;
+        init();
+    }
+
+    protected void configure(MapperFactory factory)
+    {
+        factory.getConverterFactory().registerConverter(PASS_THROUGH_CLASSES);
+        factory.getConverterFactory().registerConverter(new CustomEnumConverter());
+        factory.getConverterFactory().registerConverter(new ListOfListsConverter());
+        factory.getConverterFactory().registerConverter(new SimpleSetConverter());
+        mapperFactorySetup.accept(factory);
+    }
+}

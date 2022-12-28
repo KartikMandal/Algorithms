@@ -1,0 +1,88 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.kartik.ssw.model.ancillary.override;
+
+import java.util.Calendar;
+
+public class FlightData {
+    private final String origin;
+    private final String destination;
+    private final String airlineCode;
+    private final String flightNumber;
+    private final Calendar departureDate;
+
+    private FlightData(String origin, String destination, String airlineCode, String flightNumber, Calendar departureDate) {
+        this.origin = origin;
+        this.destination = destination;
+        this.airlineCode = airlineCode;
+        this.flightNumber = flightNumber;
+        this.departureDate = departureDate;
+    }
+
+    public String getOrigin() {
+        return this.origin;
+    }
+
+    public String getDestination() {
+        return this.destination;
+    }
+
+    public String getAirlineCode() {
+        return this.airlineCode;
+    }
+
+    public String getFlightNumber() {
+        return this.flightNumber;
+    }
+
+    public Calendar getDepartureDate() {
+        return this.departureDate;
+    }
+
+    public static final class FlightDataBuilder {
+        private String origin;
+        private String destination;
+        private String airlineCode;
+        private String flightNumber;
+        private Calendar departureDate;
+
+        private FlightDataBuilder() {
+        }
+
+        public static FlightData.FlightDataBuilder aFlightData() {
+            return new FlightData.FlightDataBuilder();
+        }
+
+        public FlightData.FlightDataBuilder withOrigin(String origin) {
+            this.origin = origin;
+            return this;
+        }
+
+        public FlightData.FlightDataBuilder withDestination(String destination) {
+            this.destination = destination;
+            return this;
+        }
+
+        public FlightData.FlightDataBuilder withAirlineCode(String airlineCode) {
+            this.airlineCode = airlineCode;
+            return this;
+        }
+
+        public FlightData.FlightDataBuilder withFlightNumber(String flightNumber) {
+            this.flightNumber = flightNumber;
+            return this;
+        }
+
+        public FlightData.FlightDataBuilder withDepartureDate(Calendar departureDate) {
+            this.departureDate = departureDate;
+            return this;
+        }
+
+        public FlightData build() {
+            return new FlightData(this.origin, this.destination, this.airlineCode, this.flightNumber, this.departureDate);
+        }
+    }
+}

@@ -1,0 +1,169 @@
+import java.io.*;
+import java.net.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import com.google.gson.*;
+
+
+
+class Result {
+
+    /*
+     * Complete the 'getUsernames' function below.
+     *
+     * The function is expected to return a STRING_ARRAY.
+     * The function accepts INTEGER threshold as parameter.
+     *
+     * URL for cut and paste
+     * https://jsonmock.hackerrank.com/api/article_users?page=<pageNumber>
+     */
+
+    public static List<String> getUsernames(int threshold) throws IOException{
+        
+        List<String> userNames = new ArrayList<String>();
+        String api="https://jsonmock.hackerrank.com/api/article_users?";
+        int page=1;
+        int totalPage =1 ;
+        
+        String response;
+        while(page<=totalPage){
+            URL url = new URL(api+"page="+page);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            
+            BufferedReader br =new BufferedReader(new InputStreamReader(con.getInputStream()));
+            while((response = br.readLine())!= null){
+                System.out.println(response);
+                JsonObject jsonResponse = new Gson().fromJson(response,JsonObject.class);
+                totalPage = jsonResponse.get("total_pages").getAsInt();
+                
+                JsonArray data = jsonResponse.getAsJsonArray("data");
+                for (JsonElement d : data) {
+                    int submissionCount = d.getAsJsonObject().get("submission_count").getAsInt();
+                    if(submissionCount > threshold){
+                    String title = d.getAsJsonObject().get("username").getAsString();
+                    userNames.add(title);
+                    }
+                }
+            }
+            page++;
+        }
+        return userNames;
+
+    }
+   
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int threshold = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<String> result = Result.getUsernames(threshold);
+
+        bufferedWriter.write(
+            result.stream()
+                .collect(joining("\n"))
+            + "\n"
+        );
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+
+
+
+
+Query: SELECT ID, NAME from STUDENT order by SCORE desc, id ASC LIMIT 3;
+
+
+
+
+
+
+
+import java.util.*;
+
+/*
+ * Create the StringsCollection class here.
+ */
+ 
+ class StringsCollection{
+    static List<String> list = Collections.synchronizedList(new ArrayList<String>());
+     public void addString(String string){
+         list.add(string);
+         
+     }
+     public List<String> getStringsCollection(){
+         synchronized(list){
+          return list;
+         }
+     }
+ }
+class StringsCollectionRunnable implements Runnable {
+    private final StringsCollection stringsCollection;
+    private final int stringsCount;
+    private final String threadName;
+    
+    public StringsCollectionRunnable(StringsCollection stringsCollection, int stringsCount, String threadName) {
+        this.stringsCollection = stringsCollection;
+        this.stringsCount = stringsCount;
+        this.threadName = threadName;
+    }
+    
+    @Override
+    public void run() {
+        for (int j = 0; j < stringsCount; j++) {
+            this.stringsCollection.addString(threadName + String.valueOf(j + 1));
+        }
+    }
+}
+
+public class Solution {
+    private static final Scanner SCANNER = new Scanner(System.in);
+    private static final StringsCollection STRINGS_COLLECTION = new StringsCollection();
+    
+    public static void main(String[] args) {
+        int threadsCount = Integer.parseInt(SCANNER.nextLine());
+        Thread[] threads = new Thread[threadsCount];
+        
+        for (int i = 0; i < threadsCount; i++) {
+            int stringsCount = Integer.parseInt(SCANNER.nextLine());
+            
+            threads[i] = new Thread(new StringsCollectionRunnable(STRINGS_COLLECTION, stringsCount, String.valueOf(i + 1)));
+            threads[i].start();
+        }
+        
+        for (int i = 0; i < threadsCount; i++) {
+            try {
+                threads[i].join();
+            } catch (InterruptedException ex) {
+                System.err.println(ex);
+            }
+        }
+        
+        List<String> stringsCollection = STRINGS_COLLECTION.getStringsCollection();
+        System.out.println(stringsCollection.size());
+        
+        int nonNullStrings = 0;
+        for (String string: stringsCollection) {
+            if (string != null) {
+                nonNullStrings++;
+            }
+        }
+        
+        System.out.println(nonNullStrings);
+    }
+}

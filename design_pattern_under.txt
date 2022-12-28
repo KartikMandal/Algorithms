@@ -1,0 +1,233 @@
+Factory-->
+       create a interface 
+	   create multiple type implementation class of interface
+	   create a factory class where return type should be your interface or abstract class one method should be present
+	   Eample:
+	   class GetPlanFactory{  
+   //use getPlan method to get object of type Plan   
+       public Plan getPlan(String planType){  
+            if(planType == null){  
+             return null;  
+            }  
+          if(planType.equalsIgnoreCase("DOMESTICPLAN")) {  
+                 return new DomesticPlan();  
+               }   
+           else if(planType.equalsIgnoreCase("COMMERCIALPLAN")){  
+                return new CommercialPlan();  
+            }   
+          else if(planType.equalsIgnoreCase("INSTITUTIONALPLAN")) {  
+                return new InstitutionalPlan();  
+          } 
+
+
+Abstract Factory:--->
+			create two more then one interface.
+			create every interface have more implementation class
+			create abstract another one factory interface which hold of other two or more interface
+			create implementation of abstract factory which like every method have same implementation of factory
+			https://www.baeldung.com/java-abstract-factory-pattern
+				   
+Adapter -->
+		public class BankCustomer extends BankDetails implements CreditCard{
+		}
+Builder-->
+		1>interface 
+		2>have implements of interface
+		3>createType Class and inside class have below two method 
+		xxxxxType {  
+             private List<InterfaceName> items=new ArrayList<InterfaceName>();  
+             public void addItem(InterfaceName packs) {    
+                    items.add(packs);  
+             } 
+			showDetails(Item item:Items){
+		}
+		
+		4>create builder class and have different type of builder method of create type 
+		like public class CDBuilder {  
+                  public xxxxxType buildSonyCD(){   
+                     xxxxxType cds=new xxxxxType();  
+                     cds.addItem(new Sony());  
+                     return cds;  
+              }  
+              public xxxxxType buildSamsungCD(){  
+             xxxxxType cds=new xxxxxType();  
+             cds.addItem(new Samsung());  
+             return cds;  
+              }  
+		}
+		5>call builder design pattern
+		CDBuilder cdBuilder=new CDBuilder();  
+		CDType cdType1=cdBuilder.buildSonyCD();  
+		cdType1.showItems();  
+		CDType cdType2=cdBuilder.buildSamsungCD();  
+		cdType2.showItems(); 
+
+Delegate--->
+		1>first implement a factory design pattern
+		2>create a delegate class where you need to call factory class and interface both.
+		Example:
+		public class BusinessDelegate {
+		   private GetPlanFactory lookupService = new GetPlanFactory();
+		   private Plan businessService;
+		   private String serviceType;
+
+		   public void setServiceType(String serviceType){
+			  this.serviceType = serviceType;
+		   }
+
+		   public void doTask(){
+			  businessService = lookupService.getBusinessService(serviceType);
+			  businessService.doProcessing();		
+		   }
+		}
+	
+	   3>Now call via:
+			BusinessDelegate businessService;
+
+		   public Client(BusinessDelegate businessService){
+			  this.businessService  = businessService;
+		   }
+
+		   public void doTask(){		
+			  businessService.doTask();
+		   }
+
+Chain --->
+		1>create a interface and inside interface have one method which parameter name interface itself.
+		2>and have another one or more  method for your operation
+		Example:
+		interface Chain 
+			{ 
+				void setNext(Chain nextInChain); 
+				void process(Number request); 
+			}
+		3>create multiple implementation class which have composite implementation
+		Example:
+			class NegativeProcessor implements Chain 
+				{ 
+					private Chain nextInChain; 
+				  
+					public void setNext(Chain c) 
+					{ 
+						nextInChain = c; 
+					} 
+			or 
+			class ZeroProcessor implements Chain 
+				{ 
+					  
+					private Chain nextInChain; 
+				  
+					public void setNext(Chain c) 
+					{ 
+						nextInChain = c; 
+					} 
+	     4>call like
+		    Chain c1 = new NegativeProcessor(); 
+			Chain c2 = new ZeroProcessor(); 
+			Chain c3 = new PositiveProcessor(); 
+			c1.setNext(c2); 
+			c2.setNext(c3); 
+	  
+			//calling chain of responsibility 
+			c1.process(new Number(90)); 
+			c1.process(new Number(-50)); 
+			c1.process(new Number(0)); 
+			c1.process(new Number(91)); 
+		 
+Prototype-->
+     1>create an interface of Prototype and inside interface have return type Prototype have any method
+	 example:
+	 interface Prototype {  
+     public Prototype getClone();  
+	 --------------
+	 }
+	 2>have implementation and overridden of getClone method 
+	 class EmployeeRecord implements Prototype{  
+      private int id;  
+      private String name, designation;  
+	 //setter method getter method and constructor ur choice
+	 
+	 @Override  
+    public Prototype getClone() {  
+        return new EmployeeRecord(id,name,designation,salary,address);  
+    } 
+	 
+	 }
+
+proxy--->>
+    1>create an interface 
+	2>and create one is real implementation and one is proxy implementation
+	2-1>real implementation like as it is of interface implementation
+	2-2>proxy implementation little bit tricky. and inside implementation method you do if it is proxy something else something
+	Example:
+	public class ProxyInternet implements Internet 
+		{ 
+        private Internet internet = new RealInternet();
+		
+	3>call
+		Internet internet = new ProxyInternet(); 
+        try
+        { 
+            internet.connectTo("geeksforgeeks.org"); 
+            internet.connectTo("abc.com"); 
+        } 
+Singleton --->>>
+      class JDBCSingleton { 
+	  private static JDBCSingleton jdbc; 
+	  private JDBCSingleton() {  } 
+	  public static JDBCSingleton getInstance() {    
+                         if (jdbc==null){  
+							synchronized(JDBCSingleton.class){  
+								if (jdbc == null){  
+									jdbc=new  JDBCSingleton();    
+								  } 
+                              }  
+                   return jdbc;  
+             }
+			 
+	private static Connection getConnection()throws ClassNotFoundException, SQLException  
+          {  
+                
+              Connection con=null;  
+              Class.forName("oracle.jdbc.driver.OracleDriver");  
+              con= DriverManager.getConnection("jdbc:oracle:thin:@192.168.114.52:1521:indqa15", "kartik", "kartik");  
+              return con;  
+                
+          }  
+            
+ 
+          public int insert(String name, String pass) throws SQLException  
+          {  
+              Connection c=null;  
+                
+              PreparedStatement ps=null;  
+                
+              int recordCounter=0;  
+                
+              try {  
+                    
+                      c=this.getConnection();  // this is main 
+                      ps=c.prepareStatement("insert into userdata(uname,upassword)values(?,?)");  
+                      ps.setString(1, name);  
+                      ps.setString(2, pass);  
+                      recordCounter=ps.executeUpdate();  
+                        
+              } catch (Exception e) { e.printStackTrace(); } finally{  
+                    if (ps!=null){  
+                      ps.close();  
+                  }if(c!=null){  
+                      c.close();  
+                  }   
+              }  
+             return recordCounter;  
+          }
+
+
+
+Call:
+
+JDBCSingleton jdbc= JDBCSingleton.getInstance();  
+jdbc.insert(username, password);
+
+
+  
